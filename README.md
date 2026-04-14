@@ -72,6 +72,7 @@ The system aligns with the **One Health framework**, integrating human, environm
   - Facebook
   - Reddit
   - TikTok
+  - Threads
 - Community Reports
 - Environmental Data:
   - Weather
@@ -105,7 +106,6 @@ HealthPH+ aims to:
 - Department of Health (DOH)
 - DOST-PCHRD
 - Local Government Units (LGUs)
-- Research Institute for Tropical Medicine (RITM)
 - Philippine Statistics Authority (PSA)
 - Academic institutions across the Philippines
 
@@ -113,10 +113,17 @@ HealthPH+ aims to:
 
 ## 📌 Future Work
 
-- Expand datasets to more Philippine languages
-- Improve model accuracy for low-resource languages
-- Integrate real-time alert systems
-- Scale deployment nationwide
+- Collect more data for  Ilocano and Hiligaynon
+- Update model weights using updated dataset
+- Integrate sentiment analysis for outbreak detection
+
+---
+
+## 💻 Initialization
+
+1. Initialize virtual environment using ``` python -m venv .venv ```
+2. Activate venv using ``` source .venv/bin/activate```
+3. Install dependencies using ``` pip install requirements.txt```
 
 ---
 
