@@ -1,0 +1,53 @@
+{
+  "api_error_summaries": [],
+  "completed_at": "2026-05-15T02:34:56.872405+00:00",
+  "created_at": "2026-05-15T02:34:34.946946+00:00",
+  "csv_output_file": "data/raw/twitter/x_full_archive_20260515T023424Z.csv",
+  "default_field_profile": "public",
+  "duplicate_count": 0,
+  "end_time": null,
+  "endpoint": "https://api.x.com/2/tweets/search/all",
+  "errors": [],
+  "extra_query_filters": [],
+  "field_profiles_used": [
+    "public"
+  ],
+  "final_field_profile_by_query": {
+    "1": "public",
+    "2": "public",
+    "3": "public",
+    "4": "public",
+    "5": "public",
+    "6": "public",
+    "7": "public"
+  },
+  "jsonl_output_file": "data/raw/twitter/x_full_archive_20260515T023424Z.jsonl",
+  "keyword_count": 304,
+  "keyword_dir": "docs/keywords/by_language",
+  "keyword_files": [
+    "docs/keywords/by_language/cebuano_keywords.csv",
+    "docs/keywords/by_language/english/english_keywords.csv",
+    "docs/keywords/by_language/filipino_keywords.csv",
+    "docs/keywords/by_language/hiligaynon_keywords.csv",
+    "docs/keywords/by_language/ilocano_keywords.csv"
+  ],
+  "manifest_output_file": "data/raw/twitter/x_full_archive_20260515T023424Z_manifest.json",
+  "max_pages_per_query": 1,
+  "max_results": 10,
+  "query_batch_count": 7,
+  "query_batches": [
+    "hubak OR \"hubak na walay plema\" OR hilanat OR hilantan OR \"init ang pamati\" OR danggason OR \"gi danggas ko\" OR \"sakit ang tutunlan\" OR \"katol ang tutunlan\" OR \"nagkalisud ug hinga\" OR \"halos dili ko ka ginhawa\" OR \"sakit akong ulo\" OR \"kaayo ang ulo\" OR \"sakit ang lawas\" OR \"nag sakit ang lawas\" OR \"namuwa ang panit\" OR naglibang OR \"nag libang ug pila ka beses\" OR gikapoy OR \"hilabihang pangapoy\" OR \"gikapoy ug maayo\" OR nangluya OR \"na ngurog ang lawas\" OR \"murag gi tugnaw\" OR \"sip-on\" OR \"nag-tu ang sip-on\" OR \"nag puot na ilong\" OR \"sakit ang dughan\" OR \"bug at ang dughan\" OR \"nawa ang pang simhot\" OR \"dili kaayo ka simhot\" OR \"walay panlami\" OR \"dili makatilaw\" OR \"way gana mo kaon\" OR \"dili ganahan mo kaon\" OR \"pula ang mata\" OR \"pula man iyang mata\" OR \"panghubag sa mata\" OR \"murag mo suka\" OR \"nahilo gamay\" OR pagkakasukaon OR kasukao OR \"huyang nga ubo\" OR \"danggason/gi danggas ko\" OR \"sakit ang kalawasan\" OR \"pamaol sa kalawasan\" OR pangapoy OR \"bug at ang kalawasan\"",
+    "\"bug at ang kalawasan/bug at ang pamati\" OR nagluya OR \"na ngurog ang kalawasan\" OR \"nagtu ang sip-on\" OR \"sakit ang dughan/nagsakit ang dughan\" OR \"kapin sa tulo ka semana nga ubo\" OR \"dugay na hubak\" OR \"dili mawa ang hubak\" OR \"naghubak na naay kauban na dugo\" OR \"nag sigi ug hubak na naay dugo\" OR \"naay dugo sa kughal or plima\" OR \"nag sakit ang dughan ug mo hubak\" OR \"nag lisud ug hinga\" OR \"halos dili ka ginhawa\" OR \"ning mubo ang timbang\" OR pagkaniwang OR \"nag niwang\" OR moniwang OR \"gi hilantan / hilanat\" OR \"danggas / gi danggas ko\" OR \"hilanat sa buntag ug gabii\" OR \"pagpaningot sa magabii\" OR \"nagpasinghot sa gabii\" OR \"pagkaluya/nagluya\" OR \"nagkahuyang/naluya\" OR \"walay gana mo kaon\" OR \"gikapoy/hilabihang pangapoy\" OR \"ubo nga naay plema\" OR \"daghang plema\" OR \"ubo nga naay dulaw ug berde plema\" OR \"dulaw ug berde nga plema ug muhog\" OR \"plemang may dugo\" OR \"plema nga naay dugo\" OR sugpa OR \"mabaw ug pag ginhawa\" OR \"kulian sa pag ginhawa\" OR \"paspas ug mabaw ug pagginhawa\"",
+    "\"paspas ug pagginhawa\" OR katugnaw OR \"gig balhas\" OR \"kurog sa katugnaw\" OR \"suol sa dughan\" OR \"suol sa dughan kon moginhawa\" OR \"suol pag ginhawa\" OR \"walay gana\" OR \"walay gana sa pagkaon\" OR kakapoy OR maluya OR \"gibato nga kakapoy\" OR \"pulmonya sa xray\" OR \"mara ug ubo\" OR covid OR cough OR \"dry cough\" OR fever OR \"high temperature\" OR \"sore throat\" OR dyspnea OR \"difficulty of breathing\" OR headache OR myalgia OR \"body pain\" OR \"body aches\" OR \"muscle pain\" OR rashes OR diarrhea OR \"loose bowel movement\" OR tiredness OR fatigue OR weakness OR chills OR colds OR \"runny nose\" OR \"stuffy nose\" OR \"chest pain\" OR \"loss of smell\" OR smell OR \"loss of taste\" OR taste OR anorexia OR \"loss of appetite\" OR conjunctivitis OR \"red eyes\" OR nausea OR vomiting OR \"productive cough\" OR \"cough with phlegm\" OR \"low grade fever\" OR \"shortness of breath\" OR \"nasal congestion\" OR \"cough for more than three weeks\" OR tuberculosis OR tb OR hemoptysis OR \"coughing up with blood\" OR \"cough with blood\" OR \"blood in phlegm\"",
+    "\"chest pain when coughing\" OR \"weight loss\" OR cachexia OR \"afternoon fever\" OR \"night sweat\" OR \"cough with yellowish or greenish sputum\" OR \"yellowish or greenish phlegm or mucus\" OR \"phlegm with blood\" OR \"blood-tinged sputum\" OR \"rapid shallow breathing\" OR \"fast breathing\" OR Sweating OR \"shaking chills\" OR \"chest pain when you breath\" OR \"pleuritic chest pain\" OR \"feeling tired\" OR \"pneumonia on chest xray\" OR cyanosis OR ubo OR \"ubong walang plema\" OR lagnat OR \"mainit ang pakiramdam\" OR \"may sinat\" OR \"masakit ang lalamunan\" OR \"makating lalamunan\" OR \"nahihirapan huminga\" OR \"hinahabol ang paghinga\" OR \"masakit ang ulo\" OR \"masakit ang katawan\" OR \"pananakit ng katawan\" OR \"pamumula sa balat\" OR pagtatae OR \"pagdumi ng maraming beses\" OR pagkahapo OR \"pagod na pagod\" OR panghihina OR \"panginginig ng katawan\" OR \"parang nilalamig\" OR sipon OR \"tumutulo ang sipon\" OR \"baradong ilong\" OR \"masakit ang dibdib\" OR \"mabigat ang dibdib\" OR \"pagkawala ng pang-amoy\" OR \"hindi masyadong makaamoy\"",
+    "\"walang panlasa\" OR \"hindi makalasa\" OR \"walang ganang kumain\" OR \"hindi magana sa pagkain\" OR \"mapula ang mata\" OR \"pamumula ng mata\" OR \"parang nasusuka\" OR \"medyo nahihilo\" OR pagsusuka OR \"maplemang ubo\" OR \"mahigit tatlong linggong ubo\" OR \"matagal ng may ubo\" OR \"hindi nawawala ang ubo\" OR \"pag-ubo na may kasamang dugo\" OR \"umuubo ng may dugo\" OR \"may dugo sa plema\" OR \"masakit sa dibdib kapag umuubo\" OR \"pagbaba ng timbang\" OR pamamayat OR namamayat OR pumapayat OR sinat OR \"lagnat sa hapon o sa gabi\" OR \"pagpapawis sa gabi\" OR \"nagpapawis sa gabi\" OR nanghihina OR \"ubong may plema\" OR \"plemang kulay dilaw\" OR \"plemang kulay berde\" OR \"plemang may kasamang dugo\" OR \"hirap sa paghinga\" OR \"kinakapos sa paghinga\" OR \"mahigpit ang ubo\" OR \"mataas na temperatura\" OR \"lagnat sa gabi\" OR \"mataas na lagnat\" OR \"lagnat na may kasamang panginginig\" OR giniginaw OR pagpapawis OR \"masakit sa dibdib kapag humihinga ng malalim\" OR pagkahingal OR \"mabilis ang paghiinga\" OR \"walang gana sa pagkain\" OR pagkapagod",
+    "\"masikip sa dibdib kapang huminga\" OR \"Gal-um\" OR \"Katubig-tubig\" OR Ginakapoy OR Ginkurian OR Ginahubian OR \"Duta-duta ang tiyan\" OR \"Nawad-an sang lasa kag baho\" OR \"Nagakabuhi ang lalamunan\" OR \"Daw maluya\" OR \"Daw may hilanat\" OR \"Indi maayo ang pamati\" OR \"Nagapalangga ang lawas\" OR \"Nagapungot ang ilong\" OR \"Naga-ulaw\" OR \"Ginagal-um ang dughan\" OR \"Bug-at ang dughan\" OR \"Nagaipit ang dughan\" OR \"Nagapaso ang dughan\" OR \"Ginabuhian ang lalamunan\" OR \"Puno ang ulo\" OR Nagahuyhoy OR \"Nagaluha ang dughan\" OR \"Gin-uuwaw\" OR Nagapangluya OR \"Ginagutom pero nagahinay ang timbang\" OR \"Nagapangalisbo ang dughan\" OR \"Nagapangalipay ang dughan\" OR \"biag a puyat\" OR nabagbaga OR nakaraot OR \"nag-upa\" OR \"agew ti puso\" OR \"nagsalsal ti puso\" OR \"pudot ti puso\" OR \"nabati ti bagi\" OR \"nag-init ti bagi\" OR \"walay lakas\" OR natandaan OR naglumpay OR \"nag-aalab\" OR \"nag-amis ti ngipan\" OR nagtarum OR nagatunanen OR \"nag-ising ti layag\" OR \"nagsapul ti imahe\" OR Nakakapoy OR \"Narigrigat ti anges\" OR \"Nakapal ti ulen\"",
+    "\"Nagsugpet ti agong\" OR \"Nagsipnget ti barukong\" OR \"Nalidem ti barukong\" OR \"Mabug-at ti barukong\" OR \"Nangisit ti mula\" OR \"Nagpupuraw ti mata\" OR \"Nagsugpet ti lalamunan\" OR \"Nagsupsupit ti barukong\" OR \"Dakes ti panagrikna\" OR \"Nalamiis ngem init ti bagi\" OR \"Nagsugpet ti barukong\" OR \"Nagpupuraw ti mula\" OR \"Nagpapanglaw ti bagi\" OR \"Nagbababa ti timbang\" OR \"Nalamiis ti rabii ngem agpalpaltaw ti init\" OR \"Nagsangit ti barukong\" OR \"Nagsugpet ti dara iti mula\" OR \"Agpupuraw ti mata\" OR \"Nakapuy ti bagi\" OR \"Narigat ti panagturog\" OR \"Nagpapababa ti gana\""
+  ],
+  "query_char_limit": 1024,
+  "request_count": 7,
+  "row_count": 60,
+  "run_id": "x_full_archive_20260515T023424Z",
+  "sort_order": "recency",
+  "start_time": null
+}

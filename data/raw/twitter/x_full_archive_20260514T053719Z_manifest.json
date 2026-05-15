@@ -1,0 +1,36 @@
+{
+  "completed_at": "2026-05-14T05:37:40.160360+00:00",
+  "created_at": "2026-05-14T05:37:33.837129+00:00",
+  "csv_output_file": "data/raw/twitter/x_full_archive_20260514T053719Z.csv",
+  "duplicate_count": 0,
+  "end_time": null,
+  "endpoint": "https://api.x.com/2/tweets/search/all",
+  "errors": [],
+  "extra_query_filters": [],
+  "field_profiles_used": [
+    "broad"
+  ],
+  "jsonl_output_file": "data/raw/twitter/x_full_archive_20260514T053719Z.jsonl",
+  "keyword_count": 71,
+  "keyword_files": [
+    "docs/keywords/by_language/filipino/covid_keywords.csv",
+    "docs/keywords/by_language/filipino/pn_keywords.csv",
+    "docs/keywords/by_language/filipino/ri_keywords.csv",
+    "docs/keywords/by_language/filipino/tb_keywords.csv"
+  ],
+  "manifest_output_file": "data/raw/twitter/x_full_archive_20260514T053719Z_manifest.json",
+  "max_pages_per_query": 1,
+  "max_results": 10,
+  "omitted_field_errors": [],
+  "query_batch_count": 2,
+  "query_batches": [
+    "\"ubong walang plema\" OR lagnat OR \"mainit ang pakiramdam\" OR \"may sinat\" OR \"masakit ang lalamunan\" OR \"makating lalamunan\" OR \"nahihirapan huminga\" OR \"hinahabol ang paghinga\" OR \"masakit ang ulo\" OR \"masakit ang katawan\" OR \"pananakit ng katawan\" OR \"pamumula sa balat\" OR pagtatae OR \"pagdumi ng maraming beses\" OR pagkahapo OR \"pagod na pagod\" OR panghihina OR \"panginginig ng katawan\" OR \"parang nilalamig\" OR sipon OR \"tumutulo ang sipon\" OR \"baradong ilong\" OR \"masakit ang dibdib\" OR \"mabigat ang dibdib\" OR \"pagkawala ng pang-amoy\" OR \"hindi masyadong makaamoy\" OR \"walang panlasa\" OR \"hindi makalasa\" OR \"walang ganang kumain\" OR \"hindi magana sa pagkain\" OR \"mapula ang mata\" OR \"pamumula ng mata\" OR \"parang nasusuka\" OR \"medyo nahihilo\" OR pagsusuka OR \"ubong may plema\" OR \"plemang kulay dilaw\" OR \"plemang kulay berde\" OR \"plemang may kasamang dugo\" OR \"hirap sa paghinga\" OR \"kinakapos sa paghinga\" OR \"mahigpit ang ubo\" OR \"mataas na temperatura\" OR \"lagnat sa gabi\" OR \"mataas na lagnat\"",
+    "\"lagnat na may kasamang panginginig\" OR giniginaw OR \"masakit sa dibdib kapag umuubo\" OR pagpapawis OR \"masakit sa dibdib kapag humihinga ng malalim\" OR pagkahingal OR \"mabilis ang paghiinga\" OR \"walang gana sa pagkain\" OR nanghihina OR pagkapagod OR \"masikip sa dibdib kapang huminga\" OR \"maplemang ubo\" OR \"mahigit tatlong linggong ubo\" OR \"matagal ng may ubo\" OR \"hindi nawawala ang ubo\" OR \"pag-ubo na may kasamang dugo\" OR \"umuubo ng may dugo\" OR \"may dugo sa plema\" OR \"pagbaba ng timbang\" OR pamamayat OR namamayat OR pumapayat OR sinat OR \"lagnat sa hapon o sa gabi\" OR \"pagpapawis sa gabi\" OR \"nagpapawis sa gabi\""
+  ],
+  "query_char_limit": 1024,
+  "request_count": 2,
+  "row_count": 0,
+  "run_id": "x_full_archive_20260514T053719Z",
+  "sort_order": "recency",
+  "start_time": "2026-01-01T00:00:00Z"
+}

@@ -1,0 +1,43 @@
+{
+  "api_error_summaries": [],
+  "completed_at": "2026-05-15T06:26:44.363192+00:00",
+  "created_at": "2026-05-15T06:26:32.556809+00:00",
+  "csv_output_file": "data/raw/twitter/x_full_archive_20260515T062632Z.csv",
+  "default_field_profile": "public",
+  "duplicate_count": 0,
+  "end_time": null,
+  "endpoint": "https://api.x.com/2/tweets/search/all",
+  "errors": [],
+  "extra_query_filters": [],
+  "field_profiles_used": [
+    "public"
+  ],
+  "final_field_profile_by_query": {
+    "1": "public",
+    "2": "public"
+  },
+  "jsonl_output_file": "data/raw/twitter/x_full_archive_20260515T062632Z.jsonl",
+  "keyword_count": 68,
+  "keyword_dir": "docs/keywords/by_language",
+  "keyword_files": [
+    "docs/keywords/by_language/cebuano_keywords.csv",
+    "docs/keywords/by_language/english/english_keywords.csv",
+    "docs/keywords/by_language/filipino_keywords.csv",
+    "docs/keywords/by_language/hiligaynon_keywords.csv",
+    "docs/keywords/by_language/ilocano_keywords.csv"
+  ],
+  "manifest_output_file": "data/raw/twitter/x_full_archive_20260515T062632Z_manifest.json",
+  "max_pages_per_query": 3,
+  "max_results": 100,
+  "query_batch_count": 2,
+  "query_batches": [
+    "hubak OR covid OR cough OR \"dry cough\" OR fever OR \"high temperature\" OR \"sore throat\" OR dyspnea OR \"difficulty of breathing\" OR headache OR myalgia OR \"body pain\" OR \"body aches\" OR \"muscle pain\" OR rashes OR diarrhea OR \"loose bowel movement\" OR tiredness OR fatigue OR weakness OR chills OR colds OR \"runny nose\" OR \"stuffy nose\" OR \"chest pain\" OR \"loss of smell\" OR smell OR \"loss of taste\" OR taste OR anorexia OR \"loss of appetite\" OR conjunctivitis OR \"red eyes\" OR nausea OR vomiting OR \"productive cough\" OR \"cough with phlegm\" OR \"low grade fever\" OR \"shortness of breath\" OR \"nasal congestion\" OR \"cough for more than three weeks\" OR tuberculosis OR tb OR hemoptysis OR \"coughing up with blood\" OR \"cough with blood\" OR \"blood in phlegm\" OR \"chest pain when coughing\" OR \"weight loss\" OR cachexia OR \"afternoon fever\" OR \"night sweat\" OR \"cough with yellowish or greenish sputum\" OR \"yellowish or greenish phlegm or mucus\" OR \"phlegm with blood\" OR \"blood-tinged sputum\" OR \"rapid shallow breathing\"",
+    "\"fast breathing\" OR Sweating OR \"shaking chills\" OR \"chest pain when you breath\" OR \"pleuritic chest pain\" OR \"feeling tired\" OR \"pneumonia on chest xray\" OR cyanosis OR ubo OR \"Gal-um\" OR \"biag a puyat\""
+  ],
+  "query_char_limit": 1024,
+  "request_count": 6,
+  "row_count": 600,
+  "run_id": "x_full_archive_20260515T062632Z",
+  "sort_order": "recency",
+  "start_time": null
+}
