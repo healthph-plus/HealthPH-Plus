@@ -210,4 +210,6 @@ __marimo__/
 models
 
 # Dataset
-data
+data/processed
+data/raw
+
