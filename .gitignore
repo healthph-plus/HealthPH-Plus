@@ -212,4 +212,5 @@ models
 # Dataset
 data/processed
 data/raw
+data/training_data
 
