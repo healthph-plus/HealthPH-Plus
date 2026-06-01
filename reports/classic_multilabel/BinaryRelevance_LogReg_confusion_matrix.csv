@@ -1,0 +1,9 @@
+model,split,label,tn,fp,fn,tp
+BinaryRelevance_LogReg,val,AURI,362,68,28,171
+BinaryRelevance_LogReg,val,PN,442,53,40,94
+BinaryRelevance_LogReg,val,TB,406,77,35,111
+BinaryRelevance_LogReg,val,COVID,355,69,38,167
+BinaryRelevance_LogReg,test,AURI,326,120,37,146
+BinaryRelevance_LogReg,test,PN,416,88,72,53
+BinaryRelevance_LogReg,test,TB,372,119,60,78
+BinaryRelevance_LogReg,test,COVID,294,148,72,115

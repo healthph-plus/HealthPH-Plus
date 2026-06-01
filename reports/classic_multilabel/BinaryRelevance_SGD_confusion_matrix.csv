@@ -1,0 +1,9 @@
+model,split,label,tn,fp,fn,tp
+BinaryRelevance_SGD,val,AURI,363,67,29,170
+BinaryRelevance_SGD,val,PN,437,58,34,100
+BinaryRelevance_SGD,val,TB,404,79,35,111
+BinaryRelevance_SGD,val,COVID,371,53,50,155
+BinaryRelevance_SGD,test,AURI,327,119,37,146
+BinaryRelevance_SGD,test,PN,402,102,61,64
+BinaryRelevance_SGD,test,TB,359,132,57,81
+BinaryRelevance_SGD,test,COVID,321,121,75,112

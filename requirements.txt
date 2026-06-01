@@ -1,4 +1,5 @@
 alembic==1.18.4
+accelerate>=1.1.0
 appnope==0.1.4
 asttokens==3.0.1
 certifi==2026.4.22
@@ -57,10 +58,13 @@ setuptools==82.0.1
 six==1.17.0
 SQLAlchemy==2.0.49
 stack-data==0.6.3
+safetensors
 threadpoolctl==3.6.0
+torch
 tornado==6.5.5
 tqdm==4.67.3
 traitlets==5.15.0
+transformers
 typing_extensions==4.15.0
 urllib3==2.7.0
 wcwidth==0.7.0

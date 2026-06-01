@@ -1,0 +1,9 @@
+model,split,label,tn,fp,fn,tp
+ClassifierChains_LogReg,val,AURI,395,35,63,136
+ClassifierChains_LogReg,val,PN,442,53,38,96
+ClassifierChains_LogReg,val,TB,414,69,36,110
+ClassifierChains_LogReg,val,COVID,367,57,47,158
+ClassifierChains_LogReg,test,AURI,374,72,76,107
+ClassifierChains_LogReg,test,PN,415,89,65,60
+ClassifierChains_LogReg,test,TB,374,117,52,86
+ClassifierChains_LogReg,test,COVID,310,132,74,113

@@ -1,0 +1,36 @@
+{
+  "BinaryRelevance_LogReg": {
+    "best_params": {
+      "C": 1.1363180493902583,
+      "max_iter": 1600
+    },
+    "best_val_micro_f1": 0.7269076305220884,
+    "n_trials": 20
+  },
+  "BinaryRelevance_SGD": {
+    "best_params": {
+      "alpha": 0.00014060591691798184,
+      "penalty": "elasticnet",
+      "max_iter": 2250
+    },
+    "best_val_micro_f1": 0.7257955314827352,
+    "n_trials": 20
+  },
+  "ClassifierChains_LogReg": {
+    "best_params": {
+      "C": 1.0642919042160008,
+      "max_iter": 1900
+    },
+    "best_val_micro_f1": 0.7153075822603719,
+    "n_trials": 20
+  },
+  "ClassifierChains_SGD": {
+    "best_params": {
+      "alpha": 0.00012452668108659282,
+      "penalty": "elasticnet",
+      "max_iter": 2250
+    },
+    "best_val_micro_f1": 0.7142857142857143,
+    "n_trials": 20
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "alpha": 0.00014060591691798184,
+  "penalty": "elasticnet",
+  "max_iter": 2250
+}
