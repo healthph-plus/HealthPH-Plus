@@ -1,134 +1,208 @@
 {
   "electra_local_finetuned": {
     "base_model_name": "google/electra-small-discriminator",
-    "local_weights_path": "/Users/angelodelapaz/Documents/GitHub/HealthPH-Plus/models/model.safetensors",
+    "local_weights_path": "/Users/angelodelapaz/Documents/GitHub/HealthPH-Plus/artifacts/poc_transformers/electra_local_finetuned/trainer_output/checkpoint-3774/model.safetensors",
+    "local_weights_source": "trained_artifact",
     "validation": {
       "threshold_f1": {
         "AURI": {
-          "precision": 0.8181818181818182,
-          "recall": 0.949748743718593,
-          "f1": 0.8790697674418605
+          "precision": 0.7340425531914894,
+          "recall": 0.6934673366834171,
+          "f1": 0.7131782945736435
         },
         "PN": {
-          "precision": 0.6684210526315789,
-          "recall": 0.9477611940298507,
-          "f1": 0.7839506172839507
+          "precision": 0.5454545454545454,
+          "recall": 0.6268656716417911,
+          "f1": 0.5833333333333334
         },
         "TB": {
-          "precision": 0.6320754716981132,
-          "recall": 0.9178082191780822,
-          "f1": 0.7486033519553073
+          "precision": 0.4942528735632184,
+          "recall": 0.589041095890411,
+          "f1": 0.5375
         },
         "COVID": {
-          "precision": 0.8085106382978723,
-          "recall": 0.926829268292683,
-          "f1": 0.8636363636363636
+          "precision": 0.6968085106382979,
+          "recall": 0.6390243902439025,
+          "f1": 0.6666666666666666
         }
       },
       "metrics": {
-        "loss": 0.30742913484573364,
-        "accuracy": 0.7567567567567568,
-        "exact_match_ratio": 0.7567567567567568,
-        "micro_precision": 0.7373271889400922,
-        "micro_recall": 0.935672514619883,
-        "micro_f1": 0.8247422680412371,
-        "macro_precision": 0.7317972452023457,
-        "macro_recall": 0.9355368563048022,
-        "macro_f1": 0.8188150250793705,
-        "hamming_loss": 0.10810810810810811,
+        "loss": 0.5634523034095764,
+        "accuracy": 0.6359300476947536,
+        "exact_match_ratio": 0.6359300476947536,
+        "micro_precision": 0.6235795454545454,
+        "micro_recall": 0.6418128654970761,
+        "micro_f1": 0.6325648414985591,
+        "macro_precision": 0.6176396207118877,
+        "macro_recall": 0.6370996236148805,
+        "macro_f1": 0.6251695736434109,
+        "hamming_loss": 0.20270270270270271,
         "per_label": {
           "AURI": {
-            "precision": 0.8181818181818182,
-            "recall": 0.949748743718593,
-            "f1": 0.8790697674418605
+            "precision": 0.7340425531914894,
+            "recall": 0.6934673366834171,
+            "f1": 0.7131782945736435
           },
           "PN": {
-            "precision": 0.6684210526315789,
-            "recall": 0.9477611940298507,
-            "f1": 0.7839506172839507
+            "precision": 0.5454545454545454,
+            "recall": 0.6268656716417911,
+            "f1": 0.5833333333333334
           },
           "TB": {
-            "precision": 0.6320754716981132,
-            "recall": 0.9178082191780822,
-            "f1": 0.7486033519553073
+            "precision": 0.4942528735632184,
+            "recall": 0.589041095890411,
+            "f1": 0.5375
           },
           "COVID": {
-            "precision": 0.8085106382978723,
-            "recall": 0.926829268292683,
-            "f1": 0.8636363636363636
+            "precision": 0.6968085106382979,
+            "recall": 0.6390243902439025,
+            "f1": 0.6666666666666666
           }
         }
       },
       "trainer_metrics": {
-        "val_loss": 0.30742913484573364,
-        "val_accuracy": 0.7488076311605724,
-        "val_micro_precision": 0.7591623036649214,
-        "val_micro_recall": 0.847953216374269,
-        "val_micro_f1": 0.8011049723756906,
-        "val_macro_precision": 0.7503549841224926,
-        "val_macro_recall": 0.842296366463622,
-        "val_macro_f1": 0.7931721449887689,
-        "val_hamming_loss": 0.11446740858505565,
-        "val_runtime": 2.8596,
-        "val_samples_per_second": 219.958,
-        "val_steps_per_second": 55.252
+        "val_loss": 0.5634523034095764,
+        "val_accuracy": 0.6406995230524642,
+        "val_micro_precision": 0.6528239202657807,
+        "val_micro_recall": 0.5745614035087719,
+        "val_micro_f1": 0.6111975116640747,
+        "val_macro_precision": 0.6508040446800949,
+        "val_macro_recall": 0.5746493179953956,
+        "val_macro_f1": 0.6058134619262204,
+        "val_hamming_loss": 0.1987281399046105,
+        "val_runtime": 2.983,
+        "val_samples_per_second": 210.865,
+        "val_steps_per_second": 52.968
+      },
+      "confusion_matrices": {
+        "AURI": {
+          "tn": 380,
+          "fp": 50,
+          "fn": 61,
+          "tp": 138,
+          "matrix": [
+            [
+              380,
+              50
+            ],
+            [
+              61,
+              138
+            ]
+          ]
+        },
+        "PN": {
+          "tn": 425,
+          "fp": 70,
+          "fn": 50,
+          "tp": 84,
+          "matrix": [
+            [
+              425,
+              70
+            ],
+            [
+              50,
+              84
+            ]
+          ]
+        },
+        "TB": {
+          "tn": 395,
+          "fp": 88,
+          "fn": 60,
+          "tp": 86,
+          "matrix": [
+            [
+              395,
+              88
+            ],
+            [
+              60,
+              86
+            ]
+          ]
+        },
+        "COVID": {
+          "tn": 367,
+          "fp": 57,
+          "fn": 74,
+          "tp": 131,
+          "matrix": [
+            [
+              367,
+              57
+            ],
+            [
+              74,
+              131
+            ]
+          ]
+        }
       }
     },
     "test": {
       "thresholds": {
         "AURI": 0.1,
-        "PN": 0.12,
-        "TB": 0.1,
+        "PN": 0.44,
+        "TB": 0.11,
         "COVID": 0.1
       },
       "metrics": {
-        "loss": 0.6216105818748474,
-        "accuracy": 0.505564387917329,
-        "exact_match_ratio": 0.505564387917329,
-        "micro_precision": 0.5507246376811594,
-        "micro_recall": 0.8404423380726699,
-        "micro_f1": 0.66541588492808,
-        "macro_precision": 0.5461288501294331,
-        "macro_recall": 0.8351902671001661,
-        "macro_f1": 0.6600016059900723,
-        "hamming_loss": 0.21263910969793323,
+        "loss": 0.713821291923523,
+        "accuracy": 0.37360890302066774,
+        "exact_match_ratio": 0.37360890302066774,
+        "micro_precision": 0.44510385756676557,
+        "micro_recall": 0.47393364928909953,
+        "micro_f1": 0.4590665646518745,
+        "macro_precision": 0.44132706374085684,
+        "macro_recall": 0.4713978195438092,
+        "macro_f1": 0.4549626429398703,
+        "hamming_loss": 0.28100158982511925,
         "per_label": {
           "AURI": {
-            "precision": 0.6014760147601476,
-            "recall": 0.8907103825136612,
-            "f1": 0.7180616740088106
+            "precision": 0.5659340659340659,
+            "recall": 0.5628415300546448,
+            "f1": 0.5643835616438356
           },
           "PN": {
-            "precision": 0.5133689839572193,
-            "recall": 0.768,
-            "f1": 0.6153846153846154
+            "precision": 0.41379310344827586,
+            "recall": 0.48,
+            "f1": 0.4444444444444444
           },
           "TB": {
-            "precision": 0.5064935064935064,
-            "recall": 0.8478260869565217,
-            "f1": 0.6341463414634146
+            "precision": 0.3515151515151515,
+            "recall": 0.42028985507246375,
+            "f1": 0.38283828382838286
           },
           "COVID": {
-            "precision": 0.5631768953068592,
-            "recall": 0.8342245989304813,
-            "f1": 0.6724137931034483
+            "precision": 0.4340659340659341,
+            "recall": 0.42245989304812837,
+            "f1": 0.4281842818428184
           }
         }
       },
       "trainer_metrics": {
-        "test_loss": 0.6216105818748474,
-        "test_accuracy": 0.49920508744038156,
-        "test_micro_precision": 0.5994694960212201,
-        "test_micro_recall": 0.7140600315955766,
-        "test_micro_f1": 0.6517664023071377,
-        "test_macro_precision": 0.5954895921862678,
-        "test_macro_recall": 0.7011560318289176,
-        "test_macro_f1": 0.6430304512461176,
-        "test_hamming_loss": 0.19197138314785372,
-        "test_runtime": 2.9715,
-        "test_samples_per_second": 211.674,
-        "test_steps_per_second": 53.171
+        "test_loss": 0.713821291923523,
+        "test_accuracy": 0.3847376788553259,
+        "test_micro_precision": 0.4746059544658494,
+        "test_micro_recall": 0.42812006319115326,
+        "test_micro_f1": 0.45016611295681064,
+        "test_macro_precision": 0.47318267949358656,
+        "test_macro_recall": 0.42845031591331534,
+        "test_macro_f1": 0.44654975095192934,
+        "test_hamming_loss": 0.2631160572337043,
+        "test_runtime": 3.081,
+        "test_samples_per_second": 204.154,
+        "test_steps_per_second": 51.282
       }
+    },
+    "report_artifacts": {
+      "loss_history_csv": "/Users/angelodelapaz/Documents/GitHub/HealthPH-Plus/reports/poc_transformers/electra_local_finetuned_training_validation_loss.csv",
+      "loss_plot_png": "/Users/angelodelapaz/Documents/GitHub/HealthPH-Plus/reports/poc_transformers/electra_local_finetuned_training_validation_loss.png",
+      "validation_confusion_matrix_csv": "/Users/angelodelapaz/Documents/GitHub/HealthPH-Plus/reports/poc_transformers/electra_local_finetuned_validation_confusion_matrix.csv",
+      "validation_confusion_matrices_png": "/Users/angelodelapaz/Documents/GitHub/HealthPH-Plus/reports/poc_transformers/electra_local_finetuned_validation_confusion_matrices.png",
+      "per_label_metrics_csv": "/Users/angelodelapaz/Documents/GitHub/HealthPH-Plus/reports/poc_transformers/electra_local_finetuned_per_label_metrics.csv"
     }
   }
 }
