@@ -215,3 +215,4 @@ artifacts
 # Dataset
 data
 
+*.png
