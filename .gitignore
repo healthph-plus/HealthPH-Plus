@@ -214,5 +214,10 @@ artifacts
 
 # Dataset
 data
+data/training_data
 
 *.png
+
+
+data/combined/combined_data.csv
+data/processed/merged_data.csv
