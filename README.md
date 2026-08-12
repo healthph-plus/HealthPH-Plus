@@ -123,7 +123,7 @@ HealthPH+ aims to:
 
 1. Initialize virtual environment using ``` python -m venv .venv ```
 2. Activate venv using ``` source .venv/bin/activate```
-3. Install dependencies using ``` pip install requirements.txt```
+3. Install dependencies using ```pip install -r requirements.txt```
 
 ---
 
