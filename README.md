@@ -56,7 +56,8 @@ The system aligns with the **One Health framework**, integrating human, environm
 
 ## ⚙️ Tech Stack
 
-- **Backend:** FastAPI
+- **App backend:** JavaScript
+- **Disease inference service:** Python / FastAPI
 - **Frontend:** ReactJS
 - **Database:** MongoDB
 - **ML/NLP:** Python, PyTorch
@@ -125,7 +126,22 @@ HealthPH+ aims to:
 2. Activate venv using ``` source .venv/bin/activate```
 3. Install dependencies using ```pip install -r requirements.txt```
 
+### Disease detection integration
+
+The standalone service, JavaScript client, tests, and documentation are in
+[`disease-detection-service/`](disease-detection-service/README.md). Share that folder
+with backend developers and follow its README for setup and usage. Run service
+commands from inside that folder. See its [integration guide](disease-detection-service/docs/disease_inference.md)
+for the full API contract and validation instructions.
+
 ---
+
+### Language detection integration
+
+The reusable Python module, HTTP API, FastText models, and JavaScript client are in
+[`language-detection-service/`](language-detection-service/README.md). Share the
+entire folder, including its Git-ignored models, with developers. The preprocessing
+notebook uses this same module for cleaning and language detection.
 
 ## 📄 License
 

@@ -1,0 +1,5 @@
+-r requirements-inference.txt
+pytest==9.1.1
+httpx==0.28.1
+# Only the frozen notebook parity reference needs pandas.
+pandas==3.0.3

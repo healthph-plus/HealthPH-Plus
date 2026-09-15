@@ -221,3 +221,6 @@ data/training_data
 
 data/combined/combined_data.csv
 data/processed/merged_data.csv
+
+# Generated developer handoff archive (includes trained model weights)
+/disease-detection-service.zip

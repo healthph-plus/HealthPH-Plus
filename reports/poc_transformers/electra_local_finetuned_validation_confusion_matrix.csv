@@ -1,5 +1,5 @@
 model,split,label,tn,fp,fn,tp
-electra_local_finetuned,val,AURI,380,50,61,138
-electra_local_finetuned,val,PN,425,70,50,84
-electra_local_finetuned,val,TB,395,88,60,86
-electra_local_finetuned,val,COVID,367,57,74,131
+electra_local_finetuned,val,AURI,1465,113,172,447
+electra_local_finetuned,val,PN,1534,220,198,245
+electra_local_finetuned,val,TB,1474,193,176,354
+electra_local_finetuned,val,COVID,1456,123,174,444

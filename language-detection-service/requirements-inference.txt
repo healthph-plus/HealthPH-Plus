@@ -1,0 +1,9 @@
+# Verified with Python 3.14.6 on macOS arm64, CPU.
+fasttext==0.9.3
+numpy==2.5.1
+pybind11==3.0.4
+setuptools==83.0.0
+fastapi==0.141.1
+starlette==1.6.0
+pydantic==2.13.5
+uvicorn==0.52.4
