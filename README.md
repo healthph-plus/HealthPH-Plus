@@ -143,6 +143,16 @@ The reusable Python module, HTTP API, FastText models, and JavaScript client are
 entire folder, including its Git-ignored models, with developers. The preprocessing
 notebook uses this same module for cleaning and language detection.
 
+### Sentiment analysis integration
+
+The mBERT inference module, HTTP API, JavaScript client, tests, and handoff
+instructions are in [`sentiment-analysis-service/`](sentiment-analysis-service/README.md).
+Share the entire folder, including its Git-ignored `model/` bundle, with backend
+developers. Training stays in `notebooks/05_binary_sentiment_mbert.ipynb`; its
+optional final export cell prepares future model updates. Backend developers
+replace the complete model bundle and restart the service without changing
+their API integration.
+
 ## 📄 License
 
 This project is part of a DOST-funded research initiative. Licensing and usage terms will be defined upon release.
