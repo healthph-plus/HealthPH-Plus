@@ -1,0 +1,5 @@
+split,disease_label,model,mae,rmse,n,is_selected
+test,AURI,last_value,36.714285714285715,44.15233370308495,14,True
+test,PN,last_value,36.785714285714285,44.161230572916395,14,True
+test,TB,last_value,36.92857142857143,44.338793075912335,14,True
+test,COVID,last_value,37.0,44.3428203239906,14,True

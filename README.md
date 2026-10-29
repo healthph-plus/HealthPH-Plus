@@ -37,7 +37,7 @@ The system aligns with the **One Health framework**, integrating human, environm
 
 ### 2. NLP & AI Models
 - Transformer-based models (mBERT, XLM-R)
-- Named Entity Recognition (NER) for symptoms and locations
+- Keyword-based symptom extraction
 - Sentiment classification
 - Misinformation detection
 - Multilabel disease classification
@@ -134,7 +134,28 @@ with backend developers and follow its README for setup and usage. Run service
 commands from inside that folder. See its [integration guide](disease-detection-service/docs/disease_inference.md)
 for the full API contract and validation instructions.
 
+### XLM-RoBERTa disease detection integration
+
+The standalone XLM-RoBERTa predictor, HTTP API, JavaScript client, and export
+workflow are in [`xlmr-disease-detection-service/`](xlmr-disease-detection-service/README.md).
+Share the entire folder, including its Git-ignored `model/` bundle. It uses the
+same disease API contract as ELECTRA on its own default port, **8003**. The initial
+bundle is run `full_20261022T064326Z_fa1cd053`. Training stays in
+`notebooks/06_xlm_roberta_disease.ipynb`; its optional final export cell and the
+service's export command prepare future complete model updates.
+
 ---
+
+### Keyword symptom extraction
+
+Both disease services now extract symptoms from
+[`docs/keywords/keywords_master.csv`](docs/keywords/keywords_master.csv) using
+case-insensitive keyword matching. No symptom NLP model or training is required.
+Responses include exact matched text, source offsets, optional English names,
+and simple rule-based negation alongside the existing disease predictions.
+See the [keyword workflow](healthph_symptoms/KEYWORD_WORKFLOW.md) for usage,
+custom keyword lists, and standalone exports. Try the
+[keyword notebook](notebooks/08_symptom_keywords.ipynb) for a runnable example.
 
 ### Language detection integration
 
@@ -152,6 +173,95 @@ developers. Training stays in `notebooks/05_binary_sentiment_mbert.ipynb`; its
 optional final export cell prepares future model updates. Backend developers
 replace the complete model bundle and restart the service without changing
 their API integration.
+
+### Model performance reports
+
+The ELECTRA, classic multilabel, mBERT sentiment, and XLM-RoBERTa notebooks use
+shared reporting utilities in [`healthph_plus/model_reporting.py`](healthph_plus/model_reporting.py).
+Run the notebooks with the project kernel from the repository root or `notebooks/`.
+Figures appear inline and are exported as **300-DPI PNG and SVG**, alongside CSV
+and JSON source tables in each model's report directory.
+
+Transformer dashboards refresh at each validation event and include full-training-set
+and validation accuracy, F1, precision, recall, and loss, plus learning rate. The
+extra training evaluation adds runtime each epoch. Optimization loss is displayed
+separately from evaluation-mode loss; weighted losses retain their objective names.
+Checkpoint selection and early stopping use validation metrics only. Training
+curves use threshold 0.5; final evaluations use the recorded validation-selected
+thresholds. Disease accuracy means **exact match across all four labels**.
+
+Classic models record Optuna trial metrics, best-so-far validation F1, final
+train/validation/test scores, and unweighted probability log loss. Trials represent
+independent fits rather than training epochs. Fresh detailed artifacts live under
+`reports/classic_multilabel/runs/<run_id>/<model>/`; the existing summary CSV points
+to those directories so analysis does not combine older files with a newer run.
+
+All models export validation/test confusion matrices in raw-count and
+row-normalized views. Cell annotations include counts and percentages within the
+actual class, with `N/A` for missing classes. Per-label scores include support;
+precision–recall and validation threshold/F1 plots accompany the matrices.
+Inference demos display scores, decision thresholds, and warmed inference time
+without changing prediction return formats. Unlabeled demos have no accuracy/F1
+or loss because those measurements require ground truth.
+
+To redraw an existing experiment without training or loading model weights,
+explicitly select its report directory:
+
+```bash
+.venv/bin/python -m healthph_plus.render_model_reports \
+  --report-dir artifacts/disease_xlmr/full_20261022T064326Z_fa1cd053/reports \
+  --model-name XLM-RoBERTa --task multilabel
+```
+
+For sentiment use `--task binary`. For historical ELECTRA reports use
+`--report-dir reports/poc_transformers --model-name electra_local_finetuned`.
+For older classic reports select `--report-dir reports/classic_multilabel` and the
+exact model name, such as `BinaryRelevance_LogReg`. Outputs default to the selected
+directory's `visualizations/`; `--output-dir` selects another destination.
+Missing historical training accuracy/F1 is labeled unavailable. No historical
+training metrics or thresholds are reconstructed from unrelated artifacts.
+
+Run the focused offline checks with:
+
+```bash
+.venv/bin/python -m pytest tests/test_model_reporting.py tests/test_training_monitor.py tests/test_classic_reporting.py -q
+```
+
+### Daily disease-post forecasting prototype
+
+Run [`notebooks/07_time_series_forecasting.ipynb`](notebooks/07_time_series_forecasting.ipynb)
+with the project `.venv` kernel from the repository root or `notebooks/`. It uses
+the timestamped processed corpus and the complete local XLM-RoBERTa bundle in
+`xlmr-disease-detection-service/model/`, explicitly pinned to
+`full_20261022T064326Z_fa1cd053`. Use the disease service's inference dependencies
+when preparing a new environment; no running HTTP service or retraining is needed.
+
+The default experiment covers September 1–November 30, 2025 in Asia/Manila time.
+It forecasts daily AURI, pneumonia, TB, and COVID post counts seven days ahead,
+comparing zero, last-value, previous-week, and trailing-week-mean baselines. Three
+weekly validation folds select each disease's model; two later weekly test folds
+measure held-out error. The final December 1–7 forecast is a historical
+demonstration, with unknown actuals preserved in its exports.
+
+Reusable preparation, inference caching, aggregation, evaluation, and reporting
+live in `healthph_plus/forecast_data.py`, `healthph_plus/forecasting.py`, and
+`healthph_plus/forecast_reporting.py`. Completed prediction batches are cached
+under `artifacts/forecasting/`; model versions and normalized-text hashes prevent
+reuse across changed models or inputs. Isolated runs export audits, fingerprints,
+labeled post IDs, daily counts, MAE/RMSE tables, predictions, and PNG/SVG charts
+under `reports/forecasting/<run_id>/`. Reports exclude raw and cleaned post text.
+
+These forecasts describe the sampled corpus. Collection gaps and changing keyword
+searches are not zero disease activity. Days without eligible posts remain
+unavailable and stop evaluation. The frozen classifier was trained after the
+demonstration period without a chronological training cutoff; this experiment
+does not establish prospective outbreak-prediction performance.
+
+Run the focused offline checks without loading classifier weights:
+
+```bash
+.venv/bin/python -m pytest tests/test_forecast_data.py tests/test_forecasting.py tests/test_forecast_reporting.py -q
+```
 
 ## 📄 License
 

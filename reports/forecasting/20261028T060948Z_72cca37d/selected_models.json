@@ -1,0 +1,26 @@
+[
+  {
+    "disease_label":"AURI",
+    "model":"last_value",
+    "validation_mae":2.238095238095238,
+    "validation_rmse":2.853569193634026
+  },
+  {
+    "disease_label":"PN",
+    "model":"last_value",
+    "validation_mae":2.0,
+    "validation_rmse":2.581988897471611
+  },
+  {
+    "disease_label":"TB",
+    "model":"last_value",
+    "validation_mae":2.0,
+    "validation_rmse":2.581988897471611
+  },
+  {
+    "disease_label":"COVID",
+    "model":"last_value",
+    "validation_mae":2.285714285714286,
+    "validation_rmse":2.911389784311004
+  }
+]

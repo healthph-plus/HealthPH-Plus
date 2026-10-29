@@ -7,6 +7,7 @@ from healthph_plus.disease_inference import LABELS
 
 class FakePredictor:
     model_version = "test-version"
+    symptom_model_version = "test-symptom-version"
 
     def __init__(self):
         self.calls = []
@@ -19,6 +20,7 @@ class FakePredictor:
         return [{
             "labels": [], "probabilities": dict.fromkeys(LABELS, 0.1),
             "thresholds_used": dict.fromkeys(LABELS, 0.5), "model_version": self.model_version,
+            "symptoms": [], "symptom_model_version": self.symptom_model_version,
         } for text in texts]
 
 
@@ -41,7 +43,7 @@ def test_startup_loads_once_and_health_does_not_run_inference():
     with TestClient(app) as client:
         for _ in range(3):
             assert client.get("/health/live").json() == {"status": "ok"}
-            assert client.get("/health/ready").json() == {"status": "ready", "model_version": "test-version"}
+            assert client.get("/health/ready").json() == {"status": "ready", "model_version": "test-version", "symptom_model_version": "test-symptom-version"}
         assert len(created) == 1
         assert len(created[0].calls) == 1
     assert app.state.predictor is None
@@ -79,7 +81,7 @@ def test_api_preserves_text_and_returns_full_contract(service):
     text = "  Ubo\n at lagnat 😷  "
     response = client.post("/v1/disease/predict", json={"text": text})
     assert response.status_code == 200
-    assert set(response.json()) == {"labels", "probabilities", "thresholds_used", "model_version"}
+    assert set(response.json()) == {"labels", "probabilities", "thresholds_used", "model_version", "symptoms", "symptom_model_version"}
     assert predictor.calls[-1] == [text]
     texts = ["second", "first", "second"]
     response = client.post("/v1/disease/predict-batch", json={"texts": texts})
@@ -134,3 +136,34 @@ def test_real_model_api(real_predictor):
             single = client.post("/v1/disease/predict", json={"text": text}).json()
             assert result["labels"] == single["labels"]
             assert result["probabilities"] == pytest.approx(single["probabilities"], abs=1e-6, rel=0)
+
+
+@pytest.mark.parametrize("change", [
+    {"symptoms": None}, {"symptom_model_version": ""},
+    {"symptoms": [{"text": "ubo", "normalized_symptom": "cough", "start_index": 0,
+                   "end_index": 3, "confidence": 0.9, "negated": "false"}]},
+    {"symptoms": [{"text": "ubo", "normalized_symptom": "cough", "start_index": 1,
+                   "end_index": 4, "confidence": 0.9, "negated": False}]},
+    {"symptoms": [{"text": "ubo", "normalized_symptom": "cough", "start_index": 0,
+                   "end_index": 3, "confidence": 1.1, "negated": False}]},
+])
+def test_invalid_symptom_output_is_failure(service, change):
+    client, predictor = service
+    result = predictor.predict("ubo")
+    result.update(change)
+    predictor.predict_many = lambda texts: [result]
+    response = client.post("/v1/disease/predict", json={"text": "ubo"})
+    assert response.status_code == 500
+    assert response.json() == {"detail": "Disease inference failed"}
+
+
+def test_missing_symptom_fields_prevents_readiness():
+    predictor = FakePredictor()
+    result = predictor.predict("test")
+    del result["symptoms"]
+    predictor.predict = lambda text: result
+    app = create_app(lambda: predictor)
+    with pytest.raises(ValueError):
+        with TestClient(app):
+            pass
+    assert app.state.predictor is None

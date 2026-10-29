@@ -1,0 +1,5 @@
+disease_label,model,validation_mae,validation_rmse
+AURI,last_value,2.238095238095238,2.8535691936340255
+PN,last_value,2.0,2.581988897471611
+TB,last_value,2.0,2.581988897471611
+COVID,last_value,2.2857142857142856,2.9113897843110044

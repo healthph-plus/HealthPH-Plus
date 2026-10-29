@@ -1,0 +1,18 @@
+{
+  "model_name": "BinaryRelevance_LogReg",
+  "task": "multilabel",
+  "labels": [
+    "AURI",
+    "PN",
+    "TB",
+    "COVID"
+  ],
+  "thresholds": [
+    0.32,
+    0.39,
+    0.41,
+    0.36
+  ],
+  "threshold_context": "Validation-tuned thresholds",
+  "loss_name": null
+}

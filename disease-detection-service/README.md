@@ -1,10 +1,12 @@
 # HealthPH+ disease detection service
 
-Local Python service for the JavaScript HealthPH backend. It uses the saved ELECTRA model on CPU to detect `AURI`, `PN`, `TB`, and `COVID` signals in already cleaned text.
+Local Python service for the JavaScript HealthPH backend. It uses the saved ELECTRA model on CPU to detect `AURI`, `PN`, `TB`, and `COVID` signals in already cleaned text, and literal keyword matching to extract symptom mentions.
+
+Symptom extraction uses the bundled keyword list. No symptom NLP model or training is required. See the [keyword workflow](SYMPTOM_WORKFLOW.md).
 
 ## Share with developers
 
-Share this entire folder, including `model/` (about 55 MB). It contains the service, JavaScript client, dependencies, tests, and documentation. No research notebooks, datasets, or credentials are needed. The model is ignored by Git, so a code-only clone needs a separate copy of `model/`. Exclude `.venv/`, `__pycache__/`, and `.pytest_cache/` when sharing.
+After combined export, share this entire folder, including `healthph_symptoms/` and the complete `model/` directory. The ELECTRA disease assets occupy about 55 MB; the symptom keyword list adds only a small CSV file. No research notebooks, datasets, or credentials are needed for inference. Models are ignored by Git, so a code-only clone needs a separate copy of the complete bundle. Exclude `.venv/`, `__pycache__/`, and `.pytest_cache/` when sharing.
 
 ## Start the service
 
@@ -17,7 +19,7 @@ python -m pip install -r requirements-inference.txt
 python -m healthph_plus.disease_api
 ```
 
-If `.venv` already exists, skip its creation. The saved bundle belongs in `model/`, containing `best_model/`, `label_order.json`, and `thresholds.json`. Set `HEALTHPH_DISEASE_ARTIFACT_DIR` to use another bundle directory.
+If `.venv` already exists, skip its creation. The saved bundle belongs in `model/`, containing `best_model/`, `label_order.json`, and `thresholds.json`. Keywords are included in `healthph_symptoms/keywords_master.csv`. Set `HEALTHPH_DISEASE_ARTIFACT_DIR` to use another complete bundle directory. Missing or incompatible disease assets or keyword files prevent startup. Symptom extraction uses only the keyword CSV and aliases.
 
 Base URL: `http://127.0.0.1:8000`. Interactive API docs: `http://127.0.0.1:8000/docs`. Use `--port 8001` to change the port.
 
@@ -34,9 +36,11 @@ curl http://127.0.0.1:8000/v1/disease/predict \
 | `POST /v1/disease/predict` | Send `{"text":"..."}`; receive one prediction. |
 | `POST /v1/disease/predict-batch` | Send `{"texts":["...","..."]}`; receive `{"results":[...]}` in input order. |
 | `GET /health/live` | Check that the service responds. |
-| `GET /health/ready` | Check that the model is loaded and get its version. |
+| `GET /health/ready` | Check combined startup inference; receive `status`, `model_version`, and `symptom_model_version`. |
 
-Each prediction contains `labels`, `probabilities`, `thresholds_used`, and `model_version`. Multiple labels or an empty `labels` array are valid.
+Each single/batch prediction contains `labels`, `probabilities`, `thresholds_used`, `model_version`, `symptoms`, and `symptom_model_version`. Multiple labels or an empty `labels` array are valid. Disease scores, thresholds, and the disease version remain unchanged by adding symptom extraction.
+
+Each symptom contains `text`, nullable English `normalized_symptom`, `start_index`, `end_index`, `confidence`, and `negated`. Empty detections return `symptoms: []`; extraction failures remain errors. `confidence: 1.0` denotes a literal keyword match, not a model probability. `negated: false` means explicit negation was not detected; it does not establish a current symptom or identify its experiencer.
 
 ## JavaScript usage
 
@@ -47,9 +51,14 @@ import { createDiseaseClient } from './examples/disease-client.mjs';
 
 const client = createDiseaseClient(); // localhost:8000; 30-second timeout
 try {
-  const result = await client.predict('ubo at lagnat');
+  const text = '😷 ubo at lagnat';
+  const result = await client.predict(text);
   const { results } = await client.predictBatch(['ubo at lagnat', 'feeling okay']);
   console.log(result.labels, results);
+  for (const symptom of result.symptoms) {
+    const phrase = Array.from(text).slice(symptom.start_index, symptom.end_index).join('');
+    console.log(phrase, symptom.normalized_symptom, symptom.negated);
+  }
 } catch (error) {
   console.error(error.code, error.status, error.message);
 }
@@ -59,8 +68,21 @@ Set `HEALTHPH_DISEASE_URL` in the backend to change the service URL. To try the 
 
 ## Input and error handling
 
-- Send already cleaned, non-blank text: at most 10,000 characters per text and 1–32 texts per batch. Tokenization truncates each text to 128 tokens.
+- Send already cleaned, non-blank text: at most 10,000 Unicode code points per text and 1–32 texts per batch. Disease tokenization truncates each text to 128 tokens; symptom extraction covers the complete accepted input using case-insensitive whole-word matching, with flexible whitespace and longer phrases preferred.
+- Symptom offsets are zero-based, end-exclusive Unicode code-point indices into the exact submitted text. Use `Array.from(text)` in JavaScript, as above, rather than UTF-16 string slicing.
 - HTTP `422`: invalid input; the entire batch is rejected. HTTP `503`: model unavailable. HTTP `500`: inference failed.
 - Client errors include `HTTP_ERROR`, `TIMEOUT`, `CONNECTION_ERROR`, and `INVALID_RESPONSE`. Treat them as failed analyses, not empty-label predictions.
 
 See the [full integration guide](docs/disease_inference.md) for artifact transfer, tests, and the model's current evaluation results.
+
+## Prepare a combined handoff
+
+Run from the research repository root:
+
+```sh
+.venv/bin/python -m healthph_symptoms.export \
+  --service-dir disease-detection-service \
+  --disease-source artifacts/poc_transformers/electra_local_finetuned
+```
+
+Stop the service before export. The exporter stages disease weights, keyword data, and shared runtime code, then verifies offline inference before replacing the bundle. Set `HEALTHPH_SYMPTOM_KEYWORDS_PATH` to use a custom CSV. See the [keyword workflow](SYMPTOM_WORKFLOW.md) for updates and matching rules.

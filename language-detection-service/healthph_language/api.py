@@ -4,14 +4,21 @@ from __future__ import annotations
 
 import argparse
 import logging
+import math
 from collections.abc import Callable
 from contextlib import asynccontextmanager
 from typing import Annotated, Literal
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.encoders import jsonable_encoder
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
 from pydantic import AfterValidator, BaseModel, ConfigDict, Field, StringConstraints
 
-from .detector import MAX_BATCH_SIZE, MAX_TEXT_CHARACTERS, LanguageDetector, clean_valid_text
+from .detector import (
+    DEFAULT_SECONDARY_MIN_CONFIDENCE, MAX_BATCH_SIZE, MAX_TEXT_CHARACTERS,
+    LanguageDetector, clean_valid_text,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -25,14 +32,25 @@ Text = Annotated[str, StringConstraints(strict=True, min_length=1, max_length=MA
                  AfterValidator(validate_raw_text)]
 
 
-class PredictRequest(BaseModel):
+class PredictionOptions(BaseModel):
     model_config = ConfigDict(extra="forbid")
+    top_k: Annotated[int, Field(strict=True, ge=1, le=2)] = 1
+    secondary_min_confidence: Annotated[
+        float, Field(strict=True, ge=0, le=1, allow_inf_nan=False),
+    ] = DEFAULT_SECONDARY_MIN_CONFIDENCE
+
+
+class PredictRequest(PredictionOptions):
     text: Text
 
 
-class BatchPredictRequest(BaseModel):
-    model_config = ConfigDict(extra="forbid")
+class BatchPredictRequest(PredictionOptions):
     texts: Annotated[list[Text], Field(min_length=1, max_length=MAX_BATCH_SIZE)]
+
+
+class FastTextPrediction(BaseModel):
+    language: str
+    confidence: Annotated[float, Field(ge=0, le=1, allow_inf_nan=False)]
 
 
 class Prediction(BaseModel):
@@ -42,6 +60,7 @@ class Prediction(BaseModel):
     prediction_source: Literal["fasttext", "keyword_override"]
     fasttext_language: str
     fasttext_confidence: Annotated[float, Field(ge=0, le=1, allow_inf_nan=False)]
+    fasttext_predictions: Annotated[list[FastTextPrediction], Field(min_length=1, max_length=2)] | None = None
 
 
 class BatchPrediction(BaseModel):
@@ -62,15 +81,26 @@ def create_app(detector_factory: Callable[[], LanguageDetector] = LanguageDetect
     app = FastAPI(title="HealthPH+ Language Detection", version="1.0.0", lifespan=lifespan)
     app.state.detector = None
 
+    @app.exception_handler(RequestValidationError)
+    async def invalid_request(_request: Request, exc: RequestValidationError):
+        # Validation errors echo input; JSON cannot encode non-finite floats.
+        return JSONResponse(status_code=422, content=jsonable_encoder(
+            {"detail": exc.errors()},
+            custom_encoder={float: lambda value: value if math.isfinite(value) else str(value)},
+        ))
+
     def get_detector():
         if app.state.detector is None:
             raise HTTPException(status_code=503, detail="Language model is not ready")
         return app.state.detector
 
-    def predict_many(texts):
+    def predict_many(texts, options: PredictionOptions):
         detector = get_detector()
         try:
-            return detector.predict_many(texts)
+            return detector.predict_many(
+                texts, top_k=options.top_k,
+                secondary_min_confidence=options.secondary_min_confidence,
+            )
         except Exception:
             logger.exception("Language inference failed")
             raise HTTPException(status_code=500, detail="Language inference failed") from None
@@ -84,13 +114,13 @@ def create_app(detector_factory: Callable[[], LanguageDetector] = LanguageDetect
         detector = get_detector()
         return {"status": "ready", "model": detector.model_path.name}
 
-    @app.post("/v1/language/predict", response_model=Prediction)
+    @app.post("/v1/language/predict", response_model=Prediction, response_model_exclude_none=True)
     def predict(body: PredictRequest):
-        return predict_many([body.text])[0]
+        return predict_many([body.text], body)[0]
 
-    @app.post("/v1/language/predict-batch", response_model=BatchPrediction)
+    @app.post("/v1/language/predict-batch", response_model=BatchPrediction, response_model_exclude_none=True)
     def predict_batch(body: BatchPredictRequest):
-        return {"results": predict_many(body.texts)}
+        return {"results": predict_many(body.texts, body)}
 
     return app
 

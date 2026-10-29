@@ -1,0 +1,18 @@
+{
+  "model_name": "ClassifierChains_SGD",
+  "task": "multilabel",
+  "labels": [
+    "AURI",
+    "PN",
+    "TB",
+    "COVID"
+  ],
+  "thresholds": [
+    0.1,
+    0.45,
+    0.18,
+    0.18
+  ],
+  "threshold_context": "Validation-tuned thresholds",
+  "loss_name": null
+}

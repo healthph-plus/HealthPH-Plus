@@ -1,0 +1,2276 @@
+{
+  "version": "1.0.0",
+  "provenance": "Curated from docs/keywords/by_language, with common inflections and explicit inability phrases added. Disease names, test findings, standalone taste/smell, and uncertain source entries are excluded. Native-speaker review is required during annotation; this vocabulary does not replace human labels.",
+  "aliases": [
+    {
+      "text": "cough",
+      "normalized_symptom": "cough",
+      "language": "en"
+    },
+    {
+      "text": "coughing",
+      "normalized_symptom": "cough",
+      "language": "en"
+    },
+    {
+      "text": "dry cough",
+      "normalized_symptom": "dry cough",
+      "language": "en"
+    },
+    {
+      "text": "fever",
+      "normalized_symptom": "fever",
+      "language": "en"
+    },
+    {
+      "text": "high temperature",
+      "normalized_symptom": "fever",
+      "language": "en"
+    },
+    {
+      "text": "high fever",
+      "normalized_symptom": "high fever",
+      "language": "en"
+    },
+    {
+      "text": "low grade fever",
+      "normalized_symptom": "low-grade fever",
+      "language": "en"
+    },
+    {
+      "text": "low-grade fever",
+      "normalized_symptom": "low-grade fever",
+      "language": "en"
+    },
+    {
+      "text": "sore throat",
+      "normalized_symptom": "sore throat",
+      "language": "en"
+    },
+    {
+      "text": "dyspnea",
+      "normalized_symptom": "shortness of breath",
+      "language": "en"
+    },
+    {
+      "text": "difficulty of breathing",
+      "normalized_symptom": "shortness of breath",
+      "language": "en"
+    },
+    {
+      "text": "difficulty breathing",
+      "normalized_symptom": "shortness of breath",
+      "language": "en"
+    },
+    {
+      "text": "shortness of breath",
+      "normalized_symptom": "shortness of breath",
+      "language": "en"
+    },
+    {
+      "text": "cannot breathe",
+      "normalized_symptom": "shortness of breath",
+      "language": "en"
+    },
+    {
+      "text": "can't breathe",
+      "normalized_symptom": "shortness of breath",
+      "language": "en"
+    },
+    {
+      "text": "headache",
+      "normalized_symptom": "headache",
+      "language": "en"
+    },
+    {
+      "text": "myalgia",
+      "normalized_symptom": "body aches",
+      "language": "en"
+    },
+    {
+      "text": "body pain",
+      "normalized_symptom": "body aches",
+      "language": "en"
+    },
+    {
+      "text": "body aches",
+      "normalized_symptom": "body aches",
+      "language": "en"
+    },
+    {
+      "text": "muscle pain",
+      "normalized_symptom": "body aches",
+      "language": "en"
+    },
+    {
+      "text": "rashes",
+      "normalized_symptom": "rash",
+      "language": "en"
+    },
+    {
+      "text": "rash",
+      "normalized_symptom": "rash",
+      "language": "en"
+    },
+    {
+      "text": "diarrhea",
+      "normalized_symptom": "diarrhea",
+      "language": "en"
+    },
+    {
+      "text": "loose bowel movement",
+      "normalized_symptom": "diarrhea",
+      "language": "en"
+    },
+    {
+      "text": "tiredness",
+      "normalized_symptom": "fatigue",
+      "language": "en"
+    },
+    {
+      "text": "fatigue",
+      "normalized_symptom": "fatigue",
+      "language": "en"
+    },
+    {
+      "text": "feeling tired",
+      "normalized_symptom": "fatigue",
+      "language": "en"
+    },
+    {
+      "text": "weakness",
+      "normalized_symptom": "weakness",
+      "language": "en"
+    },
+    {
+      "text": "chills",
+      "normalized_symptom": "chills",
+      "language": "en"
+    },
+    {
+      "text": "shaking chills",
+      "normalized_symptom": "chills",
+      "language": "en"
+    },
+    {
+      "text": "colds",
+      "normalized_symptom": "colds",
+      "language": "en"
+    },
+    {
+      "text": "runny nose",
+      "normalized_symptom": "runny nose",
+      "language": "en"
+    },
+    {
+      "text": "stuffy nose",
+      "normalized_symptom": "nasal congestion",
+      "language": "en"
+    },
+    {
+      "text": "nasal congestion",
+      "normalized_symptom": "nasal congestion",
+      "language": "en"
+    },
+    {
+      "text": "chest pain",
+      "normalized_symptom": "chest pain",
+      "language": "en"
+    },
+    {
+      "text": "chest pain when coughing",
+      "normalized_symptom": "chest pain",
+      "language": "en"
+    },
+    {
+      "text": "chest pain when you breath",
+      "normalized_symptom": "chest pain",
+      "language": "en"
+    },
+    {
+      "text": "pleuritic chest pain",
+      "normalized_symptom": "chest pain",
+      "language": "en"
+    },
+    {
+      "text": "loss of smell",
+      "normalized_symptom": "loss of smell",
+      "language": "en"
+    },
+    {
+      "text": "cannot smell",
+      "normalized_symptom": "loss of smell",
+      "language": "en"
+    },
+    {
+      "text": "can't smell",
+      "normalized_symptom": "loss of smell",
+      "language": "en"
+    },
+    {
+      "text": "loss of taste",
+      "normalized_symptom": "loss of taste",
+      "language": "en"
+    },
+    {
+      "text": "cannot taste",
+      "normalized_symptom": "loss of taste",
+      "language": "en"
+    },
+    {
+      "text": "can't taste",
+      "normalized_symptom": "loss of taste",
+      "language": "en"
+    },
+    {
+      "text": "loss of appetite",
+      "normalized_symptom": "loss of appetite",
+      "language": "en"
+    },
+    {
+      "text": "red eyes",
+      "normalized_symptom": "red eyes",
+      "language": "en"
+    },
+    {
+      "text": "nausea",
+      "normalized_symptom": "nausea",
+      "language": "en"
+    },
+    {
+      "text": "vomiting",
+      "normalized_symptom": "vomiting",
+      "language": "en"
+    },
+    {
+      "text": "productive cough",
+      "normalized_symptom": "productive cough",
+      "language": "en"
+    },
+    {
+      "text": "cough with phlegm",
+      "normalized_symptom": "productive cough",
+      "language": "en"
+    },
+    {
+      "text": "hemoptysis",
+      "normalized_symptom": "coughing up blood",
+      "language": "en"
+    },
+    {
+      "text": "coughing up with blood",
+      "normalized_symptom": "coughing up blood",
+      "language": "en"
+    },
+    {
+      "text": "cough with blood",
+      "normalized_symptom": "coughing up blood",
+      "language": "en"
+    },
+    {
+      "text": "blood in phlegm",
+      "normalized_symptom": "blood in phlegm",
+      "language": "en"
+    },
+    {
+      "text": "phlegm with blood",
+      "normalized_symptom": "blood in phlegm",
+      "language": "en"
+    },
+    {
+      "text": "blood-tinged sputum",
+      "normalized_symptom": "blood in phlegm",
+      "language": "en"
+    },
+    {
+      "text": "weight loss",
+      "normalized_symptom": "weight loss",
+      "language": "en"
+    },
+    {
+      "text": "night sweat",
+      "normalized_symptom": "night sweats",
+      "language": "en"
+    },
+    {
+      "text": "night sweats",
+      "normalized_symptom": "night sweats",
+      "language": "en"
+    },
+    {
+      "text": "yellowish or greenish phlegm or mucus",
+      "normalized_symptom": "colored phlegm",
+      "language": "en"
+    },
+    {
+      "text": "rapid shallow breathing",
+      "normalized_symptom": "rapid breathing",
+      "language": "en"
+    },
+    {
+      "text": "fast breathing",
+      "normalized_symptom": "rapid breathing",
+      "language": "en"
+    },
+    {
+      "text": "sweating",
+      "normalized_symptom": "sweating",
+      "language": "en"
+    },
+    {
+      "text": "cyanosis",
+      "normalized_symptom": "bluish skin",
+      "language": "en"
+    },
+    {
+      "text": "ubo",
+      "normalized_symptom": "cough",
+      "language": "tl"
+    },
+    {
+      "text": "umuubo",
+      "normalized_symptom": "cough",
+      "language": "tl"
+    },
+    {
+      "text": "pag-ubo",
+      "normalized_symptom": "cough",
+      "language": "tl"
+    },
+    {
+      "text": "ubong walang plema",
+      "normalized_symptom": "dry cough",
+      "language": "tl"
+    },
+    {
+      "text": "lagnat",
+      "normalized_symptom": "fever",
+      "language": "tl"
+    },
+    {
+      "text": "sinat",
+      "normalized_symptom": "fever",
+      "language": "tl"
+    },
+    {
+      "text": "mainit ang pakiramdam",
+      "normalized_symptom": "fever",
+      "language": "tl"
+    },
+    {
+      "text": "mataas na temperatura",
+      "normalized_symptom": "fever",
+      "language": "tl"
+    },
+    {
+      "text": "mataas na lagnat",
+      "normalized_symptom": "high fever",
+      "language": "tl"
+    },
+    {
+      "text": "masakit ang lalamunan",
+      "normalized_symptom": "sore throat",
+      "language": "tl"
+    },
+    {
+      "text": "makating lalamunan",
+      "normalized_symptom": "sore throat",
+      "language": "tl"
+    },
+    {
+      "text": "nahihirapan huminga",
+      "normalized_symptom": "shortness of breath",
+      "language": "tl"
+    },
+    {
+      "text": "hinahabol ang paghinga",
+      "normalized_symptom": "shortness of breath",
+      "language": "tl"
+    },
+    {
+      "text": "hirap sa paghinga",
+      "normalized_symptom": "shortness of breath",
+      "language": "tl"
+    },
+    {
+      "text": "kinakapos sa paghinga",
+      "normalized_symptom": "shortness of breath",
+      "language": "tl"
+    },
+    {
+      "text": "pagkahingal",
+      "normalized_symptom": "shortness of breath",
+      "language": "tl"
+    },
+    {
+      "text": "hindi makahinga",
+      "normalized_symptom": "shortness of breath",
+      "language": "tl"
+    },
+    {
+      "text": "di makahinga",
+      "normalized_symptom": "shortness of breath",
+      "language": "tl"
+    },
+    {
+      "text": "masakit ang ulo",
+      "normalized_symptom": "headache",
+      "language": "tl"
+    },
+    {
+      "text": "masakit ang katawan",
+      "normalized_symptom": "body aches",
+      "language": "tl"
+    },
+    {
+      "text": "pananakit ng katawan",
+      "normalized_symptom": "body aches",
+      "language": "tl"
+    },
+    {
+      "text": "pamumula sa balat",
+      "normalized_symptom": "rash",
+      "language": "tl"
+    },
+    {
+      "text": "pagtatae",
+      "normalized_symptom": "diarrhea",
+      "language": "tl"
+    },
+    {
+      "text": "pagdumi ng maraming beses",
+      "normalized_symptom": "diarrhea",
+      "language": "tl"
+    },
+    {
+      "text": "pagkahapo",
+      "normalized_symptom": "fatigue",
+      "language": "tl"
+    },
+    {
+      "text": "pagod na pagod",
+      "normalized_symptom": "fatigue",
+      "language": "tl"
+    },
+    {
+      "text": "pagkapagod",
+      "normalized_symptom": "fatigue",
+      "language": "tl"
+    },
+    {
+      "text": "panghihina",
+      "normalized_symptom": "weakness",
+      "language": "tl"
+    },
+    {
+      "text": "nanghihina",
+      "normalized_symptom": "weakness",
+      "language": "tl"
+    },
+    {
+      "text": "panginginig ng katawan",
+      "normalized_symptom": "chills",
+      "language": "tl"
+    },
+    {
+      "text": "parang nilalamig",
+      "normalized_symptom": "chills",
+      "language": "tl"
+    },
+    {
+      "text": "giniginaw",
+      "normalized_symptom": "chills",
+      "language": "tl"
+    },
+    {
+      "text": "sipon",
+      "normalized_symptom": "colds",
+      "language": "tl"
+    },
+    {
+      "text": "tumutulo ang sipon",
+      "normalized_symptom": "runny nose",
+      "language": "tl"
+    },
+    {
+      "text": "baradong ilong",
+      "normalized_symptom": "nasal congestion",
+      "language": "tl"
+    },
+    {
+      "text": "masakit ang dibdib",
+      "normalized_symptom": "chest pain",
+      "language": "tl"
+    },
+    {
+      "text": "masakit sa dibdib kapag umuubo",
+      "normalized_symptom": "chest pain",
+      "language": "tl"
+    },
+    {
+      "text": "masakit sa dibdib kapag humihinga ng malalim",
+      "normalized_symptom": "chest pain",
+      "language": "tl"
+    },
+    {
+      "text": "mabigat ang dibdib",
+      "normalized_symptom": "chest tightness",
+      "language": "tl"
+    },
+    {
+      "text": "pagkawala ng pang-amoy",
+      "normalized_symptom": "loss of smell",
+      "language": "tl"
+    },
+    {
+      "text": "hindi masyadong makaamoy",
+      "normalized_symptom": "loss of smell",
+      "language": "tl"
+    },
+    {
+      "text": "hindi makaamoy",
+      "normalized_symptom": "loss of smell",
+      "language": "tl"
+    },
+    {
+      "text": "walang pang-amoy",
+      "normalized_symptom": "loss of smell",
+      "language": "tl"
+    },
+    {
+      "text": "walang panlasa",
+      "normalized_symptom": "loss of taste",
+      "language": "tl"
+    },
+    {
+      "text": "hindi makalasa",
+      "normalized_symptom": "loss of taste",
+      "language": "tl"
+    },
+    {
+      "text": "walang ganang kumain",
+      "normalized_symptom": "loss of appetite",
+      "language": "tl"
+    },
+    {
+      "text": "hindi magana sa pagkain",
+      "normalized_symptom": "loss of appetite",
+      "language": "tl"
+    },
+    {
+      "text": "walang gana sa pagkain",
+      "normalized_symptom": "loss of appetite",
+      "language": "tl"
+    },
+    {
+      "text": "mapula ang mata",
+      "normalized_symptom": "red eyes",
+      "language": "tl"
+    },
+    {
+      "text": "pamumula ng mata",
+      "normalized_symptom": "red eyes",
+      "language": "tl"
+    },
+    {
+      "text": "parang nasusuka",
+      "normalized_symptom": "nausea",
+      "language": "tl"
+    },
+    {
+      "text": "nasusuka",
+      "normalized_symptom": "nausea",
+      "language": "tl"
+    },
+    {
+      "text": "medyo nahihilo",
+      "normalized_symptom": "dizziness",
+      "language": "tl"
+    },
+    {
+      "text": "nahihilo",
+      "normalized_symptom": "dizziness",
+      "language": "tl"
+    },
+    {
+      "text": "pagsusuka",
+      "normalized_symptom": "vomiting",
+      "language": "tl"
+    },
+    {
+      "text": "sumusuka",
+      "normalized_symptom": "vomiting",
+      "language": "tl"
+    },
+    {
+      "text": "maplemang ubo",
+      "normalized_symptom": "productive cough",
+      "language": "tl"
+    },
+    {
+      "text": "ubong may plema",
+      "normalized_symptom": "productive cough",
+      "language": "tl"
+    },
+    {
+      "text": "pag-ubo na may kasamang dugo",
+      "normalized_symptom": "coughing up blood",
+      "language": "tl"
+    },
+    {
+      "text": "umuubo ng may dugo",
+      "normalized_symptom": "coughing up blood",
+      "language": "tl"
+    },
+    {
+      "text": "may dugo sa plema",
+      "normalized_symptom": "blood in phlegm",
+      "language": "tl"
+    },
+    {
+      "text": "plemang may kasamang dugo",
+      "normalized_symptom": "blood in phlegm",
+      "language": "tl"
+    },
+    {
+      "text": "pagbaba ng timbang",
+      "normalized_symptom": "weight loss",
+      "language": "tl"
+    },
+    {
+      "text": "pamamayat",
+      "normalized_symptom": "weight loss",
+      "language": "tl"
+    },
+    {
+      "text": "namamayat",
+      "normalized_symptom": "weight loss",
+      "language": "tl"
+    },
+    {
+      "text": "pumapayat",
+      "normalized_symptom": "weight loss",
+      "language": "tl"
+    },
+    {
+      "text": "pagpapawis sa gabi",
+      "normalized_symptom": "night sweats",
+      "language": "tl"
+    },
+    {
+      "text": "nagpapawis sa gabi",
+      "normalized_symptom": "night sweats",
+      "language": "tl"
+    },
+    {
+      "text": "plemang kulay dilaw",
+      "normalized_symptom": "colored phlegm",
+      "language": "tl"
+    },
+    {
+      "text": "plemang kulay berde",
+      "normalized_symptom": "colored phlegm",
+      "language": "tl"
+    },
+    {
+      "text": "pagpapawis",
+      "normalized_symptom": "sweating",
+      "language": "tl"
+    },
+    {
+      "text": "mabilis ang paghiinga",
+      "normalized_symptom": "rapid breathing",
+      "language": "tl"
+    },
+    {
+      "text": "mabilis ang paghinga",
+      "normalized_symptom": "rapid breathing",
+      "language": "tl"
+    },
+    {
+      "text": "ubo",
+      "normalized_symptom": "cough",
+      "language": "ceb"
+    },
+    {
+      "text": "mara ug ubo",
+      "normalized_symptom": "dry cough",
+      "language": "ceb"
+    },
+    {
+      "text": "hilanat",
+      "normalized_symptom": "fever",
+      "language": "ceb"
+    },
+    {
+      "text": "hilantan",
+      "normalized_symptom": "fever",
+      "language": "ceb"
+    },
+    {
+      "text": "init ang pamati",
+      "normalized_symptom": "fever",
+      "language": "ceb"
+    },
+    {
+      "text": "gi hilantan",
+      "normalized_symptom": "fever",
+      "language": "ceb"
+    },
+    {
+      "text": "sakit ang tutunlan",
+      "normalized_symptom": "sore throat",
+      "language": "ceb"
+    },
+    {
+      "text": "katol ang tutunlan",
+      "normalized_symptom": "sore throat",
+      "language": "ceb"
+    },
+    {
+      "text": "nagkalisud ug hinga",
+      "normalized_symptom": "shortness of breath",
+      "language": "ceb"
+    },
+    {
+      "text": "halos dili ko ka ginhawa",
+      "normalized_symptom": "shortness of breath",
+      "language": "ceb"
+    },
+    {
+      "text": "nag lisud ug hinga",
+      "normalized_symptom": "shortness of breath",
+      "language": "ceb"
+    },
+    {
+      "text": "halos dili ka ginhawa",
+      "normalized_symptom": "shortness of breath",
+      "language": "ceb"
+    },
+    {
+      "text": "kulian sa pag ginhawa",
+      "normalized_symptom": "shortness of breath",
+      "language": "ceb"
+    },
+    {
+      "text": "dili kaginhawa",
+      "normalized_symptom": "shortness of breath",
+      "language": "ceb"
+    },
+    {
+      "text": "dili makaginhawa",
+      "normalized_symptom": "shortness of breath",
+      "language": "ceb"
+    },
+    {
+      "text": "sakit akong ulo",
+      "normalized_symptom": "headache",
+      "language": "ceb"
+    },
+    {
+      "text": "sakit ang lawas",
+      "normalized_symptom": "body aches",
+      "language": "ceb"
+    },
+    {
+      "text": "nag sakit ang lawas",
+      "normalized_symptom": "body aches",
+      "language": "ceb"
+    },
+    {
+      "text": "sakit ang kalawasan",
+      "normalized_symptom": "body aches",
+      "language": "ceb"
+    },
+    {
+      "text": "pamaol sa kalawasan",
+      "normalized_symptom": "body aches",
+      "language": "ceb"
+    },
+    {
+      "text": "namuwa ang panit",
+      "normalized_symptom": "rash",
+      "language": "ceb"
+    },
+    {
+      "text": "naglibang",
+      "normalized_symptom": "diarrhea",
+      "language": "ceb"
+    },
+    {
+      "text": "nag libang ug pila ka beses",
+      "normalized_symptom": "diarrhea",
+      "language": "ceb"
+    },
+    {
+      "text": "gikapoy",
+      "normalized_symptom": "fatigue",
+      "language": "ceb"
+    },
+    {
+      "text": "hilabihang pangapoy",
+      "normalized_symptom": "fatigue",
+      "language": "ceb"
+    },
+    {
+      "text": "gikapoy ug maayo",
+      "normalized_symptom": "fatigue",
+      "language": "ceb"
+    },
+    {
+      "text": "pangapoy",
+      "normalized_symptom": "fatigue",
+      "language": "ceb"
+    },
+    {
+      "text": "kakapoy",
+      "normalized_symptom": "fatigue",
+      "language": "ceb"
+    },
+    {
+      "text": "nangluya",
+      "normalized_symptom": "weakness",
+      "language": "ceb"
+    },
+    {
+      "text": "nagluya",
+      "normalized_symptom": "weakness",
+      "language": "ceb"
+    },
+    {
+      "text": "pagkaluya",
+      "normalized_symptom": "weakness",
+      "language": "ceb"
+    },
+    {
+      "text": "nagkahuyang",
+      "normalized_symptom": "weakness",
+      "language": "ceb"
+    },
+    {
+      "text": "naluya",
+      "normalized_symptom": "weakness",
+      "language": "ceb"
+    },
+    {
+      "text": "maluya",
+      "normalized_symptom": "weakness",
+      "language": "ceb"
+    },
+    {
+      "text": "na ngurog ang lawas",
+      "normalized_symptom": "chills",
+      "language": "ceb"
+    },
+    {
+      "text": "murag gi tugnaw",
+      "normalized_symptom": "chills",
+      "language": "ceb"
+    },
+    {
+      "text": "na ngurog ang kalawasan",
+      "normalized_symptom": "chills",
+      "language": "ceb"
+    },
+    {
+      "text": "katugnaw",
+      "normalized_symptom": "chills",
+      "language": "ceb"
+    },
+    {
+      "text": "kurog sa katugnaw",
+      "normalized_symptom": "chills",
+      "language": "ceb"
+    },
+    {
+      "text": "sip-on",
+      "normalized_symptom": "colds",
+      "language": "ceb"
+    },
+    {
+      "text": "nag-tu ang sip-on",
+      "normalized_symptom": "runny nose",
+      "language": "ceb"
+    },
+    {
+      "text": "nagtu ang sip-on",
+      "normalized_symptom": "runny nose",
+      "language": "ceb"
+    },
+    {
+      "text": "nag puot na ilong",
+      "normalized_symptom": "nasal congestion",
+      "language": "ceb"
+    },
+    {
+      "text": "sakit ang dughan",
+      "normalized_symptom": "chest pain",
+      "language": "ceb"
+    },
+    {
+      "text": "nagsakit ang dughan",
+      "normalized_symptom": "chest pain",
+      "language": "ceb"
+    },
+    {
+      "text": "nag sakit ang dughan ug mo hubak",
+      "normalized_symptom": "chest pain",
+      "language": "ceb"
+    },
+    {
+      "text": "suol sa dughan",
+      "normalized_symptom": "chest pain",
+      "language": "ceb"
+    },
+    {
+      "text": "suol sa dughan kon moginhawa",
+      "normalized_symptom": "chest pain",
+      "language": "ceb"
+    },
+    {
+      "text": "suol pag ginhawa",
+      "normalized_symptom": "chest pain",
+      "language": "ceb"
+    },
+    {
+      "text": "bug at ang dughan",
+      "normalized_symptom": "chest tightness",
+      "language": "ceb"
+    },
+    {
+      "text": "nawa ang pang simhot",
+      "normalized_symptom": "loss of smell",
+      "language": "ceb"
+    },
+    {
+      "text": "dili kaayo ka simhot",
+      "normalized_symptom": "loss of smell",
+      "language": "ceb"
+    },
+    {
+      "text": "walay panlami",
+      "normalized_symptom": "loss of taste",
+      "language": "ceb"
+    },
+    {
+      "text": "dili makatilaw",
+      "normalized_symptom": "loss of taste",
+      "language": "ceb"
+    },
+    {
+      "text": "way gana mo kaon",
+      "normalized_symptom": "loss of appetite",
+      "language": "ceb"
+    },
+    {
+      "text": "dili ganahan mo kaon",
+      "normalized_symptom": "loss of appetite",
+      "language": "ceb"
+    },
+    {
+      "text": "walay gana mo kaon",
+      "normalized_symptom": "loss of appetite",
+      "language": "ceb"
+    },
+    {
+      "text": "walay gana sa pagkaon",
+      "normalized_symptom": "loss of appetite",
+      "language": "ceb"
+    },
+    {
+      "text": "pula ang mata",
+      "normalized_symptom": "red eyes",
+      "language": "ceb"
+    },
+    {
+      "text": "pula man iyang mata",
+      "normalized_symptom": "red eyes",
+      "language": "ceb"
+    },
+    {
+      "text": "panghubag sa mata",
+      "normalized_symptom": "swollen eyes",
+      "language": "ceb"
+    },
+    {
+      "text": "murag mo suka",
+      "normalized_symptom": "nausea",
+      "language": "ceb"
+    },
+    {
+      "text": "pagkakasukaon",
+      "normalized_symptom": "nausea",
+      "language": "ceb"
+    },
+    {
+      "text": "kasukao",
+      "normalized_symptom": "nausea",
+      "language": "ceb"
+    },
+    {
+      "text": "nahilo gamay",
+      "normalized_symptom": "dizziness",
+      "language": "ceb"
+    },
+    {
+      "text": "ubo nga naay plema",
+      "normalized_symptom": "productive cough",
+      "language": "ceb"
+    },
+    {
+      "text": "naay dugo sa kughal or plima",
+      "normalized_symptom": "blood in phlegm",
+      "language": "ceb"
+    },
+    {
+      "text": "plemang may dugo",
+      "normalized_symptom": "blood in phlegm",
+      "language": "ceb"
+    },
+    {
+      "text": "plema nga naay dugo",
+      "normalized_symptom": "blood in phlegm",
+      "language": "ceb"
+    },
+    {
+      "text": "ning mubo ang timbang",
+      "normalized_symptom": "weight loss",
+      "language": "ceb"
+    },
+    {
+      "text": "pagkaniwang",
+      "normalized_symptom": "weight loss",
+      "language": "ceb"
+    },
+    {
+      "text": "nag niwang",
+      "normalized_symptom": "weight loss",
+      "language": "ceb"
+    },
+    {
+      "text": "moniwang",
+      "normalized_symptom": "weight loss",
+      "language": "ceb"
+    },
+    {
+      "text": "pagpaningot sa magabii",
+      "normalized_symptom": "night sweats",
+      "language": "ceb"
+    },
+    {
+      "text": "nagpasinghot sa gabii",
+      "normalized_symptom": "night sweats",
+      "language": "ceb"
+    },
+    {
+      "text": "daghang plema",
+      "normalized_symptom": "phlegm",
+      "language": "ceb"
+    },
+    {
+      "text": "dulaw ug berde nga plema ug muhog",
+      "normalized_symptom": "colored phlegm",
+      "language": "ceb"
+    },
+    {
+      "text": "mabaw ug pag ginhawa",
+      "normalized_symptom": "rapid breathing",
+      "language": "ceb"
+    },
+    {
+      "text": "paspas ug mabaw ug pagginhawa",
+      "normalized_symptom": "rapid breathing",
+      "language": "ceb"
+    },
+    {
+      "text": "paspas ug pagginhawa",
+      "normalized_symptom": "rapid breathing",
+      "language": "ceb"
+    },
+    {
+      "text": "gig balhas",
+      "normalized_symptom": "sweating",
+      "language": "ceb"
+    },
+    {
+      "text": "sakit ti barukong",
+      "normalized_symptom": "chest pain",
+      "language": "ilo"
+    },
+    {
+      "text": "agsakit ti barukong",
+      "normalized_symptom": "chest pain",
+      "language": "ilo"
+    },
+    {
+      "text": "nasakit ti barukong",
+      "normalized_symptom": "chest pain",
+      "language": "ilo"
+    },
+    {
+      "text": "nadagsen ti barukong",
+      "normalized_symptom": "chest tightness",
+      "language": "ilo"
+    },
+    {
+      "text": "natangken ti barukong",
+      "normalized_symptom": "chest tightness",
+      "language": "ilo"
+    },
+    {
+      "text": "kasla barado ti barukong",
+      "normalized_symptom": "chest tightness",
+      "language": "ilo"
+    },
+    {
+      "text": "kasla maipit ti barukong",
+      "normalized_symptom": "chest tightness",
+      "language": "ilo"
+    },
+    {
+      "text": "uyek",
+      "normalized_symptom": "cough",
+      "language": "ilo"
+    },
+    {
+      "text": "aguyek",
+      "normalized_symptom": "cough",
+      "language": "ilo"
+    },
+    {
+      "text": "aguy-uyek",
+      "normalized_symptom": "cough",
+      "language": "ilo"
+    },
+    {
+      "text": "uy-uyek",
+      "normalized_symptom": "cough",
+      "language": "ilo"
+    },
+    {
+      "text": "panaguyek",
+      "normalized_symptom": "cough",
+      "language": "ilo"
+    },
+    {
+      "text": "namaga nga uyek",
+      "normalized_symptom": "dry cough",
+      "language": "ilo"
+    },
+    {
+      "text": "uyek nga addaan plema",
+      "normalized_symptom": "productive cough",
+      "language": "ilo"
+    },
+    {
+      "text": "aguyek nga addaan plema",
+      "normalized_symptom": "productive cough",
+      "language": "ilo"
+    },
+    {
+      "text": "uyek nga addaan dara",
+      "normalized_symptom": "coughing up blood",
+      "language": "ilo"
+    },
+    {
+      "text": "aguyek nga addaan dara",
+      "normalized_symptom": "coughing up blood",
+      "language": "ilo"
+    },
+    {
+      "text": "plema",
+      "normalized_symptom": "phlegm",
+      "language": "ilo"
+    },
+    {
+      "text": "turkak",
+      "normalized_symptom": "phlegm",
+      "language": "ilo"
+    },
+    {
+      "text": "plimas",
+      "normalized_symptom": "phlegm",
+      "language": "ilo"
+    },
+    {
+      "text": "duyaw ti plema",
+      "normalized_symptom": "colored phlegm",
+      "language": "ilo"
+    },
+    {
+      "text": "duyaw ti turkak",
+      "normalized_symptom": "colored phlegm",
+      "language": "ilo"
+    },
+    {
+      "text": "berde ti plema",
+      "normalized_symptom": "colored phlegm",
+      "language": "ilo"
+    },
+    {
+      "text": "berde ti turkak",
+      "normalized_symptom": "colored phlegm",
+      "language": "ilo"
+    },
+    {
+      "text": "nangisit ti plema",
+      "normalized_symptom": "colored phlegm",
+      "language": "ilo"
+    },
+    {
+      "text": "nangisit ti turkak",
+      "normalized_symptom": "colored phlegm",
+      "language": "ilo"
+    },
+    {
+      "text": "adda dara ti plema",
+      "normalized_symptom": "blood in phlegm",
+      "language": "ilo"
+    },
+    {
+      "text": "adda dara ti turkak",
+      "normalized_symptom": "blood in phlegm",
+      "language": "ilo"
+    },
+    {
+      "text": "narigat ti panaganges",
+      "normalized_symptom": "shortness of breath",
+      "language": "ilo"
+    },
+    {
+      "text": "narigat aganges",
+      "normalized_symptom": "shortness of breath",
+      "language": "ilo"
+    },
+    {
+      "text": "marigatan aganges",
+      "normalized_symptom": "shortness of breath",
+      "language": "ilo"
+    },
+    {
+      "text": "agkurang ti anges",
+      "normalized_symptom": "shortness of breath",
+      "language": "ilo"
+    },
+    {
+      "text": "kurang ti anges",
+      "normalized_symptom": "shortness of breath",
+      "language": "ilo"
+    },
+    {
+      "text": "saan a makanges",
+      "normalized_symptom": "shortness of breath",
+      "language": "ilo"
+    },
+    {
+      "text": "saan a makanges a nasayaat",
+      "normalized_symptom": "shortness of breath",
+      "language": "ilo"
+    },
+    {
+      "text": "napaspas ti anges",
+      "normalized_symptom": "rapid breathing",
+      "language": "ilo"
+    },
+    {
+      "text": "napaspas ti panaganges",
+      "normalized_symptom": "rapid breathing",
+      "language": "ilo"
+    },
+    {
+      "text": "agsagitsit ti panaganges",
+      "normalized_symptom": "wheezing",
+      "language": "ilo"
+    },
+    {
+      "text": "adda sagitsit ti panaganges",
+      "normalized_symptom": "wheezing",
+      "language": "ilo"
+    },
+    {
+      "text": "gurigor",
+      "normalized_symptom": "fever",
+      "language": "ilo"
+    },
+    {
+      "text": "aggurigor",
+      "normalized_symptom": "fever",
+      "language": "ilo"
+    },
+    {
+      "text": "napudot ti bagi",
+      "normalized_symptom": "fever",
+      "language": "ilo"
+    },
+    {
+      "text": "agpupuor ti bagi",
+      "normalized_symptom": "fever",
+      "language": "ilo"
+    },
+    {
+      "text": "nangato ti gurigor",
+      "normalized_symptom": "high fever",
+      "language": "ilo"
+    },
+    {
+      "text": "agkintayeg",
+      "normalized_symptom": "chills",
+      "language": "ilo"
+    },
+    {
+      "text": "nalamiis ti bagi",
+      "normalized_symptom": "chills",
+      "language": "ilo"
+    },
+    {
+      "text": "nakapuy ti bagi",
+      "normalized_symptom": "weakness",
+      "language": "ilo"
+    },
+    {
+      "text": "nakapsut ti bagi",
+      "normalized_symptom": "weakness",
+      "language": "ilo"
+    },
+    {
+      "text": "awan pigsa",
+      "normalized_symptom": "weakness",
+      "language": "ilo"
+    },
+    {
+      "text": "awan pigsak",
+      "normalized_symptom": "weakness",
+      "language": "ilo"
+    },
+    {
+      "text": "nabannog",
+      "normalized_symptom": "fatigue",
+      "language": "ilo"
+    },
+    {
+      "text": "nabannog ti bagi",
+      "normalized_symptom": "fatigue",
+      "language": "ilo"
+    },
+    {
+      "text": "agsakit ti bagi",
+      "normalized_symptom": "body aches",
+      "language": "ilo"
+    },
+    {
+      "text": "nagsakit ti bagi",
+      "normalized_symptom": "body aches",
+      "language": "ilo"
+    },
+    {
+      "text": "nasakit ti bagi",
+      "normalized_symptom": "body aches",
+      "language": "ilo"
+    },
+    {
+      "text": "sakit ti ulo",
+      "normalized_symptom": "headache",
+      "language": "ilo"
+    },
+    {
+      "text": "agsakit ti ulo",
+      "normalized_symptom": "headache",
+      "language": "ilo"
+    },
+    {
+      "text": "nasakit ti ulo",
+      "normalized_symptom": "headache",
+      "language": "ilo"
+    },
+    {
+      "text": "panateng",
+      "normalized_symptom": "colds",
+      "language": "ilo"
+    },
+    {
+      "text": "agayus ti agong",
+      "normalized_symptom": "runny nose",
+      "language": "ilo"
+    },
+    {
+      "text": "naserraan ti agong",
+      "normalized_symptom": "nasal congestion",
+      "language": "ilo"
+    },
+    {
+      "text": "nairut ti agong",
+      "normalized_symptom": "nasal congestion",
+      "language": "ilo"
+    },
+    {
+      "text": "sakit ti karabukob",
+      "normalized_symptom": "sore throat",
+      "language": "ilo"
+    },
+    {
+      "text": "agsakit ti karabukob",
+      "normalized_symptom": "sore throat",
+      "language": "ilo"
+    },
+    {
+      "text": "nasakit ti karabukob",
+      "normalized_symptom": "sore throat",
+      "language": "ilo"
+    },
+    {
+      "text": "narigat ti agtalon",
+      "normalized_symptom": "difficulty swallowing",
+      "language": "ilo"
+    },
+    {
+      "text": "nasakit no agtalon",
+      "normalized_symptom": "difficulty swallowing",
+      "language": "ilo"
+    },
+    {
+      "text": "saan a makatalon",
+      "normalized_symptom": "difficulty swallowing",
+      "language": "ilo"
+    },
+    {
+      "text": "saan a makaangot",
+      "normalized_symptom": "loss of smell",
+      "language": "ilo"
+    },
+    {
+      "text": "di makaangot",
+      "normalized_symptom": "loss of smell",
+      "language": "ilo"
+    },
+    {
+      "text": "diak makaangot",
+      "normalized_symptom": "loss of smell",
+      "language": "ilo"
+    },
+    {
+      "text": "saan a makaraman",
+      "normalized_symptom": "loss of taste",
+      "language": "ilo"
+    },
+    {
+      "text": "di makaraman",
+      "normalized_symptom": "loss of taste",
+      "language": "ilo"
+    },
+    {
+      "text": "diak makaraman",
+      "normalized_symptom": "loss of taste",
+      "language": "ilo"
+    },
+    {
+      "text": "awan raman",
+      "normalized_symptom": "loss of taste",
+      "language": "ilo"
+    },
+    {
+      "text": "awan ti ramanko",
+      "normalized_symptom": "loss of taste",
+      "language": "ilo"
+    },
+    {
+      "text": "awan gana a mangan",
+      "normalized_symptom": "loss of appetite",
+      "language": "ilo"
+    },
+    {
+      "text": "saan a kayat ti mangan",
+      "normalized_symptom": "loss of appetite",
+      "language": "ilo"
+    },
+    {
+      "text": "nagkurang ti timbang",
+      "normalized_symptom": "weight loss",
+      "language": "ilo"
+    },
+    {
+      "text": "agling-et iti rabii",
+      "normalized_symptom": "night sweats",
+      "language": "ilo"
+    },
+    {
+      "text": "ling-et iti rabii",
+      "normalized_symptom": "night sweats",
+      "language": "ilo"
+    },
+    {
+      "text": "nalabes a ling-et iti rabii",
+      "normalized_symptom": "night sweats",
+      "language": "ilo"
+    },
+    {
+      "text": "sakit ti tiyan",
+      "normalized_symptom": "abdominal pain",
+      "language": "ilo"
+    },
+    {
+      "text": "agsakit ti tiyan",
+      "normalized_symptom": "abdominal pain",
+      "language": "ilo"
+    },
+    {
+      "text": "nasakit ti tiyan",
+      "normalized_symptom": "abdominal pain",
+      "language": "ilo"
+    },
+    {
+      "text": "agtakki",
+      "normalized_symptom": "diarrhea",
+      "language": "ilo"
+    },
+    {
+      "text": "masansan nga agtakki",
+      "normalized_symptom": "diarrhea",
+      "language": "ilo"
+    },
+    {
+      "text": "agsarwa",
+      "normalized_symptom": "vomiting",
+      "language": "ilo"
+    },
+    {
+      "text": "agsarwa-sarwa",
+      "normalized_symptom": "vomiting",
+      "language": "ilo"
+    },
+    {
+      "text": "kanayon nga agsarwa",
+      "normalized_symptom": "vomiting",
+      "language": "ilo"
+    },
+    {
+      "text": "masakit ang dughan",
+      "normalized_symptom": "chest pain",
+      "language": "hil"
+    },
+    {
+      "text": "gasakit ang dughan",
+      "normalized_symptom": "chest pain",
+      "language": "hil"
+    },
+    {
+      "text": "nagasakit ang dughan",
+      "normalized_symptom": "chest pain",
+      "language": "hil"
+    },
+    {
+      "text": "bug-at ang dughan",
+      "normalized_symptom": "chest tightness",
+      "language": "hil"
+    },
+    {
+      "text": "mabug-at ang dughan",
+      "normalized_symptom": "chest tightness",
+      "language": "hil"
+    },
+    {
+      "text": "ginaipit ang dughan",
+      "normalized_symptom": "chest tightness",
+      "language": "hil"
+    },
+    {
+      "text": "daw ginaipit ang dughan",
+      "normalized_symptom": "chest tightness",
+      "language": "hil"
+    },
+    {
+      "text": "daw ginapislit ang dughan",
+      "normalized_symptom": "chest tightness",
+      "language": "hil"
+    },
+    {
+      "text": "daw ginaduso ang dughan",
+      "normalized_symptom": "chest tightness",
+      "language": "hil"
+    },
+    {
+      "text": "ubo",
+      "normalized_symptom": "cough",
+      "language": "hil"
+    },
+    {
+      "text": "nagaubo",
+      "normalized_symptom": "cough",
+      "language": "hil"
+    },
+    {
+      "text": "ginaubo",
+      "normalized_symptom": "cough",
+      "language": "hil"
+    },
+    {
+      "text": "gaubo",
+      "normalized_symptom": "cough",
+      "language": "hil"
+    },
+    {
+      "text": "uga nga ubo",
+      "normalized_symptom": "dry cough",
+      "language": "hil"
+    },
+    {
+      "text": "ubo nga may plema",
+      "normalized_symptom": "productive cough",
+      "language": "hil"
+    },
+    {
+      "text": "nagaubo nga may plema",
+      "normalized_symptom": "productive cough",
+      "language": "hil"
+    },
+    {
+      "text": "ginaubo nga may plema",
+      "normalized_symptom": "productive cough",
+      "language": "hil"
+    },
+    {
+      "text": "nagaubo sang dugo",
+      "normalized_symptom": "coughing up blood",
+      "language": "hil"
+    },
+    {
+      "text": "ginaubo sang dugo",
+      "normalized_symptom": "coughing up blood",
+      "language": "hil"
+    },
+    {
+      "text": "ubo nga may dugo",
+      "normalized_symptom": "coughing up blood",
+      "language": "hil"
+    },
+    {
+      "text": "plema",
+      "normalized_symptom": "phlegm",
+      "language": "hil"
+    },
+    {
+      "text": "madamo nga plema",
+      "normalized_symptom": "phlegm",
+      "language": "hil"
+    },
+    {
+      "text": "malapot nga plema",
+      "normalized_symptom": "phlegm",
+      "language": "hil"
+    },
+    {
+      "text": "dalag nga plema",
+      "normalized_symptom": "colored phlegm",
+      "language": "hil"
+    },
+    {
+      "text": "berde nga plema",
+      "normalized_symptom": "colored phlegm",
+      "language": "hil"
+    },
+    {
+      "text": "itom nga plema",
+      "normalized_symptom": "colored phlegm",
+      "language": "hil"
+    },
+    {
+      "text": "may dugo ang plema",
+      "normalized_symptom": "blood in phlegm",
+      "language": "hil"
+    },
+    {
+      "text": "plema nga may dugo",
+      "normalized_symptom": "blood in phlegm",
+      "language": "hil"
+    },
+    {
+      "text": "ginakapos ang ginhawa",
+      "normalized_symptom": "shortness of breath",
+      "language": "hil"
+    },
+    {
+      "text": "ginakapos ginhawa",
+      "normalized_symptom": "shortness of breath",
+      "language": "hil"
+    },
+    {
+      "text": "ginkapos ang ginhawa",
+      "normalized_symptom": "shortness of breath",
+      "language": "hil"
+    },
+    {
+      "text": "kapos ang ginhawa",
+      "normalized_symptom": "shortness of breath",
+      "language": "hil"
+    },
+    {
+      "text": "kulang ang ginhawa",
+      "normalized_symptom": "shortness of breath",
+      "language": "hil"
+    },
+    {
+      "text": "budlay magginhawa",
+      "normalized_symptom": "shortness of breath",
+      "language": "hil"
+    },
+    {
+      "text": "mabudlay magginhawa",
+      "normalized_symptom": "shortness of breath",
+      "language": "hil"
+    },
+    {
+      "text": "nabudlayan magginhawa",
+      "normalized_symptom": "shortness of breath",
+      "language": "hil"
+    },
+    {
+      "text": "ginakurian magginhawa",
+      "normalized_symptom": "shortness of breath",
+      "language": "hil"
+    },
+    {
+      "text": "ginkurian magginhawa",
+      "normalized_symptom": "shortness of breath",
+      "language": "hil"
+    },
+    {
+      "text": "indi makaginhawa",
+      "normalized_symptom": "shortness of breath",
+      "language": "hil"
+    },
+    {
+      "text": "indi makaginhawa sing maayo",
+      "normalized_symptom": "shortness of breath",
+      "language": "hil"
+    },
+    {
+      "text": "nagahabol ang ginhawa",
+      "normalized_symptom": "shortness of breath",
+      "language": "hil"
+    },
+    {
+      "text": "dasig ang ginhawa",
+      "normalized_symptom": "rapid breathing",
+      "language": "hil"
+    },
+    {
+      "text": "nagadasig ang ginhawa",
+      "normalized_symptom": "rapid breathing",
+      "language": "hil"
+    },
+    {
+      "text": "nagahuni ang ginhawa",
+      "normalized_symptom": "wheezing",
+      "language": "hil"
+    },
+    {
+      "text": "may huni ang ginhawa",
+      "normalized_symptom": "wheezing",
+      "language": "hil"
+    },
+    {
+      "text": "hilanat",
+      "normalized_symptom": "fever",
+      "language": "hil"
+    },
+    {
+      "text": "ginahilanat",
+      "normalized_symptom": "fever",
+      "language": "hil"
+    },
+    {
+      "text": "ginahilantan",
+      "normalized_symptom": "fever",
+      "language": "hil"
+    },
+    {
+      "text": "naghilanat",
+      "normalized_symptom": "fever",
+      "language": "hil"
+    },
+    {
+      "text": "kalentura",
+      "normalized_symptom": "fever",
+      "language": "hil"
+    },
+    {
+      "text": "init ang lawas",
+      "normalized_symptom": "fever",
+      "language": "hil"
+    },
+    {
+      "text": "nagainit ang lawas",
+      "normalized_symptom": "fever",
+      "language": "hil"
+    },
+    {
+      "text": "nagapaso ang lawas",
+      "normalized_symptom": "fever",
+      "language": "hil"
+    },
+    {
+      "text": "taas ang hilanat",
+      "normalized_symptom": "high fever",
+      "language": "hil"
+    },
+    {
+      "text": "ginatugnaw",
+      "normalized_symptom": "chills",
+      "language": "hil"
+    },
+    {
+      "text": "ginapanglamig",
+      "normalized_symptom": "chills",
+      "language": "hil"
+    },
+    {
+      "text": "nagapangurog",
+      "normalized_symptom": "chills",
+      "language": "hil"
+    },
+    {
+      "text": "ginapangurog",
+      "normalized_symptom": "chills",
+      "language": "hil"
+    },
+    {
+      "text": "ginakapoy",
+      "normalized_symptom": "fatigue",
+      "language": "hil"
+    },
+    {
+      "text": "ginakapuyan",
+      "normalized_symptom": "fatigue",
+      "language": "hil"
+    },
+    {
+      "text": "kapoy gid",
+      "normalized_symptom": "fatigue",
+      "language": "hil"
+    },
+    {
+      "text": "dali kapuyon",
+      "normalized_symptom": "fatigue",
+      "language": "hil"
+    },
+    {
+      "text": "ginapangluya",
+      "normalized_symptom": "weakness",
+      "language": "hil"
+    },
+    {
+      "text": "nagapangluya",
+      "normalized_symptom": "weakness",
+      "language": "hil"
+    },
+    {
+      "text": "daw maluya",
+      "normalized_symptom": "weakness",
+      "language": "hil"
+    },
+    {
+      "text": "maluya ang lawas",
+      "normalized_symptom": "weakness",
+      "language": "hil"
+    },
+    {
+      "text": "wala sing kusog",
+      "normalized_symptom": "weakness",
+      "language": "hil"
+    },
+    {
+      "text": "wala gid sing kusog",
+      "normalized_symptom": "weakness",
+      "language": "hil"
+    },
+    {
+      "text": "nagaluya ang lawas",
+      "normalized_symptom": "weakness",
+      "language": "hil"
+    },
+    {
+      "text": "masakit ang lawas",
+      "normalized_symptom": "body aches",
+      "language": "hil"
+    },
+    {
+      "text": "gasakit ang lawas",
+      "normalized_symptom": "body aches",
+      "language": "hil"
+    },
+    {
+      "text": "nagasakit ang lawas",
+      "normalized_symptom": "body aches",
+      "language": "hil"
+    },
+    {
+      "text": "nagapangalay ang lawas",
+      "normalized_symptom": "body aches",
+      "language": "hil"
+    },
+    {
+      "text": "masakit ang ulo",
+      "normalized_symptom": "headache",
+      "language": "hil"
+    },
+    {
+      "text": "gasakit ang ulo",
+      "normalized_symptom": "headache",
+      "language": "hil"
+    },
+    {
+      "text": "nagasakit ang ulo",
+      "normalized_symptom": "headache",
+      "language": "hil"
+    },
+    {
+      "text": "sip-on",
+      "normalized_symptom": "colds",
+      "language": "hil"
+    },
+    {
+      "text": "ginasip-on",
+      "normalized_symptom": "colds",
+      "language": "hil"
+    },
+    {
+      "text": "nagailig ang ilong",
+      "normalized_symptom": "runny nose",
+      "language": "hil"
+    },
+    {
+      "text": "nagatulo ang sip-on",
+      "normalized_symptom": "runny nose",
+      "language": "hil"
+    },
+    {
+      "text": "gatulo ang sip-on",
+      "normalized_symptom": "runny nose",
+      "language": "hil"
+    },
+    {
+      "text": "nagabara ang ilong",
+      "normalized_symptom": "nasal congestion",
+      "language": "hil"
+    },
+    {
+      "text": "barado ang ilong",
+      "normalized_symptom": "nasal congestion",
+      "language": "hil"
+    },
+    {
+      "text": "bara ang ilong",
+      "normalized_symptom": "nasal congestion",
+      "language": "hil"
+    },
+    {
+      "text": "nagapangatsi",
+      "normalized_symptom": "sneezing",
+      "language": "hil"
+    },
+    {
+      "text": "nagaatsi",
+      "normalized_symptom": "sneezing",
+      "language": "hil"
+    },
+    {
+      "text": "masakit ang tutunlan",
+      "normalized_symptom": "sore throat",
+      "language": "hil"
+    },
+    {
+      "text": "gasakit ang tutunlan",
+      "normalized_symptom": "sore throat",
+      "language": "hil"
+    },
+    {
+      "text": "nagasakit ang tutunlan",
+      "normalized_symptom": "sore throat",
+      "language": "hil"
+    },
+    {
+      "text": "hapdos ang tutunlan",
+      "normalized_symptom": "sore throat",
+      "language": "hil"
+    },
+    {
+      "text": "nagahapdos ang tutunlan",
+      "normalized_symptom": "sore throat",
+      "language": "hil"
+    },
+    {
+      "text": "makatol ang tutunlan",
+      "normalized_symptom": "sore throat",
+      "language": "hil"
+    },
+    {
+      "text": "masakit ang lalamunan",
+      "normalized_symptom": "sore throat",
+      "language": "hil"
+    },
+    {
+      "text": "gasakit ang lalamunan",
+      "normalized_symptom": "sore throat",
+      "language": "hil"
+    },
+    {
+      "text": "nagasakit ang lalamunan",
+      "normalized_symptom": "sore throat",
+      "language": "hil"
+    },
+    {
+      "text": "hapdos ang lalamunan",
+      "normalized_symptom": "sore throat",
+      "language": "hil"
+    },
+    {
+      "text": "nagahapdos ang lalamunan",
+      "normalized_symptom": "sore throat",
+      "language": "hil"
+    },
+    {
+      "text": "makatol ang lalamunan",
+      "normalized_symptom": "sore throat",
+      "language": "hil"
+    },
+    {
+      "text": "budlay magtulon",
+      "normalized_symptom": "difficulty swallowing",
+      "language": "hil"
+    },
+    {
+      "text": "mabudlay magtulon",
+      "normalized_symptom": "difficulty swallowing",
+      "language": "hil"
+    },
+    {
+      "text": "sakit magtulon",
+      "normalized_symptom": "difficulty swallowing",
+      "language": "hil"
+    },
+    {
+      "text": "indi makatulon",
+      "normalized_symptom": "difficulty swallowing",
+      "language": "hil"
+    },
+    {
+      "text": "nawad-an sang panimaho",
+      "normalized_symptom": "loss of smell",
+      "language": "hil"
+    },
+    {
+      "text": "nadulaan sang panimaho",
+      "normalized_symptom": "loss of smell",
+      "language": "hil"
+    },
+    {
+      "text": "indi makapanimaho",
+      "normalized_symptom": "loss of smell",
+      "language": "hil"
+    },
+    {
+      "text": "wala makapanimaho",
+      "normalized_symptom": "loss of smell",
+      "language": "hil"
+    },
+    {
+      "text": "indi makabatyag sang baho",
+      "normalized_symptom": "loss of smell",
+      "language": "hil"
+    },
+    {
+      "text": "nawad-an sang pangtilaw",
+      "normalized_symptom": "loss of taste",
+      "language": "hil"
+    },
+    {
+      "text": "nadulaan sang pangtilaw",
+      "normalized_symptom": "loss of taste",
+      "language": "hil"
+    },
+    {
+      "text": "indi makatilaw",
+      "normalized_symptom": "loss of taste",
+      "language": "hil"
+    },
+    {
+      "text": "wala makatilaw",
+      "normalized_symptom": "loss of taste",
+      "language": "hil"
+    },
+    {
+      "text": "nawad-an sang lasa",
+      "normalized_symptom": "loss of taste",
+      "language": "hil"
+    },
+    {
+      "text": "wala sing lasa",
+      "normalized_symptom": "loss of taste",
+      "language": "hil"
+    },
+    {
+      "text": "indi makabatyag sang sabor",
+      "normalized_symptom": "loss of taste",
+      "language": "hil"
+    },
+    {
+      "text": "wala gana magkaon",
+      "normalized_symptom": "loss of appetite",
+      "language": "hil"
+    },
+    {
+      "text": "wala sing gana magkaon",
+      "normalized_symptom": "loss of appetite",
+      "language": "hil"
+    },
+    {
+      "text": "nadulaan sang gana",
+      "normalized_symptom": "loss of appetite",
+      "language": "hil"
+    },
+    {
+      "text": "nadula ang gana",
+      "normalized_symptom": "loss of appetite",
+      "language": "hil"
+    },
+    {
+      "text": "indi gana magkaon",
+      "normalized_symptom": "loss of appetite",
+      "language": "hil"
+    },
+    {
+      "text": "nagnubo ang timbang",
+      "normalized_symptom": "weight loss",
+      "language": "hil"
+    },
+    {
+      "text": "nagniwang",
+      "normalized_symptom": "weight loss",
+      "language": "hil"
+    },
+    {
+      "text": "nagagamay ang lawas",
+      "normalized_symptom": "weight loss",
+      "language": "hil"
+    },
+    {
+      "text": "nagasingot sa gab-i",
+      "normalized_symptom": "night sweats",
+      "language": "hil"
+    },
+    {
+      "text": "ginasingot sa gab-i",
+      "normalized_symptom": "night sweats",
+      "language": "hil"
+    },
+    {
+      "text": "singot sa gab-i",
+      "normalized_symptom": "night sweats",
+      "language": "hil"
+    },
+    {
+      "text": "sakit ang tiyan",
+      "normalized_symptom": "abdominal pain",
+      "language": "hil"
+    },
+    {
+      "text": "gasakit ang tiyan",
+      "normalized_symptom": "abdominal pain",
+      "language": "hil"
+    },
+    {
+      "text": "nagasakit ang tiyan",
+      "normalized_symptom": "abdominal pain",
+      "language": "hil"
+    },
+    {
+      "text": "nagakalibanga",
+      "normalized_symptom": "diarrhea",
+      "language": "hil"
+    },
+    {
+      "text": "kalibanga",
+      "normalized_symptom": "diarrhea",
+      "language": "hil"
+    },
+    {
+      "text": "nagasuka",
+      "normalized_symptom": "vomiting",
+      "language": "hil"
+    },
+    {
+      "text": "gasuka",
+      "normalized_symptom": "vomiting",
+      "language": "hil"
+    },
+    {
+      "text": "nasuka",
+      "normalized_symptom": "vomiting",
+      "language": "hil"
+    },
+    {
+      "text": "ginakasuka",
+      "normalized_symptom": "nausea",
+      "language": "hil"
+    },
+    {
+      "text": "nagaalibadbad",
+      "normalized_symptom": "nausea",
+      "language": "hil"
+    },
+    {
+      "text": "daw masuka",
+      "normalized_symptom": "nausea",
+      "language": "hil"
+    },
+    {
+      "text": "nagaluha ang mata",
+      "normalized_symptom": "watery eyes",
+      "language": "hil"
+    },
+    {
+      "text": "nagapula ang mata",
+      "normalized_symptom": "red eyes",
+      "language": "hil"
+    },
+    {
+      "text": "mapula ang mata",
+      "normalized_symptom": "red eyes",
+      "language": "hil"
+    },
+    {
+      "text": "maputla ang nawong",
+      "normalized_symptom": "pallor",
+      "language": "hil"
+    },
+    {
+      "text": "maputla ang panit",
+      "normalized_symptom": "pallor",
+      "language": "hil"
+    },
+    {
+      "text": "hindi nawawala ang ubo",
+      "normalized_symptom": "cough",
+      "language": "tl"
+    },
+    {
+      "text": "wala nagauntat nga ubo",
+      "normalized_symptom": "cough",
+      "language": "hil"
+    },
+    {
+      "text": "indi mag-untat ang ubo",
+      "normalized_symptom": "cough",
+      "language": "hil"
+    },
+    {
+      "text": "saan nga agsardeng ti uyek",
+      "normalized_symptom": "cough",
+      "language": "ilo"
+    },
+    {
+      "text": "saan nga agsardeng nga aguyek",
+      "normalized_symptom": "cough",
+      "language": "ilo"
+    }
+  ]
+}

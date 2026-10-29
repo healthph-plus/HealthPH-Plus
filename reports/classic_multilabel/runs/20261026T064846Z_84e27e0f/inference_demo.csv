@@ -1,0 +1,5 @@
+label,score,threshold,selected,elapsed_ms,text
+AURI,0.022288527451297974,0.1,False,1.4910409809090197,hindi ako makahinga
+PN,0.3208747444949095,0.45,False,1.4910409809090197,hindi ako makahinga
+TB,0.03572716591784547,0.18,False,1.4910409809090197,hindi ako makahinga
+COVID,0.12937204464983945,0.18,False,1.4910409809090197,hindi ako makahinga

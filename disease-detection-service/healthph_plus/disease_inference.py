@@ -12,6 +12,8 @@ from pathlib import Path
 import torch
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
+from healthph_symptoms.keywords import KeywordSymptomExtractor, SymptomExtractor
+
 LABELS = ("AURI", "PN", "TB", "COVID")
 MAX_LENGTH = 128
 MAX_TEXT_CHARACTERS = 10_000
@@ -109,7 +111,11 @@ def results_from_logits(
 class DiseasePredictor:
     """One local model instance; the lock serializes all forward passes."""
 
-    def __init__(self, artifact_dir: Path | str | None = None):
+    def __init__(
+        self, artifact_dir: Path | str | None = None, *,
+        symptom_extractor: SymptomExtractor | None = None,
+        symptom_keywords_path: Path | str | None = None,
+    ):
         self.artifact_dir = Path(
             artifact_dir if artifact_dir is not None
             else os.environ.get("HEALTHPH_DISEASE_ARTIFACT_DIR", DEFAULT_ARTIFACT_DIR)
@@ -135,6 +141,11 @@ class DiseasePredictor:
             raise ValueError("Tokenizer vocabulary size does not match the model embeddings")
         self.model.to("cpu").eval()
         self._lock = threading.Lock()
+        self.symptom_extractor = (
+            symptom_extractor if symptom_extractor is not None else
+            KeywordSymptomExtractor(symptom_keywords_path)
+        )
+        self.symptom_model_version = self.symptom_extractor.model_version
 
     def predict(self, text: str) -> dict:
         return self.predict_many([text])[0]
@@ -152,4 +163,11 @@ class DiseasePredictor:
             logits = self.model(**encoded).logits
             if logits.shape[0] != len(texts):
                 raise RuntimeError("Model returned the wrong number of predictions")
-            return results_from_logits(logits, self.thresholds, self.model_version)
+            results = results_from_logits(logits, self.thresholds, self.model_version)
+        # Match the complete submitted text, independently of disease truncation.
+        symptoms = self.symptom_extractor.extract_many(texts)
+        if len(symptoms) != len(texts):
+            raise RuntimeError("Symptom extractor returned the wrong number of predictions")
+        for result, mentions in zip(results, symptoms):
+            result.update(symptoms=mentions, symptom_model_version=self.symptom_model_version)
+        return results

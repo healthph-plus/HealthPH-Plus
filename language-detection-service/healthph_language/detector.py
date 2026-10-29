@@ -8,7 +8,7 @@ import os
 import re
 from pathlib import Path
 from threading import Lock
-from typing import Literal, TypedDict
+from typing import Literal, NotRequired, TypedDict
 
 from .cleaning import normalize_text
 
@@ -16,6 +16,12 @@ ASSET_ROOT = Path(__file__).resolve().parent.parent
 SUPPORTED_LANGUAGES = frozenset({"en", "tl", "ceb", "fil", "ilo", "hil"})
 MAX_BATCH_SIZE = 32
 MAX_TEXT_CHARACTERS = 10_000
+DEFAULT_SECONDARY_MIN_CONFIDENCE = 0.30
+
+
+class FastTextPrediction(TypedDict):
+    language: str
+    confidence: float
 
 
 class Prediction(TypedDict):
@@ -25,6 +31,17 @@ class Prediction(TypedDict):
     prediction_source: Literal["fasttext", "keyword_override"]
     fasttext_language: str
     fasttext_confidence: float
+    fasttext_predictions: NotRequired[list[FastTextPrediction]]
+
+
+def validate_prediction_options(top_k: int, secondary_min_confidence: float) -> None:
+    if isinstance(top_k, bool) or not isinstance(top_k, int) or top_k not in (1, 2):
+        raise ValueError("top_k must be the integer 1 or 2")
+    if (isinstance(secondary_min_confidence, bool)
+            or not isinstance(secondary_min_confidence, (int, float))
+            or not 0 <= secondary_min_confidence <= 1
+            or not math.isfinite(secondary_min_confidence)):
+        raise ValueError("secondary_min_confidence must be a finite number between 0 and 1")
 
 
 def clean_valid_text(text: str) -> str:
@@ -79,10 +96,17 @@ class LanguageDetector:
             raise RuntimeError(f"Could not load FastText model: {selected}") from exc
         self._lock = Lock()
 
-    def predict(self, text: str) -> Prediction:
-        return self.predict_many([text])[0]
+    def predict(self, text: str, *, top_k: int = 1,
+                secondary_min_confidence: float = DEFAULT_SECONDARY_MIN_CONFIDENCE) -> Prediction:
+        """Optionally include up to two model candidates, independent of overrides."""
+        return self.predict_many(
+            [text], top_k=top_k, secondary_min_confidence=secondary_min_confidence,
+        )[0]
 
-    def predict_many(self, texts: list[str]) -> list[Prediction]:
+    def predict_many(self, texts: list[str], *, top_k: int = 1,
+                     secondary_min_confidence: float = DEFAULT_SECONDARY_MIN_CONFIDENCE) -> list[Prediction]:
+        """Apply the score threshold only to the optional second candidate."""
+        validate_prediction_options(top_k, secondary_min_confidence)
         if not isinstance(texts, list):
             raise ValueError("texts must be a list of strings")
         # Validate the whole input before inference; never return a partial batch.
@@ -93,29 +117,43 @@ class LanguageDetector:
             with self._lock:
                 # Always use list input, including single predictions. This also
                 # avoids FastText 0.9.3's scalar conversion issue with NumPy 2.
-                labels, scores = self._model.predict(batch, k=1)
+                labels, scores = self._model.predict(batch, k=top_k)
             if len(labels) != len(batch) or len(scores) != len(batch):
                 raise RuntimeError("FastText returned an incomplete batch")
             for original, normalized, label, score in zip(
                 texts[start:start + MAX_BATCH_SIZE], batch, labels, scores, strict=True
             ):
-                fasttext_language = label[0].removeprefix("__label__")
-                confidence = float(score[0])
-                if not math.isfinite(confidence):
-                    raise RuntimeError("FastText returned a non-finite confidence")
+                if len(label) != top_k or len(score) != top_k:
+                    raise RuntimeError("FastText returned incomplete predictions")
+                candidates: list[FastTextPrediction] = []
+                for candidate_label, candidate_score in zip(label, score, strict=True):
+                    confidence = float(candidate_score)
+                    if not math.isfinite(confidence):
+                        raise RuntimeError("FastText returned a non-finite confidence")
+                    candidates.append({
+                        "language": candidate_label.removeprefix("__label__"),
+                        # FastText can slightly exceed 1 due to numerical rounding.
+                        "confidence": min(1.0, max(0.0, confidence)),
+                    })
+                fasttext_language = candidates[0]["language"]
                 language = fasttext_language
                 source = "fasttext"
                 for override, pattern in self._patterns:
                     if pattern.search(original):
                         language, source = override, "keyword_override"
                         break
-                results.append({
+                result: Prediction = {
                     "language": language,
                     "cleaned_text": normalized,
                     "is_supported": language in SUPPORTED_LANGUAGES,
                     "prediction_source": source,
                     "fasttext_language": fasttext_language,
-                    # FastText can slightly exceed 1 due to numerical rounding.
-                    "fasttext_confidence": min(1.0, max(0.0, confidence)),
-                })
+                    "fasttext_confidence": candidates[0]["confidence"],
+                }
+                if top_k == 2:
+                    result["fasttext_predictions"] = candidates[:1] + [
+                        candidate for candidate in candidates[1:]
+                        if candidate["confidence"] >= secondary_min_confidence
+                    ]
+                results.append(result)
         return results

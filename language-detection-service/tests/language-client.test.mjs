@@ -16,6 +16,15 @@ const prediction = {
   fasttext_confidence: 0.9,
 };
 
+const twoLanguagePrediction = {
+  ...prediction,
+  fasttext_language: "tl",
+  fasttext_confidence: 0.6,
+  fasttext_predictions: [
+    { language: "tl", confidence: 0.6 }, { language: "en", confidence: 0.3 },
+  ],
+};
+
 async function serve(t, handler) {
   const server = createServer(handler);
   server.listen(0, "127.0.0.1");
@@ -45,6 +54,89 @@ test("single and batch requests preserve the JSON contract", async (t) => {
     { path: "/v1/language/predict", data: { text: "  ubo 😷  " }, type: "application/json" },
     { path: "/v1/language/predict-batch", data: { texts: ["a", "b"] }, type: "application/json" },
   ]);
+});
+
+test("optional candidates forward only specified options for single and batch requests", async (t) => {
+  const requests = [];
+  const { serviceUrl } = await serve(t, async (request, response) => {
+    let body = "";
+    for await (const chunk of request) body += chunk;
+    const data = JSON.parse(body);
+    requests.push(data);
+    const result = data.top_k === 2 ? {
+      ...twoLanguagePrediction,
+      fasttext_predictions: twoLanguagePrediction.fasttext_predictions.filter((candidate, index) =>
+        index === 0 || candidate.confidence >= (data.secondary_min_confidence ?? 0.3)),
+    } : prediction;
+    response.end(JSON.stringify(data.texts ? { results: data.texts.map(() => result) } : result));
+  });
+  const client = createLanguageClient({ serviceUrl });
+  assert.deepEqual(await client.predict("mixed", { topK: 2 }), twoLanguagePrediction);
+  const filtered = {
+    ...twoLanguagePrediction, fasttext_predictions: twoLanguagePrediction.fasttext_predictions.slice(0, 1),
+  };
+  assert.deepEqual(await client.predictBatch(["mixed", "mixed"], {
+    topK: 2, secondaryMinConfidence: 0.4,
+  }), { results: [filtered, filtered] });
+  assert.deepEqual(await client.predict("one", { secondaryMinConfidence: 0 }), prediction);
+  assert.deepEqual(requests, [
+    { text: "mixed", top_k: 2 },
+    { texts: ["mixed", "mixed"], top_k: 2, secondary_min_confidence: 0.4 },
+    { text: "one", secondary_min_confidence: 0 },
+  ]);
+});
+
+test("candidate validation allows a top score below the secondary threshold", async (t) => {
+  const lowConfidence = {
+    ...twoLanguagePrediction, fasttext_confidence: 0.2,
+    fasttext_predictions: [{ language: "tl", confidence: 0.2 }],
+  };
+  const { serviceUrl } = await serve(t, (_request, response) => response.end(JSON.stringify(lowConfidence)));
+  assert.deepEqual(await createLanguageClient({ serviceUrl }).predict("mixed", { topK: 2 }), lowConfidence);
+});
+
+test("candidate validation honors a custom lower threshold", async (t) => {
+  const lowSecondary = {
+    ...twoLanguagePrediction,
+    fasttext_predictions: [{ language: "tl", confidence: 0.6 }, { language: "en", confidence: 0.1 }],
+  };
+  const { serviceUrl } = await serve(t, (_request, response) => response.end(JSON.stringify(lowSecondary)));
+  assert.deepEqual(await createLanguageClient({ serviceUrl }).predict("mixed", {
+    topK: 2, secondaryMinConfidence: 0.1,
+  }), lowSecondary);
+});
+
+for (const [name, candidates] of [
+  ["missing", undefined], ["null", null], ["empty", []], ["not an array", {}],
+  ["too many", [...twoLanguagePrediction.fasttext_predictions, { language: "fr", confidence: 0.3 }]],
+  ["missing score", [{ language: "tl" }]],
+  ["string score", [{ language: "tl", confidence: "0.6" }]],
+  ["non-finite score encoded as null", [{ language: "tl", confidence: null }]],
+  ["score out of range", [{ language: "tl", confidence: 1.1 }]],
+  ["negative score", [{ language: "tl", confidence: -0.1 }]],
+  ["empty language", [{ language: "", confidence: 0.6 }]],
+  ["inconsistent top language", [{ language: "en", confidence: 0.6 }]],
+  ["inconsistent top score", [{ language: "tl", confidence: 0.5 }]],
+  ["below threshold", [{ language: "tl", confidence: 0.6 }, { language: "en", confidence: 0.2999 }]],
+  ["duplicate languages", [{ language: "tl", confidence: 0.6 }, { language: "tl", confidence: 0.3 }]],
+  ["unsorted scores", [{ language: "tl", confidence: 0.6 }, { language: "en", confidence: 0.7 }]],
+]) {
+  test(`reject malformed candidate response: ${name}`, async (t) => {
+    const invalid = { ...twoLanguagePrediction, fasttext_predictions: candidates };
+    const { serviceUrl } = await serve(t, (_request, response) => response.end(JSON.stringify(invalid)));
+    await assert.rejects(createLanguageClient({ serviceUrl }).predict("mixed", { topK: 2 }), {
+      code: "INVALID_RESPONSE",
+    });
+  });
+}
+
+test("reject a batch result missing requested candidates", async (t) => {
+  const { serviceUrl } = await serve(t, (_request, response) => response.end(JSON.stringify({
+    results: [twoLanguagePrediction, prediction],
+  })));
+  await assert.rejects(createLanguageClient({ serviceUrl }).predictBatch(["a", "b"], { topK: 2 }), {
+    code: "INVALID_RESPONSE",
+  });
 });
 
 for (const status of [422, 500, 503]) {
@@ -103,6 +195,16 @@ test("real service single, batch, and validation", {
   assert.equal(single.prediction_source, "keyword_override");
   assert.equal(results.length, 3);
   for (const index of [0, 2]) assert.deepEqual(results[index], single);
+  const mixedText = "Hello po, can I ask kung saan ang clinic?";
+  const mixed = await client.predict(mixedText, { topK: 2 });
+  assert.deepEqual(mixed.fasttext_predictions.map((candidate) => candidate.language), ["tl", "en"]);
+  assert.ok(mixed.fasttext_predictions[1].confidence >= 0.3);
+  const mixedBatch = await client.predictBatch([mixedText, text, mixedText], { topK: 2 });
+  assert.deepEqual(mixedBatch.results[0], mixed);
+  assert.deepEqual(mixedBatch.results[2], mixed);
+  const filtered = await client.predict(mixedText, { topK: 2, secondaryMinConfidence: 1 });
+  assert.deepEqual(filtered.fasttext_predictions, mixed.fasttext_predictions.slice(0, 1));
+  await assert.rejects(client.predict(mixedText, { topK: 3 }), { code: "HTTP_ERROR", status: 422 });
   await assert.rejects(client.predict(" "), { code: "HTTP_ERROR", status: 422 });
   const { stdout } = await promisify(execFile)(process.execPath, [
     fileURLToPath(new URL("../examples/language-client.mjs", import.meta.url)), text,

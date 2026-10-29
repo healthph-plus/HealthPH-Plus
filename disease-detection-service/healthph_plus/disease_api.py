@@ -9,7 +9,7 @@ from contextlib import asynccontextmanager
 from typing import Annotated, Literal
 
 from fastapi import FastAPI, HTTPException
-from pydantic import AfterValidator, BaseModel, ConfigDict, Field, StringConstraints
+from pydantic import AfterValidator, BaseModel, ConfigDict, Field, StringConstraints, model_validator
 
 from healthph_plus.disease_inference import (
     MAX_BATCH_SIZE,
@@ -38,11 +38,40 @@ class BatchPredictRequest(BaseModel):
     texts: Annotated[list[Text], Field(min_length=1, max_length=MAX_BATCH_SIZE)]
 
 
+class Symptom(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    text: Annotated[str, StringConstraints(strict=True, min_length=1)]
+    normalized_symptom: Annotated[str, StringConstraints(strict=True, min_length=1)] | None
+    start_index: Annotated[int, Field(strict=True, ge=0)]
+    end_index: Annotated[int, Field(strict=True, ge=1)]
+    confidence: Probability
+    negated: Annotated[bool, Field(strict=True)]
+
+    @model_validator(mode="after")
+    def valid_range(self):
+        if self.end_index <= self.start_index:
+            raise ValueError("Symptom offsets must form a nonempty range")
+        return self
+
+
 class Prediction(BaseModel):
     labels: list[DiseaseLabel]
     probabilities: dict[DiseaseLabel, Probability]
     thresholds_used: dict[DiseaseLabel, Probability]
-    model_version: str
+    model_version: Annotated[str, Field(min_length=1)]
+    symptoms: list[Symptom]
+    symptom_model_version: Annotated[str, Field(min_length=1)]
+
+
+def validate_prediction(result: dict, text: str) -> Prediction:
+    prediction = Prediction.model_validate(result)
+    previous_end = 0
+    for symptom in prediction.symptoms:
+        if (symptom.start_index < previous_end or symptom.end_index > len(text)
+                or text[symptom.start_index:symptom.end_index] != symptom.text):
+            raise ValueError("Symptom offsets do not match the submitted text")
+        previous_end = symptom.end_index
+    return prediction
 
 
 class BatchPrediction(BaseModel):
@@ -54,14 +83,15 @@ def create_app(predictor_factory: Callable[[], DiseasePredictor] = DiseasePredic
     async def lifespan(app: FastAPI):
         predictor = predictor_factory()
         # Readiness requires a full tokenizer/forward/postprocessing pass.
-        Prediction.model_validate(predictor.predict("disease inference startup check"))
+        warmup_text = "disease inference startup check"
+        validate_prediction(predictor.predict(warmup_text), warmup_text)
         app.state.predictor = predictor
         try:
             yield
         finally:
             app.state.predictor = None
 
-    app = FastAPI(title="HealthPH+ Disease Inference", version="1.0.0", lifespan=lifespan)
+    app = FastAPI(title="HealthPH+ Disease Inference", version="1.1.0", lifespan=lifespan)
     app.state.predictor = None
 
     def get_predictor():
@@ -72,7 +102,10 @@ def create_app(predictor_factory: Callable[[], DiseasePredictor] = DiseasePredic
     def predict_many(texts):
         predictor = get_predictor()
         try:
-            return predictor.predict_many(texts)
+            results = predictor.predict_many(texts)
+            if len(results) != len(texts):
+                raise RuntimeError("Model returned the wrong number of predictions")
+            return [validate_prediction(result, text) for result, text in zip(results, texts)]
         except Exception:
             logger.exception("Disease inference failed")
             raise HTTPException(status_code=500, detail="Disease inference failed") from None
@@ -84,7 +117,10 @@ def create_app(predictor_factory: Callable[[], DiseasePredictor] = DiseasePredic
     @app.get("/health/ready")
     def ready():
         predictor = get_predictor()
-        return {"status": "ready", "model_version": predictor.model_version}
+        return {
+            "status": "ready", "model_version": predictor.model_version,
+            "symptom_model_version": predictor.symptom_model_version,
+        }
 
     @app.post("/v1/disease/predict", response_model=Prediction)
     def predict(body: PredictRequest):

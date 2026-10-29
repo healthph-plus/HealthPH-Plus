@@ -12,6 +12,8 @@ const prediction = {
   probabilities: { AURI: 0.9, PN: 0.1, TB: 0.2, COVID: 0.3 },
   thresholds_used: { AURI: 0.5, PN: 0.5, TB: 0.5, COVID: 0.5 },
   model_version: "test-version",
+  symptoms: [],
+  symptom_model_version: "test-symptom-version",
 };
 
 async function serve(t, handler) {
@@ -113,4 +115,49 @@ test("real service single, batch, and validation", {
   const cliResult = JSON.parse(stdout);
   assert.deepEqual(cliResult.labels, single.labels);
   assert.equal(cliResult.model_version, single.model_version);
+});
+
+
+const symptom = {
+  text: "ubo", normalized_symptom: "cough", start_index: 9, end_index: 12,
+  confidence: 0.93, negated: true,
+};
+
+test("symptom offsets count code points and preserve negation", async (t) => {
+  const text = "😷 walang ubo";
+  const combined = { ...prediction, symptoms: [symptom] };
+  const { serviceUrl } = await serve(t, (request, response) => {
+    response.end(JSON.stringify(request.url.endsWith("predict-batch")
+      ? { results: [combined, prediction] } : combined));
+  });
+  const client = createDiseaseClient({ serviceUrl });
+  assert.deepEqual(await client.predict(text), combined);
+  assert.equal(Array.from(text).slice(symptom.start_index, symptom.end_index).join(""), "ubo");
+  assert.deepEqual(await client.predictBatch([text, "okay"]), { results: [combined, prediction] });
+});
+
+for (const change of [
+  { symptoms: undefined }, { symptoms: null }, { symptom_model_version: "" },
+  { symptoms: [{ ...symptom, start_index: 10 }] },
+  { symptoms: [{ ...symptom, end_index: 13 }] },
+  { symptoms: [{ ...symptom, normalized_symptom: 1 }] },
+  { symptoms: [{ ...symptom, negated: "true" }] },
+  { symptoms: [{ ...symptom, confidence: -0.1 }] },
+  { symptoms: [{ ...symptom, start_index: 9.1 }] },
+  { symptoms: [{ ...symptom, text: "cough" }] },
+  { symptoms: [{ ...symptom, extra: true }] },
+  { symptoms: [symptom, symptom] },
+]) {
+  test(`reject invalid symptom response ${JSON.stringify(change)}`, async (t) => {
+    const { serviceUrl } = await serve(t, (request, response) => {
+      response.end(JSON.stringify({ ...prediction, ...change }));
+    });
+    await assert.rejects(createDiseaseClient({ serviceUrl }).predict("😷 walang ubo"), { code: "INVALID_RESPONSE" });
+  });
+}
+
+test("unmapped symptom phrases retain null normalization", async (t) => {
+  const combined = { ...prediction, symptoms: [{ ...symptom, normalized_symptom: null }] };
+  const { serviceUrl } = await serve(t, (request, response) => response.end(JSON.stringify(combined)));
+  assert.deepEqual(await createDiseaseClient({ serviceUrl }).predict("😷 walang ubo"), combined);
 });

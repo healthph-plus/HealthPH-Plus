@@ -160,9 +160,11 @@ def test_invalid_logits_fail(logits):
         results_from_logits(logits, dict.fromkeys(LABELS, 0.5), "test-version")
 
 
-def test_forward_passes_are_serialized_and_validation_precedes_inference():
+def test_forward_passes_are_serialized_and_validation_precedes_inference(symptom_extractor):
     predictor = object.__new__(DiseasePredictor)
     predictor._lock = threading.Lock()
+    predictor.symptom_extractor = symptom_extractor
+    predictor.symptom_model_version = symptom_extractor.model_version
     predictor.thresholds = dict.fromkeys(LABELS, 0.5)
     predictor.model_version = "test-version"
     activity = {"active": 0, "maximum": 0, "calls": 0}

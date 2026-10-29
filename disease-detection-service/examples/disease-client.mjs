@@ -18,12 +18,37 @@ function isScoreMap(value) {
   );
 }
 
-function isPrediction(value) {
+function validSymptoms(symptoms, text) {
+  if (!Array.isArray(symptoms) || typeof text !== "string") return false;
+  const characters = Array.from(text); // Python offsets count Unicode code points.
+  const keys = ["text", "normalized_symptom", "start_index", "end_index", "confidence", "negated"];
+  let previousEnd = 0;
+  return symptoms.every((symptom) => {
+    if (!symptom || typeof symptom !== "object" || Array.isArray(symptom)
+      || Object.keys(symptom).length !== keys.length
+      || !keys.every((key) => Object.hasOwn(symptom, key))
+      || typeof symptom.text !== "string" || symptom.text.length === 0
+      || !(symptom.normalized_symptom === null
+        || (typeof symptom.normalized_symptom === "string" && symptom.normalized_symptom.length > 0))
+      || !Number.isSafeInteger(symptom.start_index) || !Number.isSafeInteger(symptom.end_index)
+      || symptom.start_index < previousEnd || symptom.end_index <= symptom.start_index
+      || symptom.end_index > characters.length
+      || !Number.isFinite(symptom.confidence) || symptom.confidence < 0 || symptom.confidence > 1
+      || typeof symptom.negated !== "boolean"
+      || characters.slice(symptom.start_index, symptom.end_index).join("") !== symptom.text) return false;
+    previousEnd = symptom.end_index;
+    return true;
+  });
+}
+
+function isPrediction(value, text) {
   return value && Array.isArray(value.labels)
     && value.labels.every((label) => LABELS.includes(label))
     && new Set(value.labels).size === value.labels.length
     && isScoreMap(value.probabilities) && isScoreMap(value.thresholds_used)
-    && typeof value.model_version === "string" && value.model_version.length > 0;
+    && typeof value.model_version === "string" && value.model_version.length > 0
+    && typeof value.symptom_model_version === "string" && value.symptom_model_version.length > 0
+    && validSymptoms(value.symptoms, text);
 }
 
 export function createDiseaseClient({
@@ -79,12 +104,12 @@ export function createDiseaseClient({
 
   return {
     predict(text) {
-      return post("/v1/disease/predict", { text }, isPrediction);
+      return post("/v1/disease/predict", { text }, (data) => isPrediction(data, text));
     },
     predictBatch(texts) {
       return post("/v1/disease/predict-batch", { texts }, (data) =>
         data && Array.isArray(data.results) && data.results.length === texts.length
-        && data.results.every(isPrediction));
+        && data.results.every((result, index) => isPrediction(result, texts[index])));
     },
   };
 }

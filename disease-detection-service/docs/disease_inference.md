@@ -1,6 +1,8 @@
 # Disease inference integration
 
-The JavaScript backend calls a local Python HTTP service. The service runs the saved ELECTRA classifier on CPU and returns disease signals for already cleaned post text. It does not clean text, retrain the model, or write to a database.
+The JavaScript backend calls a local Python HTTP service. The service runs the saved ELECTRA classifier on CPU and a standard-library keyword symptom extractor, returning disease signals and symptom mentions for already cleaned post text. It does not clean text, retrain models, or write to a database.
+
+Symptom extraction matches the bundled keyword CSV. No symptom model, annotation review, or training is required. See the [keyword workflow](../SYMPTOM_WORKFLOW.md).
 
 ## Install and start
 
@@ -13,16 +15,16 @@ python -m pip install -r requirements-inference.txt
 python -m healthph_plus.disease_api
 ```
 
-If this folder's `.venv` already exists, activate it and run the installation command without recreating it. The service defaults to `http://127.0.0.1:8000` and one worker. The model is loaded once; all forward passes are serialized. OpenAPI documentation is available at `/docs` and `/openapi.json`.
+If this folder's `.venv` already exists, activate it and run the installation command without recreating it. The service defaults to `http://127.0.0.1:8000` and one worker. The disease model is loaded once and serializes its forward passes; keyword patterns compile once at startup. OpenAPI documentation is available at `/docs` and `/openapi.json`.
 
 To use another artifact directory or port:
 
 ```sh
-HEALTHPH_DISEASE_ARTIFACT_DIR=/absolute/path/to/electra_local_finetuned \
+HEALTHPH_DISEASE_ARTIFACT_DIR=/absolute/path/to/combined/model \
   python -m healthph_plus.disease_api --port 8001
 ```
 
-The default artifact directory is `model/` within this standalone folder, resolved relative to the Python package and independent of the working directory. An override must point to the **bundle root**, which contains `best_model/`, `label_order.json`, and `thresholds.json`.
+The default artifact directory is `model/` within this standalone folder, resolved relative to the Python package and independent of the working directory. An override points to the disease bundle root. Keywords are bundled at `healthph_symptoms/keywords_master.csv`; use `HEALTHPH_SYMPTOM_KEYWORDS_PATH` for a custom CSV.
 
 Model loading always uses local files, with remote code disabled. To verify operation without Hub access explicitly:
 
@@ -47,22 +49,32 @@ model/
 └── thresholds.json
 ```
 
-Transfer the complete `best_model/` directory, including any additional tokenizer files. Training checkpoints, optimizer state, datasets, and `best_model_info.json` are not needed. The current weights occupy approximately 54 MB.
+Transfer the complete disease `best_model/` directory, including additional tokenizer files, plus the generated `healthph_symptoms/` package with its keyword CSV. Training checkpoints, datasets, and symptom model weights are unnecessary. Invalid disease assets or a missing/malformed keyword list prevent startup.
 
-Missing files, incompatible weights, invalid thresholds, inconsistent label mappings, or a tokenizer vocabulary mismatch stop startup. There is no fallback to bootstrap weights, another checkpoint, downloaded weights, or default thresholds.
+To export from the research repository root:
+
+```sh
+.venv/bin/python -m healthph_symptoms.export \
+  --service-dir disease-detection-service \
+  --disease-source artifacts/poc_transformers/electra_local_finetuned
+```
+
+Stop the service first. Export stages disease assets and the shared keyword runtime, validates offline inference, then replaces the bundle. Validation failure preserves the previous bundle; replacement failure attempts rollback.
 
 `model_version` is a SHA-256 fingerprint of the inference contract revision, the bundle's inference file names and contents, and the 128-token limit. It covers the complete non-hidden contents of `best_model/`, plus label order and thresholds. Moving an unchanged bundle preserves its version. Stop the service before replacing a bundle; transfer the matching files together, restart, and verify the version through `/health/ready`. Files are not hot-reloaded.
+
+`symptom_model_version` independently fingerprints effective keyword phrases, normalization mappings, and matching rules. Adding or updating symptom artifacts does not change the disease model's version or scores.
 
 ## HTTP contract
 
 | Endpoint | Purpose |
 | --- | --- |
 | `GET /health/live` | Returns `{"status":"ok"}` when the application can respond. |
-| `GET /health/ready` | Returns `status: "ready"` and `model_version` after successful loading and startup inference; otherwise HTTP 503. |
+| `GET /health/ready` | Returns `status: "ready"`, `model_version`, and `symptom_model_version` after the disease model and keywords load and startup inference succeeds; otherwise HTTP 503. |
 | `POST /v1/disease/predict` | Classifies one text. |
 | `POST /v1/disease/predict-batch` | Classifies 1–32 texts and preserves input order, including duplicates. |
 
-Send `Content-Type: application/json`. Single requests contain only `text`; batch requests contain only `texts`. A text must be a string containing non-whitespace characters and at most 10,000 Unicode code points. The service preserves supplied text exactly before tokenization. Long text is truncated to 128 tokens, including special tokens, matching the training notebook; truncation is not chunking.
+Send `Content-Type: application/json`. Single requests contain only `text`; batch requests contain only `texts`. A text must be a string containing non-whitespace characters and at most 10,000 Unicode code points. The service preserves supplied text exactly before tokenization. The disease classifier truncates to 128 tokens, including special tokens, matching its training notebook. Symptom extraction matches the full accepted input against every disease row in the keyword CSV, regardless of the disease labels selected. Matching ignores case, allows flexible whitespace, and keeps the longest nonoverlapping phrases.
 
 ```sh
 curl --fail-with-body http://127.0.0.1:8000/v1/disease/predict \
@@ -74,7 +86,7 @@ curl --fail-with-body http://127.0.0.1:8000/v1/disease/predict-batch \
   -d '{"texts":["ubo at lagnat","feeling okay, no symptoms today"]}'
 ```
 
-A single result has this shape (scores rounded here):
+A single result has this shape (illustrative values, not a trained symptom prediction):
 
 ```json
 {
@@ -91,11 +103,17 @@ A single result has this shape (scores rounded here):
     "TB": 0.11,
     "COVID": 0.36
   },
-  "model_version": "sha256:62e3d6aa66ae57d2eedbb59ef2e7a7b3966317d80315f1acdfd71939966c6ddc"
+  "model_version": "sha256:62e3d6aa66ae57d2eedbb59ef2e7a7b3966317d80315f1acdfd71939966c6ddc",
+  "symptoms": [],
+  "symptom_model_version": "sha256:illustrative"
 }
 ```
 
 Batch responses are `{ "results": [<result>, <result>] }`, with the same fields in every result. Preserve the source post IDs in the backend and associate them by input index. Every result exposes all four scores and thresholds, in the fixed label order `AURI`, `PN`, `TB`, `COVID`. Labels are selected independently using sigmoid scores greater than or equal to their saved thresholds; scores do not sum to one. Multiple labels or an empty label list are valid results.
+
+Every symptom contains `text`, nullable English `normalized_symptom`, `start_index`, `end_index`, `confidence`, and `negated`. Unmapped phrases retain their exact text with a `null` normalized name. Repeated occurrences remain separate, and negated mentions are returned. `symptoms: []` means no mentions were detected. `confidence: 1.0` means a literal keyword matched, not a model probability. Negation uses bounded keyword cue rules. `negated: false` only means explicit negation was not detected; it does not establish current symptoms, identify an experiencer, or attribute a symptom to a disease.
+
+Offsets are zero-based, end-exclusive Unicode code-point indices into the **exact submitted text**, including leading whitespace and emoji. They refer to the cleaned text when that is what the backend submitted, rather than the original raw post. JavaScript UTF-16 string slicing uses different indices; use `Array.from(text)` as shown below.
 
 Invalid JSON, missing/extra fields, blank/non-string text, excessive text length, or an invalid batch produces HTTP 422 with FastAPI's `detail` validation information. If one batch item is invalid, none are inferred. HTTP 503 means the model is unavailable, and HTTP 500 means inference failed. A failure must not be stored as a successful empty-label prediction.
 
@@ -112,8 +130,13 @@ const diseaseClient = createDiseaseClient({
 });
 
 try {
-  const result = await diseaseClient.predict('ubo at lagnat');
+  const text = '😷 ubo at lagnat';
+  const result = await diseaseClient.predict(text);
   console.log(result.labels, result.probabilities, result.model_version);
+  for (const symptom of result.symptoms) {
+    const phrase = Array.from(text).slice(symptom.start_index, symptom.end_index).join('');
+    console.log(phrase, symptom.normalized_symptom, symptom.confidence, symptom.negated);
+  }
 
   const { results } = await diseaseClient.predictBatch([
     'ubo at lagnat',
@@ -146,9 +169,9 @@ HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 python -m pytest --run-model -q -s
 node --test tests/disease-client.test.mjs
 ```
 
-The default Python suite skips real-checkpoint tests. `--run-model` requires the artifact bundle and fails if it is missing. The real tests use a frozen copy of the original notebook's inference function in `tests/fixtures/notebook_inference.py`; no notebook or training data is required. They check scores within absolute tolerance `1e-6`, selected labels, Unicode, truncation, ordering, duplicates, and API responses. Unit tests cover invalid artifacts, threshold boundaries, startup/readiness, batch validation, inference failures, and serialization.
+The default Python suite skips real-checkpoint tests. `--run-model` requires the disease artifact bundle and fails if it is missing. Disease parity tests explicitly inject a fake symptom extractor; keyword integration tests verify real matching without symptom weights. The tests use a frozen copy of the original notebook's inference function in `tests/fixtures/notebook_inference.py`; no notebook or training data is required. They check scores within absolute tolerance `1e-6`, selected labels, Unicode, truncation, ordering, duplicates, and API responses. Unit tests cover invalid artifacts, threshold boundaries, startup/readiness, batch validation, inference failures, and serialization. Shared keyword tests verify multilingual matches, exact offsets, negation, custom lists, and standalone operation without NLP dependencies.
 
-With the Python service running, enable the actual HTTP integration test:
+After exporting a reviewed combined bundle and starting the Python service, enable the actual HTTP integration test:
 
 ```sh
 HEALTHPH_TEST_REAL_SERVICE=1 HEALTHPH_DISEASE_URL=http://127.0.0.1:8000 \
@@ -157,7 +180,7 @@ HEALTHPH_TEST_REAL_SERVICE=1 HEALTHPH_DISEASE_URL=http://127.0.0.1:8000 \
 
 JavaScript tests also exercise HTTP failures, malformed responses, stalled-body timeouts, and connection refusal using temporary localhost servers.
 
-Local validation on 2026-09-11 used Python 3.14.6, PyTorch 2.14.0, Transformers 5.16.1, and Node.js 24.21.0 on macOS arm64. A warmed CPU batch of six sample texts, including one truncated long text, took approximately **23 ms**. This is a local smoke measurement, excluding startup and HTTP overhead, and is not a production capacity benchmark. The real-service JavaScript test also launches the command-line example against the same checkpoint.
+Earlier disease-only validation on 2026-09-11 used Python 3.14.6, PyTorch 2.14.0, Transformers 5.16.1, and Node.js 24.21.0 on macOS arm64. Its approximately 23 ms warmed CPU batch measurement excluded symptom extraction, startup, and HTTP overhead. Measure current combined memory and latency with the keyword extractor; the [symptom workflow](../SYMPTOM_WORKFLOW.md) provides the benchmark command. Choose backend timeouts using those measurements.
 
 The pinned Starlette test client currently emits two upstream deprecation warnings about `httpx` and `BlockingPortal`; they do not prevent the tests from passing.
 

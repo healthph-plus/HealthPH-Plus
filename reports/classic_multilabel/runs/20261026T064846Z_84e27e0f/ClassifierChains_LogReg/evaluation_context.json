@@ -1,0 +1,18 @@
+{
+  "model_name": "ClassifierChains_LogReg",
+  "task": "multilabel",
+  "labels": [
+    "AURI",
+    "PN",
+    "TB",
+    "COVID"
+  ],
+  "thresholds": [
+    0.1,
+    0.48,
+    0.14,
+    0.21
+  ],
+  "threshold_context": "Validation-tuned thresholds",
+  "loss_name": null
+}

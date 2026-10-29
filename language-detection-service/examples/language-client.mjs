@@ -10,14 +10,27 @@ export class LanguageClientError extends Error {
   }
 }
 
-function isPrediction(value) {
-  return value && typeof value.language === "string" && value.language.length > 0
+function isPrediction(value, { topK = 1, secondaryMinConfidence = 0.30 } = {}) {
+  if (!(value && typeof value.language === "string" && value.language.length > 0
     && typeof value.cleaned_text === "string" && value.cleaned_text.length > 0
     && typeof value.is_supported === "boolean"
     && ["fasttext", "keyword_override"].includes(value.prediction_source)
     && typeof value.fasttext_language === "string" && value.fasttext_language.length > 0
     && Number.isFinite(value.fasttext_confidence)
-    && value.fasttext_confidence >= 0 && value.fasttext_confidence <= 1;
+    && value.fasttext_confidence >= 0 && value.fasttext_confidence <= 1)) return false;
+  const candidates = value.fasttext_predictions;
+  if (candidates === undefined) return topK !== 2;
+  return Array.isArray(candidates) && candidates.length >= 1 && candidates.length <= 2
+    && candidates.every((candidate) => candidate
+      && typeof candidate.language === "string" && candidate.language.length > 0
+      && Number.isFinite(candidate.confidence)
+      && candidate.confidence >= 0 && candidate.confidence <= 1)
+    && candidates[0].language === value.fasttext_language
+    && candidates[0].confidence === value.fasttext_confidence
+    && (candidates.length === 1
+      || (candidates[1].language !== candidates[0].language
+        && candidates[1].confidence <= candidates[0].confidence
+        && candidates[1].confidence >= secondaryMinConfidence));
 }
 
 export function createLanguageClient({
@@ -72,13 +85,17 @@ export function createLanguageClient({
   }
 
   return {
-    predict(text) {
-      return post("/v1/language/predict", { text }, isPrediction);
+    predict(text, { topK, secondaryMinConfidence } = {}) {
+      return post("/v1/language/predict", {
+        text, top_k: topK, secondary_min_confidence: secondaryMinConfidence,
+      }, (data) => isPrediction(data, { topK, secondaryMinConfidence }));
     },
-    predictBatch(texts) {
-      return post("/v1/language/predict-batch", { texts }, (data) =>
+    predictBatch(texts, { topK, secondaryMinConfidence } = {}) {
+      return post("/v1/language/predict-batch", {
+        texts, top_k: topK, secondary_min_confidence: secondaryMinConfidence,
+      }, (data) =>
         data && Array.isArray(data.results) && data.results.length === texts.length
-        && data.results.every(isPrediction));
+        && data.results.every((result) => isPrediction(result, { topK, secondaryMinConfidence })));
     },
   };
 }

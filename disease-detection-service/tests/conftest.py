@@ -16,5 +16,22 @@ def pytest_collection_modifyitems(config, items):
 def real_predictor():
     from healthph_plus.disease_inference import DiseasePredictor
 
-    # Missing artifacts must fail an explicitly requested model test, not skip it.
-    return DiseasePredictor()
+    # Isolate disease score parity from the keyword response fields.
+    return DiseasePredictor(symptom_extractor=FakeSymptomExtractor())
+
+
+class FakeSymptomExtractor:
+    """Explicit disease-only test dependency, never a production fallback."""
+    model_version = "test-symptom-version"
+
+    def __init__(self):
+        self.calls = []
+
+    def extract_many(self, texts):
+        self.calls.append(list(texts))
+        return [[] for _ in texts]
+
+
+@pytest.fixture
+def symptom_extractor():
+    return FakeSymptomExtractor()

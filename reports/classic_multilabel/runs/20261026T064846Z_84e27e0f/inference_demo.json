@@ -1,0 +1,34 @@
+[
+  {
+    "label":"AURI",
+    "score":0.022288527451298,
+    "threshold":0.1,
+    "selected":false,
+    "elapsed_ms":1.49104098090902,
+    "text":"hindi ako makahinga"
+  },
+  {
+    "label":"PN",
+    "score":0.32087474449491,
+    "threshold":0.45,
+    "selected":false,
+    "elapsed_ms":1.49104098090902,
+    "text":"hindi ako makahinga"
+  },
+  {
+    "label":"TB",
+    "score":0.035727165917845,
+    "threshold":0.18,
+    "selected":false,
+    "elapsed_ms":1.49104098090902,
+    "text":"hindi ako makahinga"
+  },
+  {
+    "label":"COVID",
+    "score":0.129372044649839,
+    "threshold":0.18,
+    "selected":false,
+    "elapsed_ms":1.49104098090902,
+    "text":"hindi ako makahinga"
+  }
+]

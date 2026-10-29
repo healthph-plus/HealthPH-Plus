@@ -63,13 +63,59 @@ Every prediction contains:
 | `fasttext_language` | Original top FastText language code |
 | `fasttext_confidence` | Score for **fasttext_language**, even when overridden; clamped to [0, 1] for numerical rounding |
 
+### Optional two-language predictions
+
+Both prediction endpoints accept these optional fields:
+
+| Request field | Default | Meaning |
+| --- | --- | --- |
+| `top_k` | `1` | Integer `1` or `2`; use `2` to request up to two ranked model candidates |
+| `secondary_min_confidence` | `0.30` | Finite number from `0` to `1`, inclusive; minimum score for the second candidate |
+
+```sh
+curl http://127.0.0.1:8001/v1/language/predict \
+  -H 'Content-Type: application/json' \
+  -d '{"text":"Hello po, can I ask kung saan ang clinic?","top_k":2,"secondary_min_confidence":0.30}'
+```
+
+With `top_k: 2`, each prediction includes a `fasttext_predictions` array. For
+example, its candidates may look like this (scores rounded for illustration):
+
+```json
+{
+  "fasttext_predictions": [
+    {"language": "tl", "confidence": 0.60},
+    {"language": "en", "confidence": 0.31}
+  ]
+}
+```
+
+The highest-scoring candidate is always included, even below the threshold. The
+second is included only when its clamped score is **at least** the threshold.
+Set the threshold to `0` to keep both candidates. Candidates can be any model
+language, including unsupported languages; they are not restricted to English
+and Tagalog. In batch requests, the options apply to every input text.
+
+The array reports model predictions independently of keyword overrides. Existing
+fields such as `language`, `is_supported`, and `prediction_source` keep their
+current meaning. `top_k: 1` omits the array and ignores a valid secondary threshold;
+omitting both options preserves the original response format. Invalid options
+return HTTP `422` before inference.
+
+The model has English (`en`) and Tagalog (`tl`) labels, with no separate Taglish
+label or flag. Mixed text may produce other candidate pairs. Scores represent
+model confidence, not the proportion of each language in the text, and are not
+renormalized across the returned candidates.
+
+### Cleaning, overrides, and input limits
+
 Send original raw posts. The cleaner preserves the notebook's exact rules:
 double HTML decoding, removal of links, mentions, hashtags, and non-ASCII
 characters, whitespace normalization, and lowercasing. Curated complete words or
 phrases are matched against **original text**, case-insensitively with flexible
 whitespace. Hiligaynon wins if both keyword lists match. These inherited rules
 include broad words such as `ubo`; they are heuristics, and an override has no
-separate confidence score. There is no minimum model confidence threshold.
+separate confidence score. There is no minimum score for the primary prediction.
 
 Unsupported languages are returned with `is_supported: false`; callers decide
 whether to filter them. `fil` and `tl` are not remapped. The compact model may
@@ -92,9 +138,19 @@ detector = LanguageDetector()  # Create once and reuse.
 result = detector.predict("RT @person: I am feeling better today. https://example.com")
 results = detector.predict_many(["may ubo ako", "sakit ti barukong"])
 print(result["language"], result["cleaned_text"])
+
+mixed = detector.predict("Hello po, can I ask kung saan ang clinic?", top_k=2)
+mixed_batch = detector.predict_many(
+    ["Hello po, can I ask kung saan ang clinic?", "feeling okay"],
+    top_k=2, secondary_min_confidence=0.20,
+)
+print(mixed["fasttext_predictions"])
 ```
 
-Python calls raise `ValueError` for invalid inputs. For offline notebook use,
+Both prediction methods accept keyword-only `top_k=1` and
+`secondary_min_confidence=0.30` options with the same rules as HTTP. Python calls
+raise `ValueError` for invalid inputs or options, including invalid options on
+an empty batch. For offline notebook use,
 `predict_many` accepts any list length (an empty list returns `[]`), processes
 32 texts at a time, and has no text-length cap. All texts are validated before
 inference. `normalize_text` accepts strings and does not validate the result;
@@ -113,6 +169,14 @@ try {
   const result = await client.predict('may ubo ako');
   const { results } = await client.predictBatch(['sakit ti barukong', 'feeling okay']);
   console.log(result.language, results);
+
+  const mixed = await client.predict('Hello po, can I ask kung saan ang clinic?', {
+    topK: 2,
+  });
+  const mixedBatch = await client.predictBatch(['feeling okay', 'may sakit ako'], {
+    topK: 2, secondaryMinConfidence: 0.20,
+  });
+  console.log(mixed.fasttext_predictions, mixedBatch.results);
 } catch (error) {
   console.error(error.code, error.status, error.message);
 }
@@ -122,6 +186,10 @@ Set `HEALTHPH_LANGUAGE_URL` or pass `serviceUrl` to change the URL. The default
 timeout is 30 seconds; set `timeoutMs` to override it. Client error codes are
 `HTTP_ERROR`, `TIMEOUT`, `CONNECTION_ERROR`, and `INVALID_RESPONSE`. Requests are
 not retried. To try the client: `node examples/language-client.mjs 'may ubo ako'`.
+The optional second argument to either prediction method is
+`{ topK, secondaryMinConfidence }`. Unspecified options are omitted from request
+JSON so the API defaults apply. The client validates candidate arrays and
+requires them when `topK: 2` is requested.
 
 ## Tests
 

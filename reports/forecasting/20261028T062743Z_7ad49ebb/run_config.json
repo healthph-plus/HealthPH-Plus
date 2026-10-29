@@ -1,0 +1,53 @@
+{
+  "run_id": "20261028T062743Z_7ad49ebb",
+  "created_at_utc": "2026-10-28T06:27:43.508259+00:00",
+  "status": "complete",
+  "dataset_path": "/Users/gelo-p1/Documents/GitHub/HealthPH-Plus/data/processed/merged_data.csv",
+  "model_bundle": "/Users/gelo-p1/Documents/GitHub/HealthPH-Plus/xlmr-disease-detection-service/model",
+  "expected_model_run": "full_20261022T064326Z_fa1cd053",
+  "cache_path": "/Users/gelo-p1/Documents/GitHub/HealthPH-Plus/artifacts/forecasting/prediction_cache.json",
+  "timezone": "Asia/Manila",
+  "start_date": "2025-09-01",
+  "end_date": "2025-11-30",
+  "initial_train_days": 56,
+  "validation_folds": 3,
+  "test_folds": 2,
+  "horizon": 7,
+  "batch_size": 32,
+  "cpu_threads": 4,
+  "labels": [
+    "AURI",
+    "PN",
+    "TB",
+    "COVID"
+  ],
+  "baselines": [
+    "zero",
+    "last_value",
+    "seasonal_naive_7",
+    "mean_7"
+  ],
+  "selection": "validation MAE, then RMSE, then listed baseline order",
+  "target": "retrospective frozen-classifier disease counts in the sampled corpus",
+  "classifier_temporal_limitation": "Trained October 2026; random annotation splits; no chronological cutoff.",
+  "python": "3.14.6",
+  "packages": {
+    "pandas": "3.0.3",
+    "numpy": "2.5.1",
+    "torch": "2.14.0",
+    "transformers": "5.16.1",
+    "matplotlib": "3.11.0"
+  },
+  "dataset_sha256": "35b08ad29c432c45adbd2c285a05442a3cf452bdeaa7d46ce70d4be7607b2ab6",
+  "model_run_id": "full_20261022T064326Z_fa1cd053",
+  "model_version": "sha256:d770fc4d3ae7f8726bb8209bd39ed024da011968355398173d009a7803160f8b",
+  "thresholds": {
+    "AURI": 0.81,
+    "PN": 0.72,
+    "TB": 0.74,
+    "COVID": 0.91
+  },
+  "max_length": 128,
+  "labeling_seconds": 0.05686583401984535,
+  "completed_at_utc": "2026-10-28T06:27:53.920431+00:00"
+}

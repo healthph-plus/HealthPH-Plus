@@ -42,7 +42,10 @@ def fake_assets(tmp_path, monkeypatch):
     (keywords / "hiligaynon_keywords.csv").write_text('\ufeff"ubo"\n"bug-at ang dughan"\n')
     (keywords / "ilocano_keywords.csv").write_text('"uyek"\n')
     model = Mock()
-    model.predict.side_effect = lambda texts, k: ([["__label__fr"] for _ in texts], [[0.8] for _ in texts])
+    model.predict.side_effect = lambda texts, k: (
+        [["__label__fr", "__label__tl"][:k] for _ in texts],
+        [[0.8, 0.15][:k] for _ in texts],
+    )
     loader = Mock(return_value=model)
     monkeypatch.setattr("fasttext.load_model", loader)
     monkeypatch.setattr(module, "ASSET_ROOT", tmp_path)
@@ -72,6 +75,107 @@ def test_load_once_chunking_and_single_batch_parity(fake_assets):
     assert all(result == detector.predict("hello") for result in results)
     loader.assert_called_once()
     assert detector.predict("hello " * 2000)["language"] == "fr"
+
+
+def test_default_response_is_unchanged(fake_assets):
+    result = LanguageDetector().predict("HELLO")
+    assert result == {
+        "language": "fr", "cleaned_text": "hello", "is_supported": False,
+        "prediction_source": "fasttext", "fasttext_language": "fr",
+        "fasttext_confidence": 0.8,
+    }
+    fake_assets[1].predict.assert_called_once_with(["hello"], k=1)
+
+
+@pytest.mark.parametrize("top_score,second_score,threshold,count", [
+    (0.6, 0.2999, 0.30, 1), (0.6, 0.30, 0.30, 2), (0.6, 0.3001, 0.30, 2),
+    (0.2, 0.1, 0.30, 1), (0.2, 0.1, 0.1, 2), (0.6, 0.3, 1, 1),
+    (1.00001, -0.00001, 0, 2),
+])
+def test_secondary_threshold_and_clamping(fake_assets, top_score, second_score, threshold, count):
+    model = fake_assets[1]
+    model.predict.side_effect = lambda texts, k: (
+        [["__label__en", "__label__tl"][:k] for _ in texts],
+        [[top_score, second_score][:k] for _ in texts],
+    )
+    result = LanguageDetector().predict("hello", top_k=2, secondary_min_confidence=threshold)
+    expected = [
+        {"language": "en", "confidence": min(1.0, max(0.0, top_score))},
+        {"language": "tl", "confidence": min(1.0, max(0.0, second_score))},
+    ]
+    assert result["fasttext_predictions"] == expected[:count]
+    assert result["fasttext_confidence"] == expected[0]["confidence"]
+    model.predict.assert_called_once_with(["hello"], k=2)
+
+
+def test_two_language_default_threshold_preserves_keyword_overrides(fake_assets):
+    fake_assets[1].predict.side_effect = lambda texts, k: (
+        [["__label__tl", "__label__en"][:k] for _ in texts],
+        [[0.6, 0.3][:k] for _ in texts],
+    )
+    detector = LanguageDetector()
+    result = detector.predict("ubo and uyek", top_k=2)
+    assert result.pop("fasttext_predictions") == [
+        {"language": "tl", "confidence": 0.6}, {"language": "en", "confidence": 0.3},
+    ]
+    assert result == detector.predict("ubo and uyek")
+    assert result["language"] == "hil"
+    assert result["prediction_source"] == "keyword_override"
+
+
+def test_two_language_chunking_order_and_single_batch_parity(fake_assets):
+    detector = LanguageDetector()
+    assert detector.predict_many([], top_k=2) == []
+    fake_assets[1].predict.assert_not_called()
+    texts = ["HELLO", "GOODBYE"] * 33
+    results = detector.predict_many(texts, top_k=2, secondary_min_confidence=0.1)
+    assert [len(call.args[0]) for call in fake_assets[1].predict.call_args_list] == [32, 32, 2]
+    assert all(call.kwargs == {"k": 2} for call in fake_assets[1].predict.call_args_list)
+    assert [result["cleaned_text"] for result in results] == [text.lower() for text in texts]
+    for text, result in zip(texts[:2], results[:2]):
+        assert result == detector.predict(text, top_k=2, secondary_min_confidence=0.1)
+        assert result["fasttext_predictions"] == [
+            {"language": "fr", "confidence": 0.8}, {"language": "tl", "confidence": 0.15},
+        ]
+        assert result["is_supported"] is False
+
+
+@pytest.mark.parametrize("options", [
+    {"top_k": value} for value in (0, 3, 1.0, True, None, "2", [])
+] + [
+    {"secondary_min_confidence": value}
+    for value in (-0.01, 1.01, float("nan"), float("inf"), -float("inf"), True, None, "0.3", [])
+])
+def test_invalid_prediction_options_never_call_model(fake_assets, options):
+    detector = LanguageDetector()
+    with pytest.raises(ValueError):
+        detector.predict("hello", **options)
+    with pytest.raises(ValueError):
+        detector.predict_many([], **options)
+    fake_assets[1].predict.assert_not_called()
+
+
+@pytest.mark.parametrize("top_k,index", [(1, 0), (2, 0), (2, 1)])
+@pytest.mark.parametrize("nonfinite", [float("nan"), float("inf"), -float("inf")])
+def test_nonfinite_candidates_are_rejected_even_below_threshold(fake_assets, top_k, index, nonfinite):
+    scores = [0.6, 0.3]
+    scores[index] = nonfinite
+    fake_assets[1].predict.side_effect = lambda texts, k: (
+        [["__label__en", "__label__tl"][:k] for _ in texts], [scores[:k] for _ in texts],
+    )
+    with pytest.raises(RuntimeError, match="non-finite"):
+        LanguageDetector().predict("hello", top_k=top_k, secondary_min_confidence=1)
+
+
+@pytest.mark.parametrize("labels,scores", [
+    ([], []), ([["__label__en"]], [[0.6, 0.3]]),
+    ([["__label__en", "__label__tl"]], [[0.6]]),
+])
+def test_incomplete_model_predictions_fail(fake_assets, labels, scores):
+    fake_assets[1].predict.side_effect = None
+    fake_assets[1].predict.return_value = labels, scores
+    with pytest.raises(RuntimeError, match="incomplete"):
+        LanguageDetector().predict("hello", top_k=2)
 
 
 @pytest.mark.parametrize("text", [None, 123, True, [], "", " \n ", "😷", "1234 !", "中文", "https://example.com", "@ubo #health"])
@@ -130,6 +234,31 @@ def test_real_predictions_match_notebook(real_detector):
         assert result["fasttext_confidence"] == pytest.approx(min(1.0, max(0.0, float(scores[i][0]))))
         assert result["cleaned_text"] == cleaned[i]
         assert real_detector.predict(SAMPLES[i]) == result
+
+
+@pytest.mark.model
+@pytest.mark.parametrize("model_name", ["lid.176.bin", "lid.176.ftz"])
+def test_real_two_language_predictions(model_name):
+    detector = LanguageDetector(model_path=module.ASSET_ROOT / "models" / model_name)
+    texts = SAMPLES + ["Hello po, can I ask kung saan ang clinic?"]
+    labels, scores = detector._model.predict([normalize_text(text) for text in texts], k=2)
+    defaults = detector.predict_many(texts)
+    results = detector.predict_many(texts, top_k=2)
+    unfiltered = detector.predict_many(texts, top_k=2, secondary_min_confidence=0)
+    for text, original, result, both, label, score in zip(
+        texts, defaults, results, unfiltered, labels, scores, strict=True,
+    ):
+        expected = [
+            {"language": code.removeprefix("__label__"),
+             "confidence": min(1.0, max(0.0, float(confidence)))}
+            for code, confidence in zip(label, score, strict=True)
+        ]
+        assert both["fasttext_predictions"] == expected
+        assert result["fasttext_predictions"] == expected[:1] + [
+            candidate for candidate in expected[1:] if candidate["confidence"] >= 0.30
+        ]
+        assert result == detector.predict(text, top_k=2)
+        assert {key: value for key, value in result.items() if key != "fasttext_predictions"} == original
 
 
 @pytest.mark.model

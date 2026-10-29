@@ -1,0 +1,2 @@
+Generated from the repository healthph_symptoms package. Do not edit this copy.
+Refresh with: python -m healthph_symptoms.export --service-dir <folder> --code-only
