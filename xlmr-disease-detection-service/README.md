@@ -165,9 +165,80 @@ Pass `artifact_dir="/absolute/path/to/model"` to override the environment/defaul
 directory. Python calls raise `ValueError` for invalid input or incompatible
 metadata; model loading and inference failures propagate to the caller.
 
+## Train or update the disease model
+
+Optional training runs directly from this folder without the notebook or research
+repository. Install training dependencies separately from inference:
+
+```sh
+python -m pip install -r requirements-training.txt
+python -m healthph_xlmr.train \
+  --data /absolute/path/to/annotations.csv \
+  --output-dir training-runs/my-run \
+  --epochs 5 --batch-size 4 --learning-rate 2e-5
+```
+
+Supply a CSV with `post` and `annotate` columns. Annotations contain four binary
+integers in **AURI, PN, TB, COVID** order; multiple labels and all-zero examples
+are accepted:
+
+```csv
+post,annotate
+"May ubo ako.","[1, 0, 0, 0]"
+"Feeling well.","[0, 0, 0, 0]"
+```
+
+This illustrates the format; actual training requires positive and negative
+examples of every disease in every split. The command validates all rows,
+collapses whitespace while preserving casing/Unicode as inference does, removes
+consistent duplicates across files, and rejects conflicting annotations.
+Reproducible multilabel splits default to 80% training, 10% validation, 10% test.
+
+The current research CSVs include conflicting duplicate annotations. Correct
+them, or pass `--conflict-policy exclude` to exclude entire conflicting post
+groups, as the notebook does. Excluded counts are printed, and every excluded
+fingerprint/source row is recorded in `reports/data_quality.json`.
+Long training posts are retained with the same 128-token truncation; the audit
+counts posts above the inference API's 10,000-character input limit.
+
+Training continues `model/best_model/` with a fresh optimizer. Override it using
+`--model-path /path/to/another/best_model`, containing a compatible local four-label
+XLM-R model/tokenizer. Model loading is offline. Repeat `--data` to combine CSVs.
+Use `--validate-only` to check data and save audits without loading weights.
+`--device cpu` forces CPU; `auto` uses PyTorch/Trainer's selected device.
+`python -m healthph_xlmr.train --help` lists split fractions, seed, gradient
+accumulation, early stopping, and other settings. Gradient checkpointing is enabled
+by default for XLM-R; use `--no-gradient-checkpointing` to disable it.
+
+Outputs must go to a new directory. Each run saves the complete inference bundle
+(`best_model/`, labels, thresholds, and `run_config.json`) plus `selection.json`,
+`status.json`, checkpoints, and `reports/`. Reports include data quality, source
+fingerprints and split membership, epoch logs, threshold search, validation/test
+metrics, per-disease precision/recall/F1 and confusion counts, prediction scores,
+and saved-model reload verification. Reports identify posts by fingerprint/source
+row and exclude post text. A run is complete only when `status.json` says `complete`.
+
+The model uses training-only positive-weighted binary cross-entropy. Checkpoint
+selection and early stopping use validation micro-F1 at 0.5; per-disease thresholds
+are then chosen using validation F1. Test evaluation follows model/threshold
+selection. These commands continue existing weights: independent performance
+estimates also require examples excluded from the initial model's earlier training.
+
+Review a completed run, then use its directory with the export command below or
+stop the service and select it on restart:
+
+```sh
+HEALTHPH_XLMR_DISEASE_ARTIFACT_DIR=/absolute/path/to/training-runs/my-run \
+  python -m healthph_xlmr.api
+```
+
+Training preserves the active `model/` bundle. Exclude `training-runs/`, datasets,
+and checkpoints from inference-only handoffs. Symptom keyword matching needs no
+training.
+
 ## Export and update the model
 
-Continue disease training and evaluation in the existing XLM-RoBERTa notebook.
+Train using the command above or the existing XLM-RoBERTa notebook.
 Keyword extraction requires no additional training. Stop any service using the
 target directory before exporting.
 

@@ -14,14 +14,17 @@ const prediction = {
   prediction_source: "keyword_override",
   fasttext_language: "tl",
   fasttext_confidence: 0.9,
+  fasttext_confidence_percentage: 90,
 };
 
 const twoLanguagePrediction = {
   ...prediction,
   fasttext_language: "tl",
   fasttext_confidence: 0.6,
+  fasttext_confidence_percentage: 60,
   fasttext_predictions: [
-    { language: "tl", confidence: 0.6 }, { language: "en", confidence: 0.3 },
+    { language: "tl", confidence: 0.6, confidence_percentage: 60 },
+    { language: "en", confidence: 0.3, confidence_percentage: 30 },
   ],
 };
 
@@ -88,8 +91,8 @@ test("optional candidates forward only specified options for single and batch re
 
 test("candidate validation allows a top score below the secondary threshold", async (t) => {
   const lowConfidence = {
-    ...twoLanguagePrediction, fasttext_confidence: 0.2,
-    fasttext_predictions: [{ language: "tl", confidence: 0.2 }],
+    ...twoLanguagePrediction, fasttext_confidence: 0.2, fasttext_confidence_percentage: 20,
+    fasttext_predictions: [{ language: "tl", confidence: 0.2, confidence_percentage: 20 }],
   };
   const { serviceUrl } = await serve(t, (_request, response) => response.end(JSON.stringify(lowConfidence)));
   assert.deepEqual(await createLanguageClient({ serviceUrl }).predict("mixed", { topK: 2 }), lowConfidence);
@@ -98,7 +101,10 @@ test("candidate validation allows a top score below the secondary threshold", as
 test("candidate validation honors a custom lower threshold", async (t) => {
   const lowSecondary = {
     ...twoLanguagePrediction,
-    fasttext_predictions: [{ language: "tl", confidence: 0.6 }, { language: "en", confidence: 0.1 }],
+    fasttext_predictions: [
+      { language: "tl", confidence: 0.6, confidence_percentage: 60 },
+      { language: "en", confidence: 0.1, confidence_percentage: 10 },
+    ],
   };
   const { serviceUrl } = await serve(t, (_request, response) => response.end(JSON.stringify(lowSecondary)));
   assert.deepEqual(await createLanguageClient({ serviceUrl }).predict("mixed", {
@@ -114,6 +120,11 @@ for (const [name, candidates] of [
   ["non-finite score encoded as null", [{ language: "tl", confidence: null }]],
   ["score out of range", [{ language: "tl", confidence: 1.1 }]],
   ["negative score", [{ language: "tl", confidence: -0.1 }]],
+  ["percentage out of range", [{ language: "tl", confidence: 0.6, confidence_percentage: 101 }]],
+  ["negative percentage", [{ language: "tl", confidence: 0.6, confidence_percentage: -1 }]],
+  ["string percentage", [{ language: "tl", confidence: 0.6, confidence_percentage: "60" }]],
+  ["null percentage", [{ language: "tl", confidence: 0.6, confidence_percentage: null }]],
+  ["inconsistent percentage", [{ language: "tl", confidence: 0.6, confidence_percentage: 61 }]],
   ["empty language", [{ language: "", confidence: 0.6 }]],
   ["inconsistent top language", [{ language: "en", confidence: 0.6 }]],
   ["inconsistent top score", [{ language: "tl", confidence: 0.5 }]],
@@ -127,6 +138,37 @@ for (const [name, candidates] of [
     await assert.rejects(createLanguageClient({ serviceUrl }).predict("mixed", { topK: 2 }), {
       code: "INVALID_RESPONSE",
     });
+  });
+}
+
+test("rounded percentages are preserved for single and batch predictions", async (t) => {
+  const rounded = {
+    ...twoLanguagePrediction, fasttext_confidence: 0.654321, fasttext_confidence_percentage: 65.43,
+    fasttext_predictions: [
+      { language: "tl", confidence: 0.654321, confidence_percentage: 65.43 },
+      { language: "en", confidence: 0.312345, confidence_percentage: 31.23 },
+    ],
+  };
+  const { serviceUrl } = await serve(t, (request, response) => response.end(JSON.stringify(
+    request.url.endsWith("predict-batch") ? { results: [rounded] } : rounded,
+  )));
+  const client = createLanguageClient({ serviceUrl });
+  assert.deepEqual(await client.predict("mixed", { topK: 2 }), rounded);
+  assert.deepEqual(await client.predictBatch(["mixed"], { topK: 2 }), { results: [rounded] });
+});
+
+test("older service responses without percentage fields remain supported", async (t) => {
+  const { fasttext_confidence_percentage, ...legacy } = twoLanguagePrediction;
+  legacy.fasttext_predictions = legacy.fasttext_predictions.map(({ language, confidence }) => ({ language, confidence }));
+  const { serviceUrl } = await serve(t, (_request, response) => response.end(JSON.stringify(legacy)));
+  assert.deepEqual(await createLanguageClient({ serviceUrl }).predict("mixed", { topK: 2 }), legacy);
+});
+
+for (const percentage of [-1, 101, "60", null, 61]) {
+  test(`reject invalid primary percentage: ${percentage}`, async (t) => {
+    const invalid = { ...prediction, fasttext_confidence_percentage: percentage };
+    const { serviceUrl } = await serve(t, (_request, response) => response.end(JSON.stringify(invalid)));
+    await assert.rejects(createLanguageClient({ serviceUrl }).predict("ubo"), { code: "INVALID_RESPONSE" });
   });
 }
 

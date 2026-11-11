@@ -22,6 +22,7 @@ DEFAULT_SECONDARY_MIN_CONFIDENCE = 0.30
 class FastTextPrediction(TypedDict):
     language: str
     confidence: float
+    confidence_percentage: float
 
 
 class Prediction(TypedDict):
@@ -31,6 +32,7 @@ class Prediction(TypedDict):
     prediction_source: Literal["fasttext", "keyword_override"]
     fasttext_language: str
     fasttext_confidence: float
+    fasttext_confidence_percentage: float
     fasttext_predictions: NotRequired[list[FastTextPrediction]]
 
 
@@ -130,10 +132,12 @@ class LanguageDetector:
                     confidence = float(candidate_score)
                     if not math.isfinite(confidence):
                         raise RuntimeError("FastText returned a non-finite confidence")
+                    # FastText can slightly exceed 1 due to numerical rounding.
+                    confidence = min(1.0, max(0.0, confidence))
                     candidates.append({
                         "language": candidate_label.removeprefix("__label__"),
-                        # FastText can slightly exceed 1 due to numerical rounding.
-                        "confidence": min(1.0, max(0.0, confidence)),
+                        "confidence": confidence,
+                        "confidence_percentage": round(confidence * 100, 2),
                     })
                 fasttext_language = candidates[0]["language"]
                 language = fasttext_language
@@ -149,6 +153,7 @@ class LanguageDetector:
                     "prediction_source": source,
                     "fasttext_language": fasttext_language,
                     "fasttext_confidence": candidates[0]["confidence"],
+                    "fasttext_confidence_percentage": candidates[0]["confidence_percentage"],
                 }
                 if top_k == 2:
                     result["fasttext_predictions"] = candidates[:1] + [

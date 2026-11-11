@@ -1,0 +1,6 @@
+# Optional local fine-tuning; inference installations do not need these extras.
+-r requirements-inference.txt
+accelerate==1.14.0
+scikit-learn==1.9.0
+scipy==1.18.0
+iterative-stratification==0.1.9

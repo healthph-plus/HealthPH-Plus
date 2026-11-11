@@ -140,9 +140,37 @@ The standalone XLM-RoBERTa predictor, HTTP API, JavaScript client, and export
 workflow are in [`xlmr-disease-detection-service/`](xlmr-disease-detection-service/README.md).
 Share the entire folder, including its Git-ignored `model/` bundle. It uses the
 same disease API contract as ELECTRA on its own default port, **8003**. The initial
-bundle is run `full_20261022T064326Z_fa1cd053`. Training stays in
-`notebooks/06_xlm_roberta_disease.ipynb`; its optional final export cell and the
-service's export command prepare future complete model updates.
+bundle is run `full_20261022T064326Z_fa1cd053`. Training is available through the
+standalone command below or `notebooks/06_xlm_roberta_disease.ipynb`; the notebook's
+optional final export cell and the service's export command prepare complete model updates.
+
+### Disease model training commands
+
+Both disease services support offline fine-tuning from their local model bundles.
+From the selected service folder, install `requirements-training.txt`, then run:
+
+```sh
+# Inside disease-detection-service/
+python -m healthph_plus.train --data /path/to/annotations.csv --output-dir training-runs/my-run
+
+# Inside xlmr-disease-detection-service/
+python -m healthph_xlmr.train --data /path/to/annotations.csv --output-dir training-runs/my-run
+```
+
+CSVs use `post` and `annotate`, with binary label lists in AURI, PN, TB, COVID order.
+Commands validate/deduplicate data, create reproducible splits, select checkpoints
+and thresholds using validation data, evaluate the held-out test split, and verify
+the saved bundle reloads. `--validate-only` checks data without training.
+`--help` lists epochs, batch size, learning rate, device, and other options.
+Conflicting duplicate annotations fail by default; `--conflict-policy exclude`
+explicitly excludes and audits entire conflict groups in the current research CSVs.
+Training writes a new bundle and reports without replacing the running service's
+model. See each service README for setup, data requirements, and model activation.
+
+The canonical runtime is [`healthph_disease_training/`](healthph_disease_training/).
+After editing it, refresh the generated copies in both standalone services with
+`python -m healthph_disease_training.vendor`. Run the offline training checks with
+`.venv/bin/python -m pytest tests/test_disease_training.py -q`.
 
 ---
 

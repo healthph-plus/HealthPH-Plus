@@ -216,6 +216,15 @@ artifacts
 data
 data/training_data
 
+# Version only the synthetic sentiment v1 corpus and its audit reports.
+!/data/
+/data/*
+!/data/training_data/
+/data/training_data/*
+!/data/training_data/synthetic_sentiment_v1.csv
+!/data/training_data/synthetic_sentiment_v1.manifest.json
+!/data/training_data/synthetic_sentiment_v1.quality.json
+
 *.png
 
 

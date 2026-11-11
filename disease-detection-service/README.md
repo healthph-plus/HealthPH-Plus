@@ -75,6 +75,76 @@ Set `HEALTHPH_DISEASE_URL` in the backend to change the service URL. To try the 
 
 See the [full integration guide](docs/disease_inference.md) for artifact transfer, tests, and the model's current evaluation results.
 
+## Train or update the disease model
+
+Optional training runs directly from this folder, without a notebook or the
+research repository. Install the training extras in the service environment:
+
+```sh
+python -m pip install -r requirements-training.txt
+python -m healthph_plus.train \
+  --data /absolute/path/to/annotations.csv \
+  --output-dir training-runs/my-run \
+  --epochs 5 --batch-size 4 --learning-rate 2e-5
+```
+
+The CSV uses the existing annotation format, with four binary integers in
+**AURI, PN, TB, COVID** order. Multiple diseases and all-zero examples are valid:
+
+```csv
+post,annotate
+"May ubo ako.","[1, 0, 0, 0]"
+"Feeling well.","[0, 0, 0, 0]"
+```
+
+This two-row example illustrates the format; a training dataset needs positive
+and negative examples of every disease in each split. The command validates all
+rows, removes consistent duplicates across input files, rejects conflicting
+annotations, and makes reproducible multilabel train/validation/test splits
+(80/10/10 by default). Whitespace variants belong to the same duplicate group;
+ELECTRA receives the original submitted text, matching its inference service.
+
+The current research CSVs contain conflicting duplicate annotations. Correct
+those labels, or pass `--conflict-policy exclude` to remove every row in each
+conflicting post group. The command prints excluded counts and records all
+excluded fingerprints/source rows in `reports/data_quality.json`.
+Long training posts are retained and tokenized with the service's 128-token limit;
+the audit counts posts above the inference API's 10,000-character input limit.
+
+Training starts from `model/best_model/`, with a fresh optimizer. Use
+`--model-path /path/to/another/best_model` for another compatible local four-label
+ELECTRA model/tokenizer. Model loading is offline. Repeat `--data` to combine
+CSVs. Use `--validate-only` to save data audits and a split manifest without
+loading weights. `--device cpu` forces CPU; `auto` uses the device selected by
+PyTorch/Trainer. Run `python -m healthph_plus.train --help` for split fractions,
+seed, gradient accumulation, early stopping, and other settings.
+
+Each output directory must be new. Runs save `best_model/`, `label_order.json`,
+`thresholds.json`, `run_config.json`, `selection.json`, and `status.json`.
+`reports/` includes data quality and split audits, epoch logs, threshold searches,
+validation/test metrics, per-disease precision/recall/F1 and confusion counts,
+prediction scores, and a saved-model reload check. Reports identify posts by
+fingerprint and source row; they do not copy post text. `status: complete` means
+training, evaluation, and reload verification finished successfully.
+
+Checkpoint selection and early stopping use validation micro-F1 at 0.5.
+Per-disease thresholds are then tuned using validation F1; the held-out test split
+is evaluated after those decisions are frozen. ELECTRA uses unweighted binary
+cross-entropy. These commands continue existing weights: independent performance
+estimates also require examples excluded from the initial model's earlier training.
+
+After reviewing the completed run, stop the service and select its bundle on restart:
+
+```sh
+HEALTHPH_DISEASE_ARTIFACT_DIR=/absolute/path/to/training-runs/my-run \
+  python -m healthph_plus.disease_api
+```
+
+Training leaves the current `model/` bundle intact. Keep `training-runs/`, datasets,
+and checkpoints out of inference-only handoffs. Symptom keywords need no training.
+The existing research export below can also package a completed CLI run by using
+its output directory as `--disease-source`.
+
 ## Prepare a combined handoff
 
 Run from the research repository root:

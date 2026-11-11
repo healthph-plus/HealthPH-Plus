@@ -1,0 +1,274 @@
+{
+  "schema_version": "1.0.0",
+  "dataset_version": "synthetic_sentiment_v1",
+  "created_date": "2026-11-03",
+  "dataset_file": "synthetic_sentiment_v1.csv",
+  "dataset_sha256": "2dbf5bd7ecae51d7de9f12e9b0052d32969a4ca213f5e1b9d8f0a8cf1c342c15",
+  "quality_file": "synthetic_sentiment_v1.quality.json",
+  "quality_sha256": "512928fc3518dd7ddb5e744ad8918a4071a4ceba5342bc909b853cde2df20cc4",
+  "generation_method": "assistant-authored complete posts in language/label/style batches; no sentence-template expansion or external generation API",
+  "generation_notes": [
+    "5000 complete strings were authored directly; seed does not regenerate their wording.",
+    "Some language renderings share scenarios; they are not independent observations.",
+    "Authoring indices across languages and labels seed conservative family grouping; lexical-neighbor components merge related slots.",
+    "Eight exact duplicate groups were replaced before freezing.",
+    "No existing real post text was supplied as a generation source."
+  ],
+  "seed": 42,
+  "seed_applies_to": [
+    "row ordering",
+    "whole-family split assignment",
+    "review sampling"
+  ],
+  "count": 5000,
+  "label_mapping": {
+    "0": "calm",
+    "1": "worried"
+  },
+  "label_definition": {
+    "0": "neutral, factual, positive, or no dominant distress",
+    "1": "clear negative or distressed sentiment, including worry, fear, frustration, pain-related distress, or illness sadness"
+  },
+  "languages": {
+    "en": "English",
+    "tl": "Tagalog",
+    "ceb": "Cebuano",
+    "ilo": "Ilocano",
+    "hil": "Hiligaynon"
+  },
+  "counts_by_language": {
+    "ceb": 1000,
+    "en": 1000,
+    "hil": 1000,
+    "ilo": 1000,
+    "tl": 1000
+  },
+  "counts_by_label": {
+    "0": 3000,
+    "1": 2000
+  },
+  "counts_by_split": {
+    "train": 3500,
+    "validation": 750,
+    "test": 750
+  },
+  "counts_by_language_label_split": [
+    {
+      "language": "ceb",
+      "sentiment_label": "0",
+      "split": "test",
+      "rows": 90
+    },
+    {
+      "language": "ceb",
+      "sentiment_label": "0",
+      "split": "train",
+      "rows": 420
+    },
+    {
+      "language": "ceb",
+      "sentiment_label": "0",
+      "split": "validation",
+      "rows": 90
+    },
+    {
+      "language": "ceb",
+      "sentiment_label": "1",
+      "split": "test",
+      "rows": 60
+    },
+    {
+      "language": "ceb",
+      "sentiment_label": "1",
+      "split": "train",
+      "rows": 280
+    },
+    {
+      "language": "ceb",
+      "sentiment_label": "1",
+      "split": "validation",
+      "rows": 60
+    },
+    {
+      "language": "en",
+      "sentiment_label": "0",
+      "split": "test",
+      "rows": 90
+    },
+    {
+      "language": "en",
+      "sentiment_label": "0",
+      "split": "train",
+      "rows": 420
+    },
+    {
+      "language": "en",
+      "sentiment_label": "0",
+      "split": "validation",
+      "rows": 90
+    },
+    {
+      "language": "en",
+      "sentiment_label": "1",
+      "split": "test",
+      "rows": 60
+    },
+    {
+      "language": "en",
+      "sentiment_label": "1",
+      "split": "train",
+      "rows": 280
+    },
+    {
+      "language": "en",
+      "sentiment_label": "1",
+      "split": "validation",
+      "rows": 60
+    },
+    {
+      "language": "hil",
+      "sentiment_label": "0",
+      "split": "test",
+      "rows": 90
+    },
+    {
+      "language": "hil",
+      "sentiment_label": "0",
+      "split": "train",
+      "rows": 420
+    },
+    {
+      "language": "hil",
+      "sentiment_label": "0",
+      "split": "validation",
+      "rows": 90
+    },
+    {
+      "language": "hil",
+      "sentiment_label": "1",
+      "split": "test",
+      "rows": 60
+    },
+    {
+      "language": "hil",
+      "sentiment_label": "1",
+      "split": "train",
+      "rows": 280
+    },
+    {
+      "language": "hil",
+      "sentiment_label": "1",
+      "split": "validation",
+      "rows": 60
+    },
+    {
+      "language": "ilo",
+      "sentiment_label": "0",
+      "split": "test",
+      "rows": 90
+    },
+    {
+      "language": "ilo",
+      "sentiment_label": "0",
+      "split": "train",
+      "rows": 420
+    },
+    {
+      "language": "ilo",
+      "sentiment_label": "0",
+      "split": "validation",
+      "rows": 90
+    },
+    {
+      "language": "ilo",
+      "sentiment_label": "1",
+      "split": "test",
+      "rows": 60
+    },
+    {
+      "language": "ilo",
+      "sentiment_label": "1",
+      "split": "train",
+      "rows": 280
+    },
+    {
+      "language": "ilo",
+      "sentiment_label": "1",
+      "split": "validation",
+      "rows": 60
+    },
+    {
+      "language": "tl",
+      "sentiment_label": "0",
+      "split": "test",
+      "rows": 90
+    },
+    {
+      "language": "tl",
+      "sentiment_label": "0",
+      "split": "train",
+      "rows": 420
+    },
+    {
+      "language": "tl",
+      "sentiment_label": "0",
+      "split": "validation",
+      "rows": 90
+    },
+    {
+      "language": "tl",
+      "sentiment_label": "1",
+      "split": "test",
+      "rows": 60
+    },
+    {
+      "language": "tl",
+      "sentiment_label": "1",
+      "split": "train",
+      "rows": 280
+    },
+    {
+      "language": "tl",
+      "sentiment_label": "1",
+      "split": "validation",
+      "rows": 60
+    }
+  ],
+  "code_switching": "20% within each local language, label, and split; English is not code-switched.",
+  "csv_types": {
+    "id": "unique nonblank string",
+    "post": "UTF-8 string",
+    "sentiment_label": "0 or 1",
+    "language": "en|tl|ceb|ilo|hil",
+    "code_switched": "true|false",
+    "family_id": "string grouping related variants",
+    "split": "train|validation|test",
+    "is_synthetic": "true"
+  },
+  "normalization": "collapse whitespace and strip; preserve casing and Unicode",
+  "duplicate_audit_normalization": "whitespace collapse, trim, and casefold; original model text preserved",
+  "family_count": 990,
+  "largest_family_rows": 10,
+  "split_assignment": "Exact language/label/style quotas fixed before authoring; seed-42 MILP assignment of whole families, with no family crossing splits. CSV assignments are frozen and authoritative.",
+  "assignment_versions": {
+    "numpy": "2.5.1",
+    "pandas": "3.0.3",
+    "scipy": "1.18.0",
+    "scikit-learn": "1.9.0"
+  },
+  "review_status": "STRUCTURAL_CHECKS_PASSED_SYNTHETIC_LABELS_NATIVE_REVIEW_PENDING",
+  "synthetic_labels": true,
+  "native_speaker_verified": false,
+  "usage": {
+    "notebook": "notebooks/05_binary_sentiment_mbert.ipynb",
+    "model_input": "post only; all other columns are audit metadata",
+    "validate_command": "python -m healthph_plus.sentiment_data data/training_data/synthetic_sentiment_v1.csv --near-duplicates",
+    "training": "Notebook defaults to this CSV; set DATASET_PATH explicitly for legacy data. No deployed model was replaced."
+  },
+  "limitations": [
+    "Reviewed labels follow the supplied calm/distress distinction, including explicit symptoms in both labels.",
+    "Administrative and recovery statements dominate calm examples; explicit distress expressions dominate worried examples.",
+    "Parallel language renderings and repetitive short phrasing limit diversity; authoring slots and close lexical variants are conservatively grouped.",
+    "Native spelling, grammar, idiomaticity, and dialect variation are not independently verified, especially for Ilocano."
+  ]
+}

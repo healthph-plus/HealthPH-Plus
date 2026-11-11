@@ -1,0 +1,1090 @@
+{
+  "schema_version": "1.0.0",
+  "dataset_sha256": "2dbf5bd7ecae51d7de9f12e9b0052d32969a4ca213f5e1b9d8f0a8cf1c342c15",
+  "row_count": 5000,
+  "status": "STRUCTURAL_CHECKS_PASSED_SYNTHETIC_LABELS_NATIVE_REVIEW_PENDING",
+  "structural_checks": {
+    "schema": true,
+    "unique_ids": true,
+    "nonblank_posts": true,
+    "binary_labels": true,
+    "language_quotas": true,
+    "label_quotas": true,
+    "code_switch_quotas": true,
+    "family_split_isolation": true,
+    "normalized_duplicate_groups": 0,
+    "conflicting_duplicate_labels": 0
+  },
+  "counts_by_language_label_split": [
+    {
+      "language": "ceb",
+      "sentiment_label": "0",
+      "split": "test",
+      "rows": 90
+    },
+    {
+      "language": "ceb",
+      "sentiment_label": "0",
+      "split": "train",
+      "rows": 420
+    },
+    {
+      "language": "ceb",
+      "sentiment_label": "0",
+      "split": "validation",
+      "rows": 90
+    },
+    {
+      "language": "ceb",
+      "sentiment_label": "1",
+      "split": "test",
+      "rows": 60
+    },
+    {
+      "language": "ceb",
+      "sentiment_label": "1",
+      "split": "train",
+      "rows": 280
+    },
+    {
+      "language": "ceb",
+      "sentiment_label": "1",
+      "split": "validation",
+      "rows": 60
+    },
+    {
+      "language": "en",
+      "sentiment_label": "0",
+      "split": "test",
+      "rows": 90
+    },
+    {
+      "language": "en",
+      "sentiment_label": "0",
+      "split": "train",
+      "rows": 420
+    },
+    {
+      "language": "en",
+      "sentiment_label": "0",
+      "split": "validation",
+      "rows": 90
+    },
+    {
+      "language": "en",
+      "sentiment_label": "1",
+      "split": "test",
+      "rows": 60
+    },
+    {
+      "language": "en",
+      "sentiment_label": "1",
+      "split": "train",
+      "rows": 280
+    },
+    {
+      "language": "en",
+      "sentiment_label": "1",
+      "split": "validation",
+      "rows": 60
+    },
+    {
+      "language": "hil",
+      "sentiment_label": "0",
+      "split": "test",
+      "rows": 90
+    },
+    {
+      "language": "hil",
+      "sentiment_label": "0",
+      "split": "train",
+      "rows": 420
+    },
+    {
+      "language": "hil",
+      "sentiment_label": "0",
+      "split": "validation",
+      "rows": 90
+    },
+    {
+      "language": "hil",
+      "sentiment_label": "1",
+      "split": "test",
+      "rows": 60
+    },
+    {
+      "language": "hil",
+      "sentiment_label": "1",
+      "split": "train",
+      "rows": 280
+    },
+    {
+      "language": "hil",
+      "sentiment_label": "1",
+      "split": "validation",
+      "rows": 60
+    },
+    {
+      "language": "ilo",
+      "sentiment_label": "0",
+      "split": "test",
+      "rows": 90
+    },
+    {
+      "language": "ilo",
+      "sentiment_label": "0",
+      "split": "train",
+      "rows": 420
+    },
+    {
+      "language": "ilo",
+      "sentiment_label": "0",
+      "split": "validation",
+      "rows": 90
+    },
+    {
+      "language": "ilo",
+      "sentiment_label": "1",
+      "split": "test",
+      "rows": 60
+    },
+    {
+      "language": "ilo",
+      "sentiment_label": "1",
+      "split": "train",
+      "rows": 280
+    },
+    {
+      "language": "ilo",
+      "sentiment_label": "1",
+      "split": "validation",
+      "rows": 60
+    },
+    {
+      "language": "tl",
+      "sentiment_label": "0",
+      "split": "test",
+      "rows": 90
+    },
+    {
+      "language": "tl",
+      "sentiment_label": "0",
+      "split": "train",
+      "rows": 420
+    },
+    {
+      "language": "tl",
+      "sentiment_label": "0",
+      "split": "validation",
+      "rows": 90
+    },
+    {
+      "language": "tl",
+      "sentiment_label": "1",
+      "split": "test",
+      "rows": 60
+    },
+    {
+      "language": "tl",
+      "sentiment_label": "1",
+      "split": "train",
+      "rows": 280
+    },
+    {
+      "language": "tl",
+      "sentiment_label": "1",
+      "split": "validation",
+      "rows": 60
+    }
+  ],
+  "counts_by_language_label_code_switched": [
+    {
+      "language": "ceb",
+      "sentiment_label": "0",
+      "code_switched": "false",
+      "rows": 480
+    },
+    {
+      "language": "ceb",
+      "sentiment_label": "0",
+      "code_switched": "true",
+      "rows": 120
+    },
+    {
+      "language": "ceb",
+      "sentiment_label": "1",
+      "code_switched": "false",
+      "rows": 320
+    },
+    {
+      "language": "ceb",
+      "sentiment_label": "1",
+      "code_switched": "true",
+      "rows": 80
+    },
+    {
+      "language": "en",
+      "sentiment_label": "0",
+      "code_switched": "false",
+      "rows": 600
+    },
+    {
+      "language": "en",
+      "sentiment_label": "1",
+      "code_switched": "false",
+      "rows": 400
+    },
+    {
+      "language": "hil",
+      "sentiment_label": "0",
+      "code_switched": "false",
+      "rows": 480
+    },
+    {
+      "language": "hil",
+      "sentiment_label": "0",
+      "code_switched": "true",
+      "rows": 120
+    },
+    {
+      "language": "hil",
+      "sentiment_label": "1",
+      "code_switched": "false",
+      "rows": 320
+    },
+    {
+      "language": "hil",
+      "sentiment_label": "1",
+      "code_switched": "true",
+      "rows": 80
+    },
+    {
+      "language": "ilo",
+      "sentiment_label": "0",
+      "code_switched": "false",
+      "rows": 480
+    },
+    {
+      "language": "ilo",
+      "sentiment_label": "0",
+      "code_switched": "true",
+      "rows": 120
+    },
+    {
+      "language": "ilo",
+      "sentiment_label": "1",
+      "code_switched": "false",
+      "rows": 320
+    },
+    {
+      "language": "ilo",
+      "sentiment_label": "1",
+      "code_switched": "true",
+      "rows": 80
+    },
+    {
+      "language": "tl",
+      "sentiment_label": "0",
+      "code_switched": "false",
+      "rows": 480
+    },
+    {
+      "language": "tl",
+      "sentiment_label": "0",
+      "code_switched": "true",
+      "rows": 120
+    },
+    {
+      "language": "tl",
+      "sentiment_label": "1",
+      "code_switched": "false",
+      "rows": 320
+    },
+    {
+      "language": "tl",
+      "sentiment_label": "1",
+      "code_switched": "true",
+      "rows": 80
+    }
+  ],
+  "word_lengths": {
+    "minimum": 3,
+    "median": 7.0,
+    "p95": 9.0,
+    "maximum": 11,
+    "mean": 6.769
+  },
+  "word_lengths_by_language_label": [
+    {
+      "language": "ceb",
+      "sentiment_label": "0",
+      "min": 4,
+      "median": 6.0,
+      "mean": 6.218333333333334,
+      "max": 9
+    },
+    {
+      "language": "ceb",
+      "sentiment_label": "1",
+      "min": 5,
+      "median": 7.0,
+      "mean": 6.73,
+      "max": 9
+    },
+    {
+      "language": "en",
+      "sentiment_label": "0",
+      "min": 5,
+      "median": 7.0,
+      "mean": 7.326666666666667,
+      "max": 9
+    },
+    {
+      "language": "en",
+      "sentiment_label": "1",
+      "min": 6,
+      "median": 8.0,
+      "mean": 7.6125,
+      "max": 10
+    },
+    {
+      "language": "hil",
+      "sentiment_label": "0",
+      "min": 4,
+      "median": 7.0,
+      "mean": 6.855,
+      "max": 11
+    },
+    {
+      "language": "hil",
+      "sentiment_label": "1",
+      "min": 5,
+      "median": 7.0,
+      "mean": 6.7225,
+      "max": 10
+    },
+    {
+      "language": "ilo",
+      "sentiment_label": "0",
+      "min": 3,
+      "median": 6.0,
+      "mean": 6.235,
+      "max": 10
+    },
+    {
+      "language": "ilo",
+      "sentiment_label": "1",
+      "min": 4,
+      "median": 6.0,
+      "mean": 6.01,
+      "max": 9
+    },
+    {
+      "language": "tl",
+      "sentiment_label": "0",
+      "min": 4,
+      "median": 7.0,
+      "mean": 6.87,
+      "max": 9
+    },
+    {
+      "language": "tl",
+      "sentiment_label": "1",
+      "min": 5,
+      "median": 7.0,
+      "mean": 7.28,
+      "max": 10
+    }
+  ],
+  "topic_mention_counts": {
+    "auri": 290,
+    "pneumonia": 355,
+    "tb": 410,
+    "covid": 359
+  },
+  "topic_count_note": "Literal mention diagnostics only, not disease annotations; topics overlap. Other rows cover symptoms, recovery, caregiving, service access, or context-light neutral controls.",
+  "near_duplicate_audit": {
+    "method": "char_wb TF-IDF cosine; character ngrams 3–5; lowercase audit only",
+    "threshold": 0.88,
+    "candidate_pairs": 44,
+    "cross_split_candidate_pairs": 0,
+    "pairs": [
+      {
+        "left": "syn-v1-hil-1-0393",
+        "right": "syn-v1-ceb-1-0393",
+        "similarity": 0.916819,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-hil-1-0341",
+        "right": "syn-v1-ceb-1-0341",
+        "similarity": 0.947829,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-hil-1-0334",
+        "right": "syn-v1-ceb-1-0334",
+        "similarity": 0.96896,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-hil-1-0331",
+        "right": "syn-v1-ceb-1-0331",
+        "similarity": 0.896331,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-ceb-0-0572",
+        "right": "syn-v1-hil-0-0536",
+        "similarity": 0.987737,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-hil-0-0141",
+        "right": "syn-v1-ceb-0-0141",
+        "similarity": 0.928706,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-hil-0-0584",
+        "right": "syn-v1-ceb-0-0571",
+        "similarity": 0.885952,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-hil-0-0052",
+        "right": "syn-v1-ceb-0-0052",
+        "similarity": 0.882939,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-hil-0-0539",
+        "right": "syn-v1-ceb-0-0581",
+        "similarity": 0.892148,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-hil-0-0166",
+        "right": "syn-v1-ceb-0-0166",
+        "similarity": 0.91547,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-ceb-0-0029",
+        "right": "syn-v1-hil-0-0029",
+        "similarity": 0.912406,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-hil-1-0208",
+        "right": "syn-v1-hil-0-0201",
+        "similarity": 0.961946,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-ceb-1-0360",
+        "right": "syn-v1-hil-1-0360",
+        "similarity": 0.903778,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-hil-0-0502",
+        "right": "syn-v1-ceb-0-0521",
+        "similarity": 0.884104,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-hil-0-0167",
+        "right": "syn-v1-ceb-0-0167",
+        "similarity": 0.929646,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-ceb-0-0098",
+        "right": "syn-v1-hil-0-0098",
+        "similarity": 0.997091,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-hil-1-0371",
+        "right": "syn-v1-ceb-1-0371",
+        "similarity": 0.906603,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-ceb-0-0051",
+        "right": "syn-v1-hil-0-0051",
+        "similarity": 0.94923,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-ceb-1-0395",
+        "right": "syn-v1-hil-1-0395",
+        "similarity": 0.949884,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-hil-0-0056",
+        "right": "syn-v1-ceb-0-0056",
+        "similarity": 0.897025,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-ilo-1-0244",
+        "right": "syn-v1-ilo-1-0041",
+        "similarity": 0.94791,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-ceb-0-0566",
+        "right": "syn-v1-hil-0-0495",
+        "similarity": 0.895092,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-hil-0-0018",
+        "right": "syn-v1-ilo-0-0018",
+        "similarity": 0.952623,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-ceb-1-0327",
+        "right": "syn-v1-hil-1-0327",
+        "similarity": 0.985096,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-ceb-0-0047",
+        "right": "syn-v1-hil-0-0047",
+        "similarity": 0.956961,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-ceb-1-0391",
+        "right": "syn-v1-hil-1-0391",
+        "similarity": 0.909238,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-hil-0-0017",
+        "right": "syn-v1-ceb-0-0017",
+        "similarity": 0.964295,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-ceb-0-0105",
+        "right": "syn-v1-hil-0-0105",
+        "similarity": 0.880486,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-hil-0-0112",
+        "right": "syn-v1-ceb-0-0112",
+        "similarity": 0.944491,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-ceb-0-0541",
+        "right": "syn-v1-hil-0-0543",
+        "similarity": 0.888322,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-ceb-0-0177",
+        "right": "syn-v1-hil-0-0177",
+        "similarity": 0.974602,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-hil-1-0384",
+        "right": "syn-v1-ceb-1-0384",
+        "similarity": 0.972741,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-ceb-1-0361",
+        "right": "syn-v1-hil-1-0361",
+        "similarity": 0.901873,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-hil-1-0041",
+        "right": "syn-v1-hil-1-0244",
+        "similarity": 0.943987,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-ceb-1-0357",
+        "right": "syn-v1-hil-1-0357",
+        "similarity": 0.893775,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-hil-1-0344",
+        "right": "syn-v1-ceb-1-0344",
+        "similarity": 0.98045,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-hil-1-0366",
+        "right": "syn-v1-ceb-1-0366",
+        "similarity": 0.987551,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-hil-0-0221",
+        "right": "syn-v1-ceb-0-0221",
+        "similarity": 0.89975,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-hil-0-0121",
+        "right": "syn-v1-ceb-0-0121",
+        "similarity": 0.973905,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-ceb-1-0378",
+        "right": "syn-v1-hil-1-0378",
+        "similarity": 0.885412,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-ceb-1-0363",
+        "right": "syn-v1-hil-1-0363",
+        "similarity": 0.975082,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-ceb-1-0358",
+        "right": "syn-v1-hil-1-0358",
+        "similarity": 0.981949,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-hil-1-0287",
+        "right": "syn-v1-hil-1-0029",
+        "similarity": 0.991588,
+        "same_family": true,
+        "cross_split": false
+      },
+      {
+        "left": "syn-v1-hil-0-0001",
+        "right": "syn-v1-hil-0-0202",
+        "similarity": 0.988493,
+        "same_family": true,
+        "cross_split": false
+      }
+    ],
+    "limitation": "Lexical similarity cannot guarantee semantic paraphrase or translation isolation."
+  },
+  "qualitative_review": {
+    "reviewer": "authoring assistant; self-review, not independent annotation",
+    "native_speaker_verified": false,
+    "reviewed_count": 250,
+    "reviewed_ids": [
+      "syn-v1-en-0-0111",
+      "syn-v1-en-0-0420",
+      "syn-v1-en-0-0566",
+      "syn-v1-en-0-0078",
+      "syn-v1-en-0-0182",
+      "syn-v1-en-0-0285",
+      "syn-v1-en-0-0011",
+      "syn-v1-en-0-0470",
+      "syn-v1-en-0-0079",
+      "syn-v1-en-0-0350",
+      "syn-v1-en-0-0056",
+      "syn-v1-en-0-0119",
+      "syn-v1-en-0-0110",
+      "syn-v1-en-0-0589",
+      "syn-v1-en-0-0370",
+      "syn-v1-en-0-0235",
+      "syn-v1-en-0-0031",
+      "syn-v1-en-0-0213",
+      "syn-v1-en-0-0185",
+      "syn-v1-en-0-0087",
+      "syn-v1-en-0-0003",
+      "syn-v1-en-0-0588",
+      "syn-v1-en-0-0536",
+      "syn-v1-en-0-0597",
+      "syn-v1-en-0-0369",
+      "syn-v1-en-0-0540",
+      "syn-v1-en-0-0073",
+      "syn-v1-en-0-0136",
+      "syn-v1-en-0-0557",
+      "syn-v1-en-0-0438",
+      "syn-v1-en-1-0210",
+      "syn-v1-en-1-0281",
+      "syn-v1-en-1-0034",
+      "syn-v1-en-1-0211",
+      "syn-v1-en-1-0094",
+      "syn-v1-en-1-0085",
+      "syn-v1-en-1-0330",
+      "syn-v1-en-1-0095",
+      "syn-v1-en-1-0267",
+      "syn-v1-en-1-0127",
+      "syn-v1-en-1-0010",
+      "syn-v1-en-1-0362",
+      "syn-v1-en-1-0057",
+      "syn-v1-en-1-0073",
+      "syn-v1-en-1-0133",
+      "syn-v1-en-1-0043",
+      "syn-v1-en-1-0279",
+      "syn-v1-en-1-0377",
+      "syn-v1-en-1-0232",
+      "syn-v1-en-1-0386",
+      "syn-v1-tl-0-0074",
+      "syn-v1-tl-0-0415",
+      "syn-v1-tl-0-0395",
+      "syn-v1-tl-0-0278",
+      "syn-v1-tl-0-0400",
+      "syn-v1-tl-0-0173",
+      "syn-v1-tl-0-0269",
+      "syn-v1-tl-0-0376",
+      "syn-v1-tl-0-0078",
+      "syn-v1-tl-0-0443",
+      "syn-v1-tl-0-0010",
+      "syn-v1-tl-0-0282",
+      "syn-v1-tl-0-0434",
+      "syn-v1-tl-0-0299",
+      "syn-v1-tl-0-0031",
+      "syn-v1-tl-0-0094",
+      "syn-v1-tl-0-0056",
+      "syn-v1-tl-0-0424",
+      "syn-v1-tl-0-0034",
+      "syn-v1-tl-0-0204",
+      "syn-v1-tl-0-0181",
+      "syn-v1-tl-0-0466",
+      "syn-v1-tl-0-0071",
+      "syn-v1-tl-0-0262",
+      "syn-v1-tl-0-0525",
+      "syn-v1-tl-0-0528",
+      "syn-v1-tl-0-0485",
+      "syn-v1-tl-0-0536",
+      "syn-v1-tl-0-0507",
+      "syn-v1-tl-0-0545",
+      "syn-v1-tl-1-0168",
+      "syn-v1-tl-1-0231",
+      "syn-v1-tl-1-0026",
+      "syn-v1-tl-1-0064",
+      "syn-v1-tl-1-0010",
+      "syn-v1-tl-1-0111",
+      "syn-v1-tl-1-0187",
+      "syn-v1-tl-1-0144",
+      "syn-v1-tl-1-0245",
+      "syn-v1-tl-1-0225",
+      "syn-v1-tl-1-0091",
+      "syn-v1-tl-1-0077",
+      "syn-v1-tl-1-0083",
+      "syn-v1-tl-1-0241",
+      "syn-v1-tl-1-0173",
+      "syn-v1-tl-1-0120",
+      "syn-v1-tl-1-0351",
+      "syn-v1-tl-1-0321",
+      "syn-v1-tl-1-0343",
+      "syn-v1-tl-1-0352",
+      "syn-v1-ceb-0-0074",
+      "syn-v1-ceb-0-0415",
+      "syn-v1-ceb-0-0395",
+      "syn-v1-ceb-0-0278",
+      "syn-v1-ceb-0-0400",
+      "syn-v1-ceb-0-0173",
+      "syn-v1-ceb-0-0269",
+      "syn-v1-ceb-0-0376",
+      "syn-v1-ceb-0-0078",
+      "syn-v1-ceb-0-0443",
+      "syn-v1-ceb-0-0010",
+      "syn-v1-ceb-0-0282",
+      "syn-v1-ceb-0-0434",
+      "syn-v1-ceb-0-0299",
+      "syn-v1-ceb-0-0031",
+      "syn-v1-ceb-0-0094",
+      "syn-v1-ceb-0-0056",
+      "syn-v1-ceb-0-0424",
+      "syn-v1-ceb-0-0034",
+      "syn-v1-ceb-0-0204",
+      "syn-v1-ceb-0-0181",
+      "syn-v1-ceb-0-0466",
+      "syn-v1-ceb-0-0071",
+      "syn-v1-ceb-0-0262",
+      "syn-v1-ceb-0-0525",
+      "syn-v1-ceb-0-0528",
+      "syn-v1-ceb-0-0485",
+      "syn-v1-ceb-0-0536",
+      "syn-v1-ceb-0-0507",
+      "syn-v1-ceb-0-0545",
+      "syn-v1-ceb-1-0168",
+      "syn-v1-ceb-1-0231",
+      "syn-v1-ceb-1-0026",
+      "syn-v1-ceb-1-0064",
+      "syn-v1-ceb-1-0010",
+      "syn-v1-ceb-1-0111",
+      "syn-v1-ceb-1-0187",
+      "syn-v1-ceb-1-0144",
+      "syn-v1-ceb-1-0245",
+      "syn-v1-ceb-1-0225",
+      "syn-v1-ceb-1-0091",
+      "syn-v1-ceb-1-0077",
+      "syn-v1-ceb-1-0083",
+      "syn-v1-ceb-1-0241",
+      "syn-v1-ceb-1-0173",
+      "syn-v1-ceb-1-0120",
+      "syn-v1-ceb-1-0351",
+      "syn-v1-ceb-1-0321",
+      "syn-v1-ceb-1-0343",
+      "syn-v1-ceb-1-0352",
+      "syn-v1-ilo-0-0074",
+      "syn-v1-ilo-0-0415",
+      "syn-v1-ilo-0-0395",
+      "syn-v1-ilo-0-0278",
+      "syn-v1-ilo-0-0400",
+      "syn-v1-ilo-0-0173",
+      "syn-v1-ilo-0-0269",
+      "syn-v1-ilo-0-0376",
+      "syn-v1-ilo-0-0078",
+      "syn-v1-ilo-0-0443",
+      "syn-v1-ilo-0-0010",
+      "syn-v1-ilo-0-0282",
+      "syn-v1-ilo-0-0434",
+      "syn-v1-ilo-0-0299",
+      "syn-v1-ilo-0-0031",
+      "syn-v1-ilo-0-0094",
+      "syn-v1-ilo-0-0056",
+      "syn-v1-ilo-0-0424",
+      "syn-v1-ilo-0-0034",
+      "syn-v1-ilo-0-0204",
+      "syn-v1-ilo-0-0181",
+      "syn-v1-ilo-0-0466",
+      "syn-v1-ilo-0-0071",
+      "syn-v1-ilo-0-0262",
+      "syn-v1-ilo-0-0525",
+      "syn-v1-ilo-0-0528",
+      "syn-v1-ilo-0-0485",
+      "syn-v1-ilo-0-0536",
+      "syn-v1-ilo-0-0507",
+      "syn-v1-ilo-0-0545",
+      "syn-v1-ilo-1-0168",
+      "syn-v1-ilo-1-0231",
+      "syn-v1-ilo-1-0026",
+      "syn-v1-ilo-1-0064",
+      "syn-v1-ilo-1-0010",
+      "syn-v1-ilo-1-0111",
+      "syn-v1-ilo-1-0187",
+      "syn-v1-ilo-1-0144",
+      "syn-v1-ilo-1-0245",
+      "syn-v1-ilo-1-0225",
+      "syn-v1-ilo-1-0091",
+      "syn-v1-ilo-1-0077",
+      "syn-v1-ilo-1-0083",
+      "syn-v1-ilo-1-0241",
+      "syn-v1-ilo-1-0173",
+      "syn-v1-ilo-1-0120",
+      "syn-v1-ilo-1-0351",
+      "syn-v1-ilo-1-0321",
+      "syn-v1-ilo-1-0343",
+      "syn-v1-ilo-1-0352",
+      "syn-v1-hil-0-0074",
+      "syn-v1-hil-0-0415",
+      "syn-v1-hil-0-0395",
+      "syn-v1-hil-0-0278",
+      "syn-v1-hil-0-0400",
+      "syn-v1-hil-0-0173",
+      "syn-v1-hil-0-0269",
+      "syn-v1-hil-0-0376",
+      "syn-v1-hil-0-0078",
+      "syn-v1-hil-0-0443",
+      "syn-v1-hil-0-0010",
+      "syn-v1-hil-0-0282",
+      "syn-v1-hil-0-0434",
+      "syn-v1-hil-0-0299",
+      "syn-v1-hil-0-0031",
+      "syn-v1-hil-0-0094",
+      "syn-v1-hil-0-0056",
+      "syn-v1-hil-0-0424",
+      "syn-v1-hil-0-0034",
+      "syn-v1-hil-0-0204",
+      "syn-v1-hil-0-0181",
+      "syn-v1-hil-0-0466",
+      "syn-v1-hil-0-0071",
+      "syn-v1-hil-0-0262",
+      "syn-v1-hil-0-0525",
+      "syn-v1-hil-0-0528",
+      "syn-v1-hil-0-0485",
+      "syn-v1-hil-0-0536",
+      "syn-v1-hil-0-0507",
+      "syn-v1-hil-0-0545",
+      "syn-v1-hil-1-0168",
+      "syn-v1-hil-1-0231",
+      "syn-v1-hil-1-0026",
+      "syn-v1-hil-1-0064",
+      "syn-v1-hil-1-0010",
+      "syn-v1-hil-1-0111",
+      "syn-v1-hil-1-0187",
+      "syn-v1-hil-1-0144",
+      "syn-v1-hil-1-0245",
+      "syn-v1-hil-1-0225",
+      "syn-v1-hil-1-0091",
+      "syn-v1-hil-1-0077",
+      "syn-v1-hil-1-0083",
+      "syn-v1-hil-1-0241",
+      "syn-v1-hil-1-0173",
+      "syn-v1-hil-1-0120",
+      "syn-v1-hil-1-0351",
+      "syn-v1-hil-1-0321",
+      "syn-v1-hil-1-0343",
+      "syn-v1-hil-1-0352"
+    ],
+    "sampling": "Sort by id, then pandas sample(random_state=42) within each language/label/style. English: 30 calm, 20 worried. Other languages: 24 native calm, 6 mixed calm, 16 native worried, 4 mixed worried.",
+    "dimensions": [
+      "label consistency under the existing distress guide",
+      "primary language and code-switch style",
+      "naturalness and clarity"
+    ],
+    "findings": [
+      "Reviewed labels follow the supplied calm/distress distinction, including explicit symptoms in both labels.",
+      "Administrative and recovery statements dominate calm examples; explicit distress expressions dominate worried examples.",
+      "Parallel language renderings and repetitive short phrasing limit diversity; authoring slots and close lexical variants are conservatively grouped.",
+      "Native spelling, grammar, idiomaticity, and dialect variation are not independently verified, especially for Ilocano."
+    ],
+    "corrections": [
+      {
+        "id": "syn-v1-ceb-0-0262",
+        "change": "Replaced a Tagalog bird term with Cebuano phrasing."
+      },
+      {
+        "id": "syn-v1-hil-0-0434",
+        "change": "Replaced Tagalog tamang with Hiligaynon husto."
+      },
+      {
+        "id": "syn-v1-ilo-0-0395",
+        "change": "Rephrased a non-native-looking accompaniment construction."
+      },
+      {
+        "id": "syn-v1-ilo-0-0400",
+        "change": "Rephrased scheduling without an English phrase in the native subset."
+      },
+      {
+        "id": "syn-v1-ilo-0-0424",
+        "change": "Replaced an unnatural waiting/conversation construction."
+      },
+      {
+        "id": "syn-v1-ilo-0-0466",
+        "change": "Replaced the waiting-room adjective with nalawag."
+      }
+    ],
+    "unresolved_issues": [
+      {
+        "severity": "review_required",
+        "scope": "all five languages, particularly Ilocano",
+        "issue": "Independent native-speaker review of language fidelity and naturalness remains outstanding."
+      },
+      {
+        "severity": "limitation",
+        "scope": "corpus-wide",
+        "issue": "Short posts and repeated administrative/emotion patterns can create lexical shortcuts. Synthetic evaluation does not measure real-world generalization."
+      },
+      {
+        "severity": "limitation",
+        "scope": "code_switched",
+        "issue": "Author-assigned style tags distinguish English phrases from common medical/administrative loanwords; not a measured language proportion."
+      }
+    ]
+  },
+  "evaluation_note": "All train, validation, and test data are synthetic. Native review pending; this is not gold-standard real-post evaluation.",
+  "implementation_verification": {
+    "date": "2026-11-03",
+    "data_and_notebook_tests": {
+      "command": ".venv/bin/python -m pytest tests/test_sentiment_data.py -q",
+      "passed": 13
+    },
+    "trainer_compatibility_tests": {
+      "command": ".venv/bin/python -m pytest tests/test_training_monitor.py -q",
+      "passed": 4
+    },
+    "notebook_schema_and_code_compile": "passed",
+    "offline_tfidf_smoke": {
+      "status": "passed",
+      "stages": [
+        "load and validate 5000 rows",
+        "honor fixed splits",
+        "fit text-only TF-IDF/logistic regression",
+        "select threshold on validation only",
+        "export aggregate and per-language metrics and predictions",
+        "reload and verify prediction and threshold parity"
+      ],
+      "validation_metrics": {
+        "threshold": 0.49675455780602984,
+        "rows": 750.0,
+        "worried_support": 300.0,
+        "worried_precision": 0.9550173010380623,
+        "worried_recall": 0.92,
+        "worried_f1": 0.9371816638370118,
+        "macro_f1": 0.9482834773630724,
+        "average_precision": 0.984704300544672,
+        "accuracy": 0.9506666666666667,
+        "balanced_accuracy": 0.9455555555555556
+      },
+      "synthetic_test_metrics": {
+        "threshold": 0.49675455780602984,
+        "rows": 750.0,
+        "worried_support": 300.0,
+        "worried_precision": 0.956953642384106,
+        "worried_recall": 0.9633333333333334,
+        "worried_f1": 0.9601328903654485,
+        "macro_f1": 0.9667034162294948,
+        "average_precision": 0.9901742031711659,
+        "accuracy": 0.968,
+        "balanced_accuracy": 0.9672222222222222
+      },
+      "interpretation": "Pipeline smoke-test measurements on short synthetic text; not real-world model validation."
+    },
+    "warnings": [
+      "Matplotlib Agg backend is non-interactive during the smoke test.",
+      "Installed joblib/NumPy emit array-shape deprecation warnings during artifact reload."
+    ],
+    "full_mbert_training_run": false,
+    "deployed_model_replaced": false
+  }
+}

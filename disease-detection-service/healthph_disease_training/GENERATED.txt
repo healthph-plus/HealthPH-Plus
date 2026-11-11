@@ -1,0 +1,2 @@
+Generated from the repository healthph_disease_training package. Do not edit this copy.
+Refresh both services from the repository root: python -m healthph_disease_training.vendor

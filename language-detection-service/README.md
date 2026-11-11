@@ -62,6 +62,7 @@ Every prediction contains:
 | `prediction_source` | `fasttext` or `keyword_override` |
 | `fasttext_language` | Original top FastText language code |
 | `fasttext_confidence` | Score for **fasttext_language**, even when overridden; clamped to [0, 1] for numerical rounding |
+| `fasttext_confidence_percentage` | The same model score multiplied by 100 and rounded to two decimal places, from 0 to 100 |
 
 ### Optional two-language predictions
 
@@ -84,8 +85,8 @@ example, its candidates may look like this (scores rounded for illustration):
 ```json
 {
   "fasttext_predictions": [
-    {"language": "tl", "confidence": 0.60},
-    {"language": "en", "confidence": 0.31}
+    {"language": "tl", "confidence": 0.60, "confidence_percentage": 60.0},
+    {"language": "en", "confidence": 0.31, "confidence_percentage": 31.0}
   ]
 }
 ```
@@ -99,8 +100,14 @@ and Tagalog. In batch requests, the options apply to every input text.
 The array reports model predictions independently of keyword overrides. Existing
 fields such as `language`, `is_supported`, and `prediction_source` keep their
 current meaning. `top_k: 1` omits the array and ignores a valid secondary threshold;
-omitting both options preserves the original response format. Invalid options
-return HTTP `422` before inference.
+the primary `fasttext_confidence_percentage` is always included. Invalid options
+return HTTP `422` before inference. Thresholds still use the unrounded 0–1 scores.
+
+Each candidate's `confidence_percentage` is its `confidence` multiplied by 100,
+rounded to two decimal places. Percentages are JSON numbers: `60.0` means 60%.
+Use `top_k: 2` and `secondary_min_confidence: 0` to receive both candidates,
+including a low-scoring second language. Returned percentages need not sum to
+100%, since other model languages can account for the remaining confidence.
 
 The model has English (`en`) and Tagalog (`tl`) labels, with no separate Taglish
 label or flag. Mixed text may produce other candidate pairs. Scores represent
@@ -145,6 +152,8 @@ mixed_batch = detector.predict_many(
     top_k=2, secondary_min_confidence=0.20,
 )
 print(mixed["fasttext_predictions"])
+for candidate in mixed["fasttext_predictions"]:
+    print(f"{candidate['language']}: {candidate['confidence_percentage']:.2f}%")
 ```
 
 Both prediction methods accept keyword-only `top_k=1` and
@@ -177,6 +186,9 @@ try {
     topK: 2, secondaryMinConfidence: 0.20,
   });
   console.log(mixed.fasttext_predictions, mixedBatch.results);
+  for (const candidate of mixed.fasttext_predictions) {
+    console.log(`${candidate.language}: ${candidate.confidence_percentage.toFixed(2)}%`);
+  }
 } catch (error) {
   console.error(error.code, error.status, error.message);
 }
@@ -189,7 +201,8 @@ not retried. To try the client: `node examples/language-client.mjs 'may ubo ako'
 The optional second argument to either prediction method is
 `{ topK, secondaryMinConfidence }`. Unspecified options are omitted from request
 JSON so the API defaults apply. The client validates candidate arrays and
-requires them when `topK: 2` is requested.
+requires them when `topK: 2` is requested. It validates percentage fields when
+present and also accepts older service responses that omit them.
 
 ## Tests
 

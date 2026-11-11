@@ -24,12 +24,16 @@ class FakeDetector:
             raise RuntimeError("internal failure")
         results = [{"language": "en", "cleaned_text": text.lower(), "is_supported": True,
                     "prediction_source": "fasttext", "fasttext_language": "en",
-                    "fasttext_confidence": 0.6} for text in texts]
+                    "fasttext_confidence": 0.6, "fasttext_confidence_percentage": 60.0} for text in texts]
         if top_k == 2:
             for result in results:
-                result["fasttext_predictions"] = [{"language": "en", "confidence": 0.6}]
+                result["fasttext_predictions"] = [
+                    {"language": "en", "confidence": 0.6, "confidence_percentage": 60.0},
+                ]
                 if secondary_min_confidence <= 0.3:
-                    result["fasttext_predictions"].append({"language": "tl", "confidence": 0.3})
+                    result["fasttext_predictions"].append(
+                        {"language": "tl", "confidence": 0.3, "confidence_percentage": 30.0},
+                    )
         return results
 
 
@@ -53,12 +57,14 @@ def test_health_and_ordered_raw_requests(service):
     assert response.json() == {
         "language": "en", "cleaned_text": "@ubo hello", "is_supported": True,
         "prediction_source": "fasttext", "fasttext_language": "en", "fasttext_confidence": 0.6,
+        "fasttext_confidence_percentage": 60.0,
     }
     assert detector.calls == [["@ubo Hello"]]
     texts = ["HELLO", "GOODBYE", "HELLO"]
     response = client.post("/v1/language/predict-batch", json={"texts": texts})
     assert response.status_code == 200
     assert [r["cleaned_text"] for r in response.json()["results"]] == [t.lower() for t in texts]
+    assert all(r["fasttext_confidence_percentage"] == 60.0 for r in response.json()["results"])
     assert all("fasttext_predictions" not in result for result in response.json()["results"])
 
 
@@ -77,7 +83,10 @@ def test_prediction_options_forwarded_for_single_and_ordered_batch(service, opti
     assert results[0] == results[2] == single.json()
     assert [result["cleaned_text"] for result in results] == ["hello", "bye", "hello"]
     if count:
-        expected = [{"language": "en", "confidence": 0.6}, {"language": "tl", "confidence": 0.3}]
+        expected = [
+            {"language": "en", "confidence": 0.6, "confidence_percentage": 60.0},
+            {"language": "tl", "confidence": 0.3, "confidence_percentage": 30.0},
+        ]
         assert all(result["fasttext_predictions"] == expected[:count] for result in results)
     else:
         assert all("fasttext_predictions" not in result for result in results)

@@ -51,6 +51,7 @@ class BatchPredictRequest(PredictionOptions):
 class FastTextPrediction(BaseModel):
     language: str
     confidence: Annotated[float, Field(ge=0, le=1, allow_inf_nan=False)]
+    confidence_percentage: Annotated[float, Field(ge=0, le=100, allow_inf_nan=False)]
 
 
 class Prediction(BaseModel):
@@ -60,6 +61,7 @@ class Prediction(BaseModel):
     prediction_source: Literal["fasttext", "keyword_override"]
     fasttext_language: str
     fasttext_confidence: Annotated[float, Field(ge=0, le=1, allow_inf_nan=False)]
+    fasttext_confidence_percentage: Annotated[float, Field(ge=0, le=100, allow_inf_nan=False)]
     fasttext_predictions: Annotated[list[FastTextPrediction], Field(min_length=1, max_length=2)] | None = None
 
 

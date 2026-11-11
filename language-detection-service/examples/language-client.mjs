@@ -10,6 +10,12 @@ export class LanguageClientError extends Error {
   }
 }
 
+function isConfidencePercentage(value, confidence) {
+  // Older services omit percentages. Allow half a hundredth for server rounding.
+  return value === undefined || (Number.isFinite(value) && value >= 0 && value <= 100
+    && Math.abs(value - confidence * 100) <= 0.005 + Number.EPSILON * 100);
+}
+
 function isPrediction(value, { topK = 1, secondaryMinConfidence = 0.30 } = {}) {
   if (!(value && typeof value.language === "string" && value.language.length > 0
     && typeof value.cleaned_text === "string" && value.cleaned_text.length > 0
@@ -17,14 +23,16 @@ function isPrediction(value, { topK = 1, secondaryMinConfidence = 0.30 } = {}) {
     && ["fasttext", "keyword_override"].includes(value.prediction_source)
     && typeof value.fasttext_language === "string" && value.fasttext_language.length > 0
     && Number.isFinite(value.fasttext_confidence)
-    && value.fasttext_confidence >= 0 && value.fasttext_confidence <= 1)) return false;
+    && value.fasttext_confidence >= 0 && value.fasttext_confidence <= 1
+    && isConfidencePercentage(value.fasttext_confidence_percentage, value.fasttext_confidence))) return false;
   const candidates = value.fasttext_predictions;
   if (candidates === undefined) return topK !== 2;
   return Array.isArray(candidates) && candidates.length >= 1 && candidates.length <= 2
     && candidates.every((candidate) => candidate
       && typeof candidate.language === "string" && candidate.language.length > 0
       && Number.isFinite(candidate.confidence)
-      && candidate.confidence >= 0 && candidate.confidence <= 1)
+      && candidate.confidence >= 0 && candidate.confidence <= 1
+      && isConfidencePercentage(candidate.confidence_percentage, candidate.confidence))
     && candidates[0].language === value.fasttext_language
     && candidates[0].confidence === value.fasttext_confidence
     && (candidates.length === 1

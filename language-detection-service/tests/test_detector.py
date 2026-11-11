@@ -58,7 +58,8 @@ def test_overrides_boundaries_and_original_text(fake_assets):
     texts = ["UBO!", "BUG-AT \n ANG\tDUGHAN", "uyek", "uyek and ubo", "subox", "a_ubo", "ubo2", "@ubo hello"]
     results = detector.predict_many(texts)
     assert [r["language"] for r in results] == ["hil", "hil", "ilo", "hil", "fr", "fr", "fr", "hil"]
-    assert all(r["fasttext_language"] == "fr" and r["fasttext_confidence"] == 0.8 for r in results)
+    assert all(r["fasttext_language"] == "fr" and r["fasttext_confidence"] == 0.8
+               and r["fasttext_confidence_percentage"] == 80.0 for r in results)
     assert [r["is_supported"] for r in results] == [True] * 4 + [False] * 3 + [True]
     assert results[0]["prediction_source"] == "keyword_override"
     assert results[4]["prediction_source"] == "fasttext"
@@ -77,12 +78,12 @@ def test_load_once_chunking_and_single_batch_parity(fake_assets):
     assert detector.predict("hello " * 2000)["language"] == "fr"
 
 
-def test_default_response_is_unchanged(fake_assets):
+def test_default_response_includes_confidence_percentage(fake_assets):
     result = LanguageDetector().predict("HELLO")
     assert result == {
         "language": "fr", "cleaned_text": "hello", "is_supported": False,
         "prediction_source": "fasttext", "fasttext_language": "fr",
-        "fasttext_confidence": 0.8,
+        "fasttext_confidence": 0.8, "fasttext_confidence_percentage": 80.0,
     }
     fake_assets[1].predict.assert_called_once_with(["hello"], k=1)
 
@@ -90,7 +91,7 @@ def test_default_response_is_unchanged(fake_assets):
 @pytest.mark.parametrize("top_score,second_score,threshold,count", [
     (0.6, 0.2999, 0.30, 1), (0.6, 0.30, 0.30, 2), (0.6, 0.3001, 0.30, 2),
     (0.2, 0.1, 0.30, 1), (0.2, 0.1, 0.1, 2), (0.6, 0.3, 1, 1),
-    (1.00001, -0.00001, 0, 2),
+    (1.00001, -0.00001, 0, 2), (0.654321, 0.299999, 0.30, 1),
 ])
 def test_secondary_threshold_and_clamping(fake_assets, top_score, second_score, threshold, count):
     model = fake_assets[1]
@@ -100,11 +101,14 @@ def test_secondary_threshold_and_clamping(fake_assets, top_score, second_score, 
     )
     result = LanguageDetector().predict("hello", top_k=2, secondary_min_confidence=threshold)
     expected = [
-        {"language": "en", "confidence": min(1.0, max(0.0, top_score))},
-        {"language": "tl", "confidence": min(1.0, max(0.0, second_score))},
+        {"language": "en", "confidence": min(1.0, max(0.0, top_score)),
+         "confidence_percentage": round(min(1.0, max(0.0, top_score)) * 100, 2)},
+        {"language": "tl", "confidence": min(1.0, max(0.0, second_score)),
+         "confidence_percentage": round(min(1.0, max(0.0, second_score)) * 100, 2)},
     ]
     assert result["fasttext_predictions"] == expected[:count]
     assert result["fasttext_confidence"] == expected[0]["confidence"]
+    assert result["fasttext_confidence_percentage"] == expected[0]["confidence_percentage"]
     model.predict.assert_called_once_with(["hello"], k=2)
 
 
@@ -116,11 +120,14 @@ def test_two_language_default_threshold_preserves_keyword_overrides(fake_assets)
     detector = LanguageDetector()
     result = detector.predict("ubo and uyek", top_k=2)
     assert result.pop("fasttext_predictions") == [
-        {"language": "tl", "confidence": 0.6}, {"language": "en", "confidence": 0.3},
+        {"language": "tl", "confidence": 0.6, "confidence_percentage": 60.0},
+        {"language": "en", "confidence": 0.3, "confidence_percentage": 30.0},
     ]
     assert result == detector.predict("ubo and uyek")
     assert result["language"] == "hil"
     assert result["prediction_source"] == "keyword_override"
+    assert result["fasttext_language"] == "tl"
+    assert result["fasttext_confidence_percentage"] == 60.0
 
 
 def test_two_language_chunking_order_and_single_batch_parity(fake_assets):
@@ -135,7 +142,8 @@ def test_two_language_chunking_order_and_single_batch_parity(fake_assets):
     for text, result in zip(texts[:2], results[:2]):
         assert result == detector.predict(text, top_k=2, secondary_min_confidence=0.1)
         assert result["fasttext_predictions"] == [
-            {"language": "fr", "confidence": 0.8}, {"language": "tl", "confidence": 0.15},
+            {"language": "fr", "confidence": 0.8, "confidence_percentage": 80.0},
+            {"language": "tl", "confidence": 0.15, "confidence_percentage": 15.0},
         ]
         assert result["is_supported"] is False
 
@@ -232,6 +240,7 @@ def test_real_predictions_match_notebook(real_detector):
         assert result["language"] == ("hil" if hil[i] else "ilo" if ilo[i] else expected_model)
         assert result["fasttext_language"] == expected_model
         assert result["fasttext_confidence"] == pytest.approx(min(1.0, max(0.0, float(scores[i][0]))))
+        assert result["fasttext_confidence_percentage"] == round(result["fasttext_confidence"] * 100, 2)
         assert result["cleaned_text"] == cleaned[i]
         assert real_detector.predict(SAMPLES[i]) == result
 
@@ -250,7 +259,8 @@ def test_real_two_language_predictions(model_name):
     ):
         expected = [
             {"language": code.removeprefix("__label__"),
-             "confidence": min(1.0, max(0.0, float(confidence)))}
+             "confidence": min(1.0, max(0.0, float(confidence))),
+             "confidence_percentage": round(min(1.0, max(0.0, float(confidence))) * 100, 2)}
             for code, confidence in zip(label, score, strict=True)
         ]
         assert both["fasttext_predictions"] == expected

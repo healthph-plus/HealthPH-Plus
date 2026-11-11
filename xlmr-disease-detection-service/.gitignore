@@ -1,4 +1,5 @@
 /model/
+/training-runs/
 /.xlmr-export-*/
 .venv/
 __pycache__/
